@@ -432,6 +432,15 @@
                     </div>
                 </div>
 
+                <!-- AGC On 자동 제어 추가 -->
+                <div class="p-4 bg-indigo-50/40 rounded-2xl border border-indigo-100 shadow-inner">
+                    <label class="block text-indigo-800 text-xs font-bold mb-3 flex items-center gap-1.5"><i class="fa-solid fa-circle-nodes text-indigo-500"></i> AGC 제어 설정</label>
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <button onclick="gAddAgc('2+1')" class="py-3 bg-white border border-indigo-200 rounded-xl text-xs font-bold text-indigo-600 shadow-sm active:scale-95 transition-all">AGC On (2+1)</button>
+                        <button onclick="gAddAgc('1+1')" class="py-3 bg-white border border-indigo-200 rounded-xl text-xs font-bold text-indigo-600 shadow-sm active:scale-95 transition-all">AGC On (1+1)</button>
+                    </div>
+                </div>
+
                 <div class="p-4 bg-cyan-50/50 rounded-2xl border border-cyan-100 shadow-inner">
                     <label class="block text-cyan-800 text-xs font-bold mb-2.5 flex items-center gap-1.5"><i class="fa-solid fa-calculator text-cyan-500"></i> 계통분리 자동 시차 연산</label>
                     <button onclick="gAddSeparate('2+1')" class="w-full px-5 py-3 bg-cyan-600 hover:bg-cyan-700 text-white rounded-xl text-xs font-extrabold shadow-sm active:scale-95 transition-all flex justify-center items-center gap-2 mx-auto">
@@ -541,14 +550,12 @@
                 setNowSilent('d');
                 setNowSilent('g');
             } else {
-                // 저장되어 불러온 로컬 데이터 중 날짜가 비어 있다면 오늘 날짜 주입
                 const mDateInput = document.getElementById('m-date');
                 if(!mDateInput.value) {
                     mDateInput.value = defaultDateString;
                 }
             }
 
-            // 날씨 즉시 가져오기 연동
             fetchWeather();
 
             const inputs = ['m-date', 'm-temp', 'm-weather', 'i-gt11', 'i-gt12', 'i-st10', 'i-gt21', 'i-gt22', 'i-st20', 'period-1', 'period-2'];
@@ -838,6 +845,14 @@
             const h = document.getElementById('g-hour').value; const m = document.getElementById('g-minute').value;
             const name = getGTargetName(type); appendGridMemo(`${h}:${m} #${name} 계통분리`);
             showToast(`#${name} 분리 내역이 가산되었습니다.`);
+        }
+
+        function gAddAgc(mode) {
+            const h = document.getElementById('g-hour').value; const m = document.getElementById('g-minute').value;
+            const block = document.getElementById('g-target').value;
+            const blockName = block === '1' ? '#1CC' : '#2CC';
+            appendGridMemo(`${h}:${m} ${blockName} AGC On (${mode})`);
+            showToast(`${blockName} AGC On (${mode}) 내역이 가산되었습니다.`);
         }
 
         function subMins(timeStr, mins) {
