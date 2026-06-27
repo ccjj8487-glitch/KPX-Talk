@@ -12,18 +12,13 @@
             theme: {
                 extend: {
                     fontFamily: { sans: ['Pretendard', 'sans-serif'] },
-                    colors: {
-                        darkbg: '#0f172a', /* 진한 네이비 배경 */
-                        cardbg: '#1e293b', /* 카드 배경 */
-                        cardborder: '#334155', /* 카드 테두리 */
-                    }
                 }
             }
         }
     </script>
     <style>
         body {
-            background-color: #0f172a;
+            background-color: #0f172a; /* Slate 900 기반 다크모드 */
             -webkit-tap-highlight-color: transparent;
             user-select: none;
             color: #f1f5f9;
@@ -31,20 +26,17 @@
         input, textarea, select { user-select: text !important; }
         ::-webkit-scrollbar { display: none; }
         
-        /* 탭 애니메이션 */
+        /* 탭 라디오 버튼 애니메이션 */
         .tab-btn { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .tab-active { background: #334155; color: #60a5fa; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3); font-weight: 800; border: 1px solid #475569; }
         .tab-inactive { color: #94a3b8; font-weight: 600; background: transparent; }
 
         /* 터미널 스타일 텍스트에디터 */
-        textarea { resize: none; line-height: 1.6; letter-spacing: -0.01em; overflow-y: hidden; }
-        
+        textarea { resize: none; line-height: 1.6; letter-spacing: 0px; overflow-y: hidden; }
         select { text-align-last: center; text-align: center; }
 
         /* 슬라이더 커스텀 */
-        input[type=range] {
-            -webkit-appearance: none; background: transparent; width: 100%;
-        }
+        input[type=range] { -webkit-appearance: none; background: transparent; width: 100%; }
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none; height: 18px; width: 18px; border-radius: 50%;
             background: #ffffff; border: 2px solid #3b82f6; cursor: pointer;
@@ -53,13 +45,17 @@
         input[type=range]::-webkit-slider-runnable-track {
             width: 100%; height: 6px; cursor: pointer; background: #334155; border-radius: 3px;
         }
-        
+
         /* 펄스 애니메이션 */
         @keyframes soft-pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
         .animate-soft-pulse { animation: soft-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        
+        /* 스핀 제거 */
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; }
     </style>
 </head>
 <body class="pb-24 antialiased">
@@ -68,26 +64,27 @@
 
     <div class="max-w-md mx-auto px-4 pt-6 space-y-5 relative">
 
-        <header class="bg-cardbg rounded-3xl p-5 relative overflow-hidden flex flex-col gap-4 border border-cardborder shadow-xl">
-            <div class="absolute -right-10 -top-10 w-40 h-40 bg-blue-600/20 rounded-full blur-3xl"></div>
+        <header class="bg-slate-800 rounded-3xl p-5 border border-slate-700 shadow-xl relative overflow-hidden flex flex-col gap-4">
+            <div class="absolute -right-8 -top-8 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl"></div>
+            <div class="absolute -left-8 -bottom-8 w-32 h-32 bg-indigo-500/20 rounded-full blur-2xl"></div>
             
             <div class="relative z-10 flex justify-between items-start">
                 <div>
                     <div class="flex items-center gap-2 mb-1">
-                        <div class="w-2.5 h-2.5 rounded-full bg-blue-500 animate-soft-pulse shadow-[0_0_8px_rgba(59,130,246,0.8)]"></div>
-                        <h1 class="text-xl font-extrabold text-white tracking-tight">스마트 보고서</h1>
+                        <div class="w-2.5 h-2.5 rounded-full bg-blue-400 animate-soft-pulse shadow-[0_0_8px_rgba(96,165,250,0.8)]"></div>
+                        <h1 class="text-lg font-extrabold text-white tracking-tight">스마트 보고서</h1>
                     </div>
-                    <div class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-gradient-to-r from-gray-900 to-gray-800 border border-gray-700 rounded-full mt-1">
-                        <i class="fa-solid fa-crown text-[10px] text-yellow-400"></i>
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-900 border border-slate-700 rounded-full mt-1.5 shadow-inner">
+                        <i class="fa-solid fa-crown text-[11px] text-yellow-400"></i>
                         <span class="text-[10px] font-bold text-yellow-400 tracking-wide">천재 탱PL 제작</span>
                     </div>
                 </div>
                 <button onclick="fetchWeather()" class="group flex flex-col items-end gap-1 active:scale-95 transition-transform text-right">
-                    <div class="flex items-center gap-2 px-3 py-2 bg-slate-800 border border-slate-700 rounded-2xl shadow-sm">
+                    <div class="flex items-center gap-2 px-3 py-2 bg-slate-900/80 border border-slate-700 rounded-2xl shadow-sm">
                         <div id="weather-icon" class="text-lg">🌤️</div>
                         <div class="flex flex-col items-start">
                             <span id="quick-weather-temp" class="text-sm font-extrabold text-white leading-none">--°C</span>
-                            <span id="quick-weather-desc" class="text-[10px] font-semibold text-slate-400 leading-none mt-1">동기화 중</span>
+                            <span id="quick-weather-desc" class="text-[10px] font-semibold text-slate-400 leading-none mt-1.5">동기화 중</span>
                         </div>
                         <i id="weather-spinner" class="fa-solid fa-rotate-right text-[10px] text-slate-500 ml-1"></i>
                     </div>
@@ -95,62 +92,64 @@
             </div>
         </header>
 
-        <nav class="sticky top-2 z-40 flex p-1.5 bg-slate-900/80 backdrop-blur-md rounded-2xl shadow-lg border border-slate-700">
-            <button onclick="switchTab('morning')" id="tab-morning" class="tab-btn flex-1 py-2.5 rounded-xl text-[11px] flex items-center justify-center gap-1.5 tab-active">
+        <nav class="sticky top-2 z-40 flex p-1.5 bg-slate-800/80 backdrop-blur-md rounded-2xl shadow-lg border border-slate-700">
+            <button onclick="switchTab('morning')" id="tab-morning" class="tab-btn flex-1 py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 tab-active">
                 <i class="fa-solid fa-sun"></i> 아침 현황
             </button>
-            <button onclick="switchTab('dispatch')" id="tab-dispatch" class="tab-btn flex-1 py-2.5 rounded-xl text-[11px] flex items-center justify-center gap-1.5 tab-inactive">
+            <button onclick="switchTab('dispatch')" id="tab-dispatch" class="tab-btn flex-1 py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 tab-inactive">
                 <i class="fa-solid fa-bolt"></i> 급전 지시
             </button>
-            <button onclick="switchTab('grid')" id="tab-grid" class="tab-btn flex-1 py-2.5 rounded-xl text-[11px] flex items-center justify-center gap-1.5 tab-inactive">
+            <button onclick="switchTab('grid')" id="tab-grid" class="tab-btn flex-1 py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 tab-inactive">
                 <i class="fa-solid fa-network-wired"></i> 계통 조작
             </button>
         </nav>
 
         <div id="panel-morning" class="space-y-5 animate-fade-in">
             
-            <div class="bg-cardbg rounded-3xl p-5 border border-cardborder shadow-md space-y-4">
+            <div class="bg-slate-800 rounded-3xl p-5 border border-slate-700 shadow-md space-y-4">
                 <div class="flex items-center gap-2 mb-2">
                     <div class="p-1.5 bg-blue-500/20 rounded-lg text-blue-400"><i class="fa-regular fa-calendar-check text-sm"></i></div>
                     <h3 class="text-sm font-bold text-white">기본 정보 설정</h3>
                 </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="space-y-1.5">
+                <div class="grid grid-cols-12 gap-3.5">
+                    <div class="col-span-7 space-y-1.5">
                         <label class="block text-[11px] font-bold text-slate-400 pl-1">보고 날짜</label>
-                        <input type="date" id="m-date" onchange="triggerUpdate()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-white text-[13px] font-bold outline-none focus:border-blue-500">
+                        <input type="date" id="m-date" oninput="triggerUpdate()" onchange="triggerUpdate()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-3 text-white text-xs sm:text-sm font-bold outline-none focus:border-blue-500 transition-all shadow-inner">
                     </div>
-                    <div class="space-y-1.5">
-                        <label class="block text-[11px] font-bold text-slate-400 pl-1">온도 및 날씨</label>
+                    <div class="col-span-5 space-y-1.5">
+                        <label class="block text-[11px] font-bold text-slate-400 pl-1">대기 온도 및 날씨</label>
                         <div class="flex gap-1.5">
-                            <input type="number" id="m-temp" step="0.1" oninput="triggerUpdate()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-1 py-2.5 text-white text-[13px] font-bold text-center outline-none focus:border-blue-500">
-                            <select id="m-weather" onchange="triggerUpdate()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-1 py-2.5 text-white text-[13px] font-bold outline-none focus:border-blue-500 appearance-none text-center cursor-pointer">
-                                <option value="맑음">맑음</option><option value="흐림">흐림</option>
-                                <option value="비">비</option><option value="눈">눈</option>
+                            <input type="number" id="m-temp" step="0.1" oninput="triggerUpdate()" class="w-14 bg-slate-900 border border-slate-700 rounded-xl px-1 py-3 text-white text-xs sm:text-sm font-bold text-center outline-none focus:border-blue-500 shadow-inner">
+                            <select id="m-weather" onchange="triggerUpdate()" class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-1 py-3 text-white text-xs font-bold outline-none focus:border-blue-500 shadow-inner appearance-none text-center">
+                                <option value="맑음">맑음 ☀️</option>
+                                <option value="흐림" selected>흐림 ☁️</option>
+                                <option value="비">비 🌧️</option>
+                                <option value="눈">눈 ❄️</option>
                             </select>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-cardbg rounded-3xl p-5 border border-cardborder border-l-4 border-l-blue-500 shadow-md">
-                <div class="flex justify-between items-center mb-4">
+            <div class="bg-slate-800 rounded-3xl p-5 border border-slate-700 border-l-4 border-l-blue-500 shadow-md">
+                <div class="flex justify-between items-center mb-5">
                     <h3 class="text-sm font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-industry text-blue-400"></i> #1CC 운전 제어
+                        <i class="fa-solid fa-industry text-blue-400"></i> #1CC 출력 설정
                     </h3>
-                    <span id="badge-1cc" class="bg-blue-500/20 text-blue-300 text-[10px] font-bold px-2.5 py-1 rounded-full border border-blue-500/30">2+1 운전중</span>
+                    <span id="badge-1cc" class="bg-blue-500/20 text-blue-300 text-[10px] font-bold px-3 py-1.5 rounded-full border border-blue-500/30">2+1 운전중</span>
                 </div>
                 
-                <div class="grid grid-cols-5 gap-1.5 mb-4">
-                    <button onclick="setCCState(1, '정지')" id="btn-1cc-정지" class="py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-[11px] font-bold text-slate-400">정지</button>
-                    <button onclick="setCCState(1, '운전')" id="btn-1cc-운전" class="py-2.5 rounded-xl border border-blue-500 bg-blue-600/20 text-[11px] font-bold text-blue-400">2+1</button>
-                    <button onclick="setCCState(1, '운전11')" id="btn-1cc-운전11" class="py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-[11px] font-bold text-slate-400">1+1</button>
-                    <button onclick="setCCState(1, '기동')" id="btn-1cc-기동" class="py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-[11px] font-bold text-slate-400">기동</button>
-                    <button onclick="setCCState(1, '계획정비')" id="btn-1cc-계획정비" class="py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-[11px] font-bold text-slate-400">정비</button>
+                <div class="grid grid-cols-5 gap-1.5 mb-5">
+                    <button onclick="setCCState(1, '정지')" id="btn-1cc-정지" class="py-2.5 rounded-xl border border-slate-600 bg-slate-700 text-[11px] font-bold text-slate-400 active:scale-95 transition-all">정지</button>
+                    <button onclick="setCCState(1, '운전')" id="btn-1cc-운전" class="py-2.5 rounded-xl border border-blue-500 bg-blue-500/20 text-[11px] font-bold text-blue-300 active:scale-95 transition-all">2+1</button>
+                    <button onclick="setCCState(1, '운전11')" id="btn-1cc-운전11" class="py-2.5 rounded-xl border border-slate-600 bg-slate-700 text-[11px] font-bold text-slate-400 active:scale-95 transition-all">1+1</button>
+                    <button onclick="setCCState(1, '기동')" id="btn-1cc-기동" class="py-2.5 rounded-xl border border-slate-600 bg-slate-700 text-[11px] font-bold text-slate-400 active:scale-95 transition-all">기동</button>
+                    <button onclick="setCCState(1, '계획정비')" id="btn-1cc-계획정비" class="py-2.5 rounded-xl border border-slate-600 bg-slate-700 text-[11px] font-bold text-slate-400 active:scale-95 transition-all">정비</button>
                 </div>
 
-                <div id="m-box-1" class="hidden bg-slate-900 border border-slate-700 p-3 rounded-xl mb-4">
+                <div id="m-box-1" class="hidden bg-slate-900/50 border border-slate-700 p-3 rounded-2xl mb-4">
                     <label class="block text-[10px] font-bold text-slate-400 mb-1 pl-1">정비 기간 입력</label>
-                    <input type="text" id="period-1" value="5/14 00:00 ~ 5/27 24:00" oninput="triggerUpdate()" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs font-semibold text-white focus:outline-none">
+                    <input type="text" id="period-1" value="5/14 00:00 ~ 5/27 24:00" oninput="triggerUpdate()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm font-bold text-white focus:outline-none">
                 </div>
 
                 <div class="space-y-4 pt-1">
@@ -172,25 +171,25 @@
                 </div>
             </div>
 
-            <div class="bg-cardbg rounded-3xl p-5 border border-cardborder border-l-4 border-l-teal-500 shadow-md">
-                <div class="flex justify-between items-center mb-4">
+            <div class="bg-slate-800 rounded-3xl p-5 border border-slate-700 border-l-4 border-l-teal-500 shadow-md">
+                <div class="flex justify-between items-center mb-5">
                     <h3 class="text-sm font-bold text-white flex items-center gap-2">
                         <i class="fa-solid fa-industry text-teal-400"></i> #2CC 출력 설정
                     </h3>
-                    <span id="badge-2cc" class="bg-teal-500/20 text-teal-300 text-[10px] font-bold px-2.5 py-1 rounded-full border border-teal-500/30">2+1 운전중</span>
+                    <span id="badge-2cc" class="bg-teal-500/20 text-teal-300 text-[10px] font-bold px-3 py-1.5 rounded-full border border-teal-500/30">2+1 운전중</span>
                 </div>
                 
-                <div class="grid grid-cols-5 gap-1.5 mb-4">
-                    <button onclick="setCCState(2, '정지')" id="btn-2cc-정지" class="py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-[11px] font-bold text-slate-400">정지</button>
-                    <button onclick="setCCState(2, '운전')" id="btn-2cc-운전" class="py-2.5 rounded-xl border border-teal-500 bg-teal-600/20 text-[11px] font-bold text-teal-400">2+1</button>
-                    <button onclick="setCCState(2, '운전21')" id="btn-2cc-운전21" class="py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-[11px] font-bold text-slate-400">1+1</button>
-                    <button onclick="setCCState(2, '기동')" id="btn-2cc-기동" class="py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-[11px] font-bold text-slate-400">기동</button>
-                    <button onclick="setCCState(2, '계획정비')" id="btn-2cc-계획정비" class="py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-[11px] font-bold text-slate-400">정비</button>
+                <div class="grid grid-cols-5 gap-1.5 mb-5">
+                    <button onclick="setCCState(2, '정지')" id="btn-2cc-정지" class="py-2.5 rounded-xl border border-slate-600 bg-slate-700 text-[11px] font-bold text-slate-400 active:scale-95 transition-all">정지</button>
+                    <button onclick="setCCState(2, '운전')" id="btn-2cc-운전" class="py-2.5 rounded-xl border border-teal-500 bg-teal-500/20 text-[11px] font-bold text-teal-300 active:scale-95 transition-all">2+1</button>
+                    <button onclick="setCCState(2, '운전21')" id="btn-2cc-운전21" class="py-2.5 rounded-xl border border-slate-600 bg-slate-700 text-[11px] font-bold text-slate-400 active:scale-95 transition-all">1+1</button>
+                    <button onclick="setCCState(2, '기동')" id="btn-2cc-기동" class="py-2.5 rounded-xl border border-slate-600 bg-slate-700 text-[11px] font-bold text-slate-400 active:scale-95 transition-all">기동</button>
+                    <button onclick="setCCState(2, '계획정비')" id="btn-2cc-계획정비" class="py-2.5 rounded-xl border border-slate-600 bg-slate-700 text-[11px] font-bold text-slate-400 active:scale-95 transition-all">정비</button>
                 </div>
 
-                <div id="m-box-2" class="hidden bg-slate-900 border border-slate-700 p-3 rounded-xl mb-4">
+                <div id="m-box-2" class="hidden bg-slate-900/50 border border-slate-700 p-3 rounded-2xl mb-4">
                     <label class="block text-[10px] font-bold text-slate-400 mb-1 pl-1">정비 기간 입력</label>
-                    <input type="text" id="period-2" value="5/16 00:00 ~ 5/17 19:00" oninput="triggerUpdate()" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs font-semibold text-white focus:outline-none">
+                    <input type="text" id="period-2" value="5/16 00:00 ~ 5/17 19:00" oninput="triggerUpdate()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm font-bold text-white focus:outline-none">
                 </div>
 
                 <div class="space-y-4 pt-1">
@@ -212,13 +211,13 @@
                 </div>
             </div>
 
-            <div class="bg-cardbg rounded-3xl p-5 shadow-md border border-cardborder">
-                <label class="block text-slate-300 text-xs font-bold mb-2">특이사항 추가</label>
-                <input type="text" id="m-issue" value="없음" oninput="triggerUpdate()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-xs font-semibold focus:border-blue-500 outline-none">
+            <div class="bg-slate-800 rounded-3xl p-5 shadow-md border border-slate-700">
+                <label class="block text-slate-300 text-xs font-bold mb-2 pl-1">특이사항</label>
+                <input type="text" id="m-issue" value="없음" oninput="triggerUpdate()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3.5 text-white text-xs font-bold focus:border-blue-500 outline-none shadow-inner">
             </div>
 
-            <div class="bg-[#0b1120] rounded-3xl shadow-xl border border-slate-700 overflow-hidden relative mt-8">
-                <div class="flex justify-between items-center px-4 py-3 bg-[#1e293b] border-b border-slate-700 sticky top-0 z-10">
+            <div class="bg-slate-900 rounded-3xl shadow-2xl border border-slate-700 overflow-hidden relative mt-8">
+                <div class="flex justify-between items-center px-4 py-3 border-b border-slate-700 sticky top-0 z-10 bg-slate-800/90 backdrop-blur-sm">
                     <div class="flex gap-1.5 items-center">
                         <div class="flex gap-1 mr-1">
                             <div class="w-2.5 h-2.5 rounded-full bg-red-500"></div>
@@ -227,60 +226,84 @@
                         </div>
                         <span class="text-[11px] font-bold text-slate-400 tracking-wide">Morning_Report.txt</span>
                     </div>
-                    <button onclick="triggerUpdate()" class="text-[10px] bg-slate-700 text-white px-2 py-1 rounded shadow-sm hover:bg-slate-600 transition-colors">
-                        초기화 <i class="fa-solid fa-rotate-right ml-0.5"></i>
-                    </button>
                 </div>
-                <textarea id="memo-morning" oninput="autoResize(this)" class="w-full min-h-[300px] bg-transparent text-emerald-400 p-5 font-mono text-[12.5px] outline-none leading-relaxed"></textarea>
+                <textarea id="memo-morning" oninput="autoResize(this)" class="w-full min-h-[300px] bg-transparent text-emerald-400 p-5 font-mono text-[13px] outline-none leading-relaxed"></textarea>
                 
-                <button onclick="copyMemo('memo-morning')" class="absolute bottom-5 right-5 bg-blue-600 hover:bg-blue-500 text-white shadow-[0_0_15px_rgba(37,99,235,0.5)] rounded-full px-5 py-3 flex items-center gap-2 text-xs font-extrabold active:scale-95 transition-all">
+                <button onclick="copyMemo('memo-morning')" class="absolute bottom-5 right-5 bg-blue-600 hover:bg-blue-500 text-white shadow-[0_0_15px_rgba(37,99,235,0.4)] rounded-full px-5 py-3 flex items-center gap-2 text-xs font-extrabold active:scale-95 transition-all">
                     <i class="fa-solid fa-copy"></i> 복사하기
                 </button>
             </div>
         </div>
 
+
         <div id="panel-dispatch" class="hidden space-y-5 animate-fade-in">
             
-            <div class="bg-cardbg rounded-3xl p-5 border border-cardborder border-l-4 border-l-amber-500 shadow-md space-y-5">
+            <div class="bg-slate-800 rounded-3xl p-5 border border-slate-700 border-l-4 border-l-amber-500 shadow-md space-y-5">
                 <div class="flex items-center gap-2">
                     <div class="p-1.5 bg-amber-500/20 rounded-lg text-amber-400"><i class="fa-solid fa-bolt-lightning text-sm"></i></div>
                     <h3 class="text-sm font-bold text-white">급전 지시 설정</h3>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="space-y-1.5 col-span-2">
+                <div class="space-y-4">
+                    <div class="space-y-1.5">
                         <div class="flex justify-between items-center pr-1 mb-1">
-                            <label class="block text-[11px] font-bold text-slate-400 pl-1">지시 시간 (24시간)</label>
-                            <button onclick="setNow('d')" class="text-[10px] text-amber-400 font-bold flex items-center gap-1"><i class="fa-regular fa-clock"></i> 현재시간</button>
+                            <label class="block text-[11px] font-bold text-slate-400 pl-1">지시 시간 (24시간 휠)</label>
+                            <button onclick="setNow('d')" class="text-[10px] text-amber-400 font-bold flex items-center gap-1 active:scale-90 transition-transform"><i class="fa-regular fa-clock"></i> 현재시간</button>
                         </div>
-                        <input type="time" id="d-time" value="10:00" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-[15px] font-bold outline-none focus:border-amber-500 text-center shadow-sm">
+                        <div class="bg-slate-900 border border-slate-700 rounded-2xl p-3.5 flex flex-col gap-3 shadow-inner">
+                            <div class="flex items-center justify-center gap-5">
+                                <div class="flex flex-col items-center">
+                                    <span class="text-[10px] font-bold text-slate-500 mb-1.5">시 (Hour)</span>
+                                    <div class="relative bg-slate-800 border border-slate-600 rounded-xl px-4 py-2">
+                                        <select id="d-hour" onchange="updateTimeFromSelects('d')" class="bg-transparent text-xl font-black text-white outline-none appearance-none pr-3 text-center w-14 cursor-pointer"></select>
+                                        <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-slate-400"><i class="fa-solid fa-chevron-down"></i></span>
+                                    </div>
+                                </div>
+                                <span class="text-2xl font-black text-slate-500 mt-5">:</span>
+                                <div class="flex flex-col items-center">
+                                    <span class="text-[10px] font-bold text-slate-500 mb-1.5">분 (Minute)</span>
+                                    <div class="relative bg-slate-800 border border-slate-600 rounded-xl px-4 py-2">
+                                        <select id="d-minute" onchange="updateTimeFromSelects('d')" class="bg-transparent text-xl font-black text-white outline-none appearance-none pr-3 text-center w-14 cursor-pointer"></select>
+                                        <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-slate-400"><i class="fa-solid fa-chevron-down"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-5 gap-1.5 pt-2 border-t border-slate-700/50 mt-1">
+                                <button onclick="adjustTimeBy('d', -10)" class="py-2.5 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-xl shadow-sm active:bg-slate-700">-10분</button>
+                                <button onclick="adjustTimeBy('d', -5)" class="py-2.5 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-xl shadow-sm active:bg-slate-700">-5분</button>
+                                <button onclick="adjustTimeBy('d', 0)" class="py-2.5 bg-slate-800 border border-amber-500/50 text-[11px] font-black text-amber-400 rounded-xl shadow-sm active:bg-slate-700">정각</button>
+                                <button onclick="adjustTimeBy('d', 5)" class="py-2.5 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-xl shadow-sm active:bg-slate-700">+5분</button>
+                                <button onclick="adjustTimeBy('d', 10)" class="py-2.5 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-xl shadow-sm active:bg-slate-700">+10분</button>
+                            </div>
+                        </div>
+                        <input type="hidden" id="d-time" value="">
                     </div>
                     
-                    <div class="space-y-1.5 col-span-2">
+                    <div class="space-y-1.5 pt-1">
                         <label class="block text-[11px] font-bold text-slate-400 pl-1">대상 호기</label>
-                        <select id="d-target" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm font-bold outline-none focus:border-amber-500 shadow-sm appearance-none">
+                        <select id="d-target" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3.5 text-white text-sm font-bold outline-none focus:border-amber-500 shadow-inner appearance-none">
                             <option value="#1CC">#1CC</option>
                             <option value="#2CC">#2CC</option>
                         </select>
                     </div>
                 </div>
 
-                <div class="space-y-2 pt-2 border-t border-slate-700/50">
-                    <label class="block text-[11px] font-bold text-slate-400 mb-1.5 pl-1">지시 문구 빠른 생성 (매크로)</label>
+                <div class="space-y-2 pt-2 border-t border-slate-700">
+                    <label class="block text-[11px] font-bold text-slate-400 mb-2 pl-1">지시 문구 빠른 생성 (원터치 조립)</label>
                     <div class="grid grid-cols-2 gap-2">
-                        <button onclick="dMake('2+1 계통연결')" class="py-3 bg-slate-800 border border-slate-700 rounded-xl text-xs font-bold text-slate-300 hover:text-amber-400 hover:border-amber-500/50 transition-colors">2+1 연결</button>
-                        <button onclick="dMake('1+1 계통연결')" class="py-3 bg-slate-800 border border-slate-700 rounded-xl text-xs font-bold text-slate-300 hover:text-amber-400 hover:border-amber-500/50 transition-colors">1+1 연결</button>
-                        <button onclick="dMake('GT 추가 계통연결')" class="py-3 bg-slate-800 border border-slate-700 rounded-xl text-xs font-bold text-slate-300 hover:text-amber-400 hover:border-amber-500/50 transition-colors col-span-2">GT 추가 계통연결</button>
-                        <button onclick="dMake('계통분리')" class="py-3 bg-slate-800 border border-slate-700 rounded-xl text-xs font-bold text-slate-300 hover:text-amber-400 hover:border-amber-500/50 transition-colors">전체 계통분리</button>
-                        <button onclick="dMake('GT 1대 계통분리')" class="py-3 bg-slate-800 border border-slate-700 rounded-xl text-xs font-bold text-slate-300 hover:text-amber-400 hover:border-amber-500/50 transition-colors">GT 1대 분리</button>
+                        <button onclick="dMake('2+1 계통연결')" class="py-3.5 bg-slate-900 border border-slate-700 rounded-xl text-xs font-bold text-slate-300 hover:text-amber-400 hover:border-amber-500/50 active:scale-95 transition-all text-center">2+1 연결</button>
+                        <button onclick="dMake('1+1 계통연결')" class="py-3.5 bg-slate-900 border border-slate-700 rounded-xl text-xs font-bold text-slate-300 hover:text-amber-400 hover:border-amber-500/50 active:scale-95 transition-all text-center">1+1 연결</button>
+                        <button onclick="dMake('GT 추가 계통연결')" class="py-3.5 bg-slate-900 border border-slate-700 rounded-xl text-xs font-bold text-slate-300 hover:text-amber-400 hover:border-amber-500/50 active:scale-95 transition-all text-center col-span-2">GT 추가 계통연결</button>
+                        <button onclick="dMake('계통분리')" class="py-3.5 bg-slate-900 border border-slate-700 rounded-xl text-xs font-bold text-slate-300 hover:text-red-400 hover:border-red-400/50 active:scale-95 transition-all text-center">전체 계통분리</button>
+                        <button onclick="dMake('GT 1대 계통분리')" class="py-3.5 bg-slate-900 border border-slate-700 rounded-xl text-xs font-bold text-slate-300 hover:text-red-400 hover:border-red-400/50 active:scale-95 transition-all text-center">GT 1대 분리</button>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-[#0f172a] rounded-3xl shadow-xl border border-slate-700 overflow-hidden relative mt-8">
-                <div class="flex justify-between items-center px-4 py-3 bg-[#1e293b] border-b border-slate-700 sticky top-0 z-10">
+            <div class="bg-slate-900 rounded-3xl shadow-xl border border-slate-700 overflow-hidden relative mt-8">
+                <div class="flex justify-between items-center px-4 py-3 bg-slate-800/90 border-b border-slate-700 sticky top-0 z-10 backdrop-blur-sm">
                     <div class="flex gap-1.5 items-center">
-                        <div class="flex gap-1.5 mr-2">
+                        <div class="flex gap-1 mr-1">
                             <div class="w-2.5 h-2.5 rounded-full bg-red-500"></div>
                             <div class="w-2.5 h-2.5 rounded-full bg-yellow-500"></div>
                             <div class="w-2.5 h-2.5 rounded-full bg-green-500"></div>
@@ -288,61 +311,97 @@
                         <span class="text-[11px] font-bold text-slate-400 tracking-wide">Dispatch_Memo.txt</span>
                     </div>
                 </div>
-                <textarea id="memo-dispatch" oninput="autoResize(this)" class="w-full min-h-[120px] bg-transparent text-amber-400 p-5 font-mono text-[13px] outline-none placeholder-slate-600 leading-relaxed"></textarea>
+                <textarea id="memo-dispatch" oninput="autoResize(this)" class="w-full min-h-[120px] bg-transparent text-amber-400 p-5 font-mono text-[13px] outline-none leading-relaxed">급전지시입니다.
+10:00 #1CC 2+1 계통연결</textarea>
                 
-                <button onclick="copyMemo('memo-dispatch')" class="absolute bottom-5 right-5 bg-amber-600 hover:bg-amber-500 text-white shadow-[0_0_15px_rgba(217,119,6,0.5)] rounded-full px-5 py-3 flex items-center gap-2 text-xs font-extrabold active:scale-95 transition-all">
+                <button onclick="copyMemo('memo-dispatch')" class="absolute bottom-5 right-5 bg-amber-600 hover:bg-amber-500 text-white shadow-[0_0_15px_rgba(217,119,6,0.4)] rounded-full px-5 py-3 flex items-center gap-2 text-xs font-extrabold active:scale-95 transition-all">
                     <i class="fa-solid fa-copy"></i> 복사하기
                 </button>
             </div>
         </div>
 
+
         <div id="panel-grid" class="hidden space-y-5 animate-fade-in">
             
-            <div class="bg-cardbg rounded-3xl p-5 border border-cardborder border-l-4 border-l-cyan-500 shadow-md space-y-5">
+            <div class="bg-slate-800 rounded-3xl p-5 border border-slate-700 border-l-4 border-l-cyan-500 shadow-md space-y-5">
                 <div class="flex items-center gap-2">
                     <div class="p-1.5 bg-cyan-500/20 rounded-lg text-cyan-400"><i class="fa-solid fa-plug-circle-check text-sm"></i></div>
                     <h3 class="text-sm font-bold text-white">계통 조작 매크로</h3>
                 </div>
 
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-2 gap-4">
                     <div class="space-y-1.5 col-span-2">
                         <div class="flex justify-between items-center pr-1 mb-1">
-                            <label class="block text-[11px] font-bold text-slate-400 pl-1">기준 시간 (24시간)</label>
-                            <button onclick="setNow('g')" class="text-[10px] text-cyan-400 font-bold flex items-center gap-1"><i class="fa-regular fa-clock"></i> 현재시간</button>
+                            <label class="block text-[11px] font-bold text-slate-400 pl-1">기준 시간 (24H 휠 + 퀵조정)</label>
+                            <button onclick="setNow('g')" class="text-[10px] text-cyan-400 font-bold flex items-center gap-1 active:scale-90 transition-transform"><i class="fa-regular fa-clock"></i> 현재시간</button>
                         </div>
-                        <input type="time" id="g-time" value="18:30" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-[15px] font-bold outline-none focus:border-cyan-500 text-center shadow-sm">
+                        <div class="bg-slate-900 border border-slate-700 rounded-2xl p-3.5 flex flex-col gap-3 shadow-inner">
+                            <div class="flex items-center justify-center gap-5">
+                                <div class="flex flex-col items-center">
+                                    <span class="text-[10px] font-bold text-slate-500 mb-1.5">시 (Hour)</span>
+                                    <div class="relative bg-slate-800 border border-slate-600 rounded-xl px-4 py-2 shadow-sm">
+                                        <select id="g-hour" onchange="updateTimeFromSelects('g')" class="bg-transparent text-xl font-black text-white outline-none appearance-none pr-3 text-center w-14 cursor-pointer"></select>
+                                        <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-slate-400"><i class="fa-solid fa-chevron-down"></i></span>
+                                    </div>
+                                </div>
+                                <span class="text-2xl font-black text-slate-500 mt-5">:</span>
+                                <div class="flex flex-col items-center">
+                                    <span class="text-[10px] font-bold text-slate-500 mb-1.5">분 (Minute)</span>
+                                    <div class="relative bg-slate-800 border border-slate-600 rounded-xl px-4 py-2 shadow-sm">
+                                        <select id="g-minute" onchange="updateTimeFromSelects('g')" class="bg-transparent text-xl font-black text-white outline-none appearance-none pr-3 text-center w-14 cursor-pointer"></select>
+                                        <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-slate-400"><i class="fa-solid fa-chevron-down"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-5 gap-1.5 pt-2 border-t border-slate-700/50 mt-1">
+                                <button onclick="adjustTimeBy('g', -10)" class="py-2.5 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-xl shadow-sm active:bg-slate-700">-10분</button>
+                                <button onclick="adjustTimeBy('g', -5)" class="py-2.5 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-xl shadow-sm active:bg-slate-700">-5분</button>
+                                <button onclick="adjustTimeBy('g', 0)" class="py-2.5 bg-slate-800 border border-cyan-500/50 text-[11px] font-black text-cyan-400 rounded-xl shadow-sm active:bg-slate-700">정각</button>
+                                <button onclick="adjustTimeBy('g', 5)" class="py-2.5 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-xl shadow-sm active:bg-slate-700">+5분</button>
+                                <button onclick="adjustTimeBy('g', 10)" class="py-2.5 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-xl shadow-sm active:bg-slate-700">+10분</button>
+                            </div>
+                        </div>
+                        <input type="hidden" id="g-time" value="">
                     </div>
+                    
                     <div class="space-y-1.5 col-span-2">
                         <label class="block text-[11px] font-bold text-slate-400 pl-1">대상 호기</label>
-                        <select id="g-target" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm font-bold outline-none focus:border-cyan-500 shadow-sm appearance-none">
+                        <select id="g-target" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3.5 text-white text-sm font-bold outline-none focus:border-cyan-500 shadow-inner appearance-none">
                             <option value="1">#1CC</option>
                             <option value="2">#2CC</option>
                         </select>
                     </div>
                 </div>
 
-                <div class="p-4 bg-slate-800 rounded-2xl border border-slate-700 shadow-inner">
-                    <label class="block text-slate-300 text-[11px] font-extrabold mb-3 flex items-center gap-1.5"><i class="fa-solid fa-plus text-cyan-400"></i> 건바이건 연결 / AGC 추가</label>
+                <div class="p-4 bg-slate-900 rounded-2xl border border-slate-700 shadow-inner">
+                    <label class="block text-slate-400 text-xs font-bold mb-3 flex items-center gap-1.5"><i class="fa-solid fa-link text-cyan-400"></i> 건바이건 연결 추가</label>
                     <div class="grid grid-cols-3 gap-2">
-                        <button onclick="gAddConnect('GT1')" class="py-2.5 bg-slate-900 border border-slate-600 rounded-lg text-[10px] font-bold text-slate-300 shadow-sm active:bg-slate-700">GT1 연결</button>
-                        <button onclick="gAddConnect('GT2')" class="py-2.5 bg-slate-900 border border-slate-600 rounded-lg text-[10px] font-bold text-slate-300 shadow-sm active:bg-slate-700">GT2 연결</button>
-                        <button onclick="gAddConnect('ST')" class="py-2.5 bg-slate-900 border border-slate-600 rounded-lg text-[10px] font-bold text-slate-300 shadow-sm active:bg-slate-700">ST 연결</button>
-                        <button onclick="gAddAgc('2+1')" class="py-2.5 bg-indigo-900/50 border border-indigo-500/50 rounded-lg text-[10px] font-bold text-indigo-300 shadow-sm active:bg-indigo-800 col-span-1">AGC (2+1)</button>
-                        <button onclick="gAddAgc('1+1')" class="py-2.5 bg-indigo-900/50 border border-indigo-500/50 rounded-lg text-[10px] font-bold text-indigo-300 shadow-sm active:bg-indigo-800 col-span-2">AGC (1+1)</button>
+                        <button onclick="gAddConnect('GT1')" class="py-3 bg-slate-800 border border-slate-600 rounded-xl text-[11px] font-bold text-slate-300 shadow-sm active:scale-95 transition-transform">GT1 연결</button>
+                        <button onclick="gAddConnect('GT2')" class="py-3 bg-slate-800 border border-slate-600 rounded-xl text-[11px] font-bold text-slate-300 shadow-sm active:scale-95 transition-transform">GT2 연결</button>
+                        <button onclick="gAddConnect('ST')" class="py-3 bg-slate-800 border border-slate-600 rounded-xl text-[11px] font-bold text-slate-300 shadow-sm active:scale-95 transition-transform">ST 연결</button>
+                    </div>
+                </div>
+                
+                <div class="p-4 bg-slate-900 rounded-2xl border border-slate-700 shadow-inner">
+                    <label class="block text-slate-400 text-xs font-bold mb-3 flex items-center gap-1.5"><i class="fa-solid fa-circle-nodes text-indigo-400"></i> AGC 제어 추가</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="gAddAgc('2+1')" class="py-3 bg-slate-800 border border-indigo-500/50 rounded-xl text-[11px] font-bold text-indigo-400 shadow-sm active:scale-95 transition-transform">AGC On (2+1)</button>
+                        <button onclick="gAddAgc('1+1')" class="py-3 bg-slate-800 border border-indigo-500/50 rounded-xl text-[11px] font-bold text-indigo-400 shadow-sm active:scale-95 transition-transform">AGC On (1+1)</button>
                     </div>
                 </div>
 
-                <div class="p-4 bg-cyan-900/20 rounded-2xl border border-cyan-500/30 shadow-inner">
-                    <label class="block text-cyan-400 text-[11px] font-extrabold mb-3 flex items-center gap-1.5"><i class="fa-solid fa-bolt text-cyan-400"></i> 시차 계통분리 자동 연산 (매크로)</label>
+                <div class="p-4 bg-cyan-900/20 rounded-2xl border border-cyan-500/30 shadow-inner relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-24 h-24 bg-cyan-500/10 rounded-bl-full -z-10"></div>
+                    <label class="block text-cyan-400 text-[11px] font-extrabold mb-3 flex items-center gap-1.5"><i class="fa-solid fa-calculator text-cyan-400"></i> 계통분리 자동 시차 연산 (매크로)</label>
                     <div class="grid grid-cols-2 gap-2">
-                        <button onclick="gAddSeparate('2+1')" class="py-3 bg-cyan-600 hover:bg-cyan-500 text-white border border-cyan-500 rounded-xl text-xs font-extrabold shadow-sm active:scale-95 flex flex-col items-center justify-center h-[70px]">
+                        <button onclick="gAddSeparate('2+1')" class="py-3.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl text-xs font-extrabold shadow-sm active:scale-95 flex flex-col items-center justify-center gap-1">
                             <span>2+1 분리 연산</span>
-                            <span class="text-[9px] font-normal mt-1 opacity-80">-19분/-10분/-2분</span>
+                            <span class="text-[9px] font-normal opacity-80">-19분/-10분/-2분</span>
                         </button>
-                        <button onclick="gAddSeparate('1+1')" class="py-3 bg-cyan-600 hover:bg-cyan-500 text-white border border-cyan-500 rounded-xl text-xs font-extrabold shadow-sm active:scale-95 flex flex-col items-center justify-center h-[70px] relative">
+                        <button onclick="gAddSeparate('1+1')" class="py-3.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl text-xs font-extrabold shadow-sm active:scale-95 flex flex-col items-center justify-center gap-1 relative overflow-hidden">
                             <span>1+1 분리 연산</span>
-                            <span class="text-[9px] font-normal mt-1 opacity-80">-21분/-2분</span>
-                            <select id="g-active-gt" class="absolute bottom-1 right-1 bg-cyan-800 text-[9px] text-cyan-100 rounded px-1 outline-none" onclick="event.stopPropagation()">
+                            <span class="text-[9px] font-normal opacity-80">-21분/-2분</span>
+                            <select id="g-active-gt" class="absolute bottom-1 right-2 bg-cyan-800/80 text-[9px] text-cyan-100 rounded px-1 outline-none" onclick="event.stopPropagation()">
                                 <option value="GT1">GT1</option><option value="GT2">GT2</option>
                             </select>
                         </button>
@@ -350,8 +409,8 @@
                 </div>
             </div>
 
-            <div class="bg-[#0f172a] rounded-3xl shadow-xl border border-slate-700 overflow-hidden relative mt-8">
-                <div class="flex justify-between items-center px-4 py-3 bg-[#1e293b] border-b border-slate-700 sticky top-0 z-10">
+            <div class="bg-slate-900 rounded-3xl shadow-xl border border-slate-700 overflow-hidden relative mt-8">
+                <div class="flex justify-between items-center px-4 py-3 bg-slate-800/90 border-b border-slate-700 sticky top-0 z-10 backdrop-blur-sm">
                     <div class="flex gap-1.5 items-center">
                         <div class="flex gap-1 mr-1">
                             <div class="w-2.5 h-2.5 rounded-full bg-red-500"></div>
@@ -360,13 +419,13 @@
                         </div>
                         <span class="text-[11px] font-bold text-slate-400 tracking-wide">Grid_Operation.txt</span>
                     </div>
-                    <button onclick="document.getElementById('memo-grid').value=''" class="text-[10px] text-gray-400 bg-slate-700 px-2 py-1 rounded hover:text-white transition-colors">
+                    <button onclick="document.getElementById('memo-grid').value=''; autoResize(document.getElementById('memo-grid')); saveLocal();" class="text-[10px] text-slate-400 bg-slate-800 border border-slate-600 px-2 py-1 rounded hover:text-white transition-colors">
                         비우기 <i class="fa-solid fa-trash ml-0.5"></i>
                     </button>
                 </div>
-                <textarea id="memo-grid" oninput="autoResize(this)" class="w-full min-h-[180px] bg-transparent text-cyan-400 p-5 font-mono text-[13px] outline-none placeholder-slate-600 leading-relaxed"></textarea>
+                <textarea id="memo-grid" oninput="autoResize(this)" class="w-full min-h-[180px] bg-transparent text-cyan-400 p-5 font-mono text-[13px] outline-none leading-relaxed" placeholder="버튼을 누르면 여기에 조작 문구가 차례대로 누적됩니다."></textarea>
                 
-                <button onclick="copyMemo('memo-grid')" class="absolute bottom-5 right-5 bg-cyan-600 hover:bg-cyan-500 text-white shadow-[0_0_15px_rgba(8,145,178,0.5)] rounded-full px-5 py-3 flex items-center gap-2 text-xs font-extrabold active:scale-95 transition-all">
+                <button onclick="copyMemo('memo-grid')" class="absolute bottom-5 right-5 bg-cyan-600 hover:bg-cyan-500 text-white shadow-[0_0_15px_rgba(8,145,178,0.4)] rounded-full px-5 py-3 flex items-center gap-2 text-xs font-extrabold active:scale-95 transition-all">
                     <i class="fa-solid fa-copy"></i> 복사하기
                 </button>
             </div>
@@ -375,40 +434,84 @@
     </div>
 
     <script>
+        // 전역 상태
         let state1 = '운전';
         let state2 = '운전';
 
-        window.onload = function() {
-            // 오늘 날짜 바인딩
-            const today = new Date();
-            const yyyy = today.getFullYear();
-            const mm = String(today.getMonth() + 1).padStart(2, '0');
-            const dd = String(today.getDate()).padStart(2, '0');
-            document.getElementById('m-date').value = `${yyyy}-${mm}-${dd}`;
-
-            // 초기 렌더링 상태 지정
-            setCCState(1, '운전');
-            setCCState(2, '운전');
-            
-            // 날씨 백그라운드 호출
-            fetchWeather();
-
-            // 모든 입력, 스크롤 요소에 즉각 반응형 리스너 장착 (0.1초 딜레이 방지)
-            const inputs = document.querySelectorAll('input, select');
-            inputs.forEach(el => {
-                if(el.id !== 'memo-morning' && el.id !== 'memo-dispatch' && el.id !== 'memo-grid') {
-                    el.addEventListener('input', triggerUpdate);
-                    el.addEventListener('change', triggerUpdate);
+        function initSelects() {
+            // 시간 스크롤 (00~23)
+            ['d-hour', 'g-hour'].forEach(id => {
+                const select = document.getElementById(id);
+                if(select) {
+                    select.innerHTML = '';
+                    for(let i=0; i<=23; i++) {
+                        const val = String(i).padStart(2, '0');
+                        select.add(new Option(val, val));
+                    }
                 }
             });
 
-            // 텍스트 초기 생성
-            triggerUpdate();
+            // 분 스크롤 (00~59)
+            ['d-minute', 'g-minute'].forEach(id => {
+                const select = document.getElementById(id);
+                if(select) {
+                    select.innerHTML = '';
+                    for(let i=0; i<=59; i++) {
+                        const val = String(i).padStart(2, '0');
+                        select.add(new Option(val, val));
+                    }
+                }
+            });
+        }
+
+        window.onload = function() {
+            initSelects();
+
+            // 오늘 날짜 바인딩 보장
+            const today = new Date();
+            const defaultDateStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+            document.getElementById('m-date').value = defaultDateStr;
+
+            if(!loadLocal()) {
+                // 초기값 2+1, 285/285/299 & 289/289/297 (요청하신 예시 기준 세팅)
+                document.getElementById('i-gt11').value = 285; document.getElementById('s-gt11').value = 285;
+                document.getElementById('i-gt12').value = 285; document.getElementById('s-gt12').value = 285;
+                document.getElementById('i-st10').value = 299; document.getElementById('s-st10').value = 299;
+                document.getElementById('i-gt21').value = 289; document.getElementById('s-gt21').value = 289;
+                document.getElementById('i-gt22').value = 289; document.getElementById('s-gt22').value = 289;
+                document.getElementById('i-st20').value = 297; document.getElementById('s-st20').value = 297;
+
+                setCCState(1, '운전');
+                setCCState(2, '운전');
+                setNowSilent('d');
+                setNowSilent('g');
+            } else {
+                if(!document.getElementById('m-date').value) document.getElementById('m-date').value = defaultDateStr;
+            }
+
+            fetchWeather();
+
+            // 실시간 연동 핵심 픽스: 모든 인풋에 완벽하게 반응하도록 바인딩
+            const inputs = [
+                'm-date', 'm-temp', 'm-weather', 'm-issue', 'period-1', 'period-2',
+                'i-gt11', 'i-gt12', 'i-st10', 'i-gt21', 'i-gt22', 'i-st20',
+                's-gt11', 's-gt12', 's-st10', 's-gt21', 's-gt22', 's-st20'
+            ];
+            
+            inputs.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) {
+                    el.addEventListener('input', () => { triggerUpdate(); saveLocal(); });
+                    el.addEventListener('change', () => { triggerUpdate(); saveLocal(); });
+                }
+            });
+
+            triggerUpdate(); // 첫 구동 시 무조건 양식 생성
             switchTab('morning');
         }
 
         // =====================================
-        // 날씨 API (파주 문산) 자동 연동
+        // 날씨 API (실시간 동기화)
         // =====================================
         async function fetchWeather() {
             const spinner = document.getElementById('weather-spinner');
@@ -433,12 +536,12 @@
 
                 document.getElementById('m-temp').value = temp.toFixed(1);
                 document.getElementById('m-weather').value = txt;
-                
                 tempLabel.innerText = `${temp.toFixed(1)}°C`;
                 descLabel.innerText = txt;
                 iconLabel.innerText = icon;
                 
                 triggerUpdate();
+                saveLocal();
             } catch(e) {
                 descLabel.innerText = "날씨 오프라인";
             } finally {
@@ -447,62 +550,52 @@
         }
 
         // =====================================
-        // 탭 UI 컨트롤
+        // 탭 UI 제어
         // =====================================
         function switchTab(t) {
             ['morning', 'dispatch', 'grid'].forEach(tab => {
                 const btn = document.getElementById(`tab-${tab}`);
                 const pnl = document.getElementById(`panel-${tab}`);
                 if(t === tab) {
-                    btn.classList.add('tab-active');
-                    btn.classList.remove('tab-inactive');
+                    btn.classList.add('tab-active'); btn.classList.remove('tab-inactive');
                     pnl.classList.remove('hidden');
                 } else {
-                    btn.classList.add('tab-inactive');
-                    btn.classList.remove('tab-active');
+                    btn.classList.add('tab-inactive'); btn.classList.remove('tab-active');
                     pnl.classList.add('hidden');
                 }
             });
-            // 탭 이동 시 텍스트 에디터 리사이징
             document.querySelectorAll('textarea').forEach(el => autoResize(el));
         }
 
-        function triggerUpdate() {
-            renderMorningMemo();
-        }
-
         // =====================================
-        // [탭 1] 아침현황 로직 (슬라이더 ↔ 인풋 실시간 동기화)
+        // [탭 1] 아침현황 로직 (실시간 연동)
         // =====================================
         function syncFromSlider(id) {
             document.getElementById(`i-${id}`).value = document.getElementById(`s-${id}`).value;
-            triggerUpdate();
+            triggerUpdate(); saveLocal();
         }
         function syncFromInput(id) {
             let v = parseInt(document.getElementById(`i-${id}`).value) || 0;
             v = Math.max(0, Math.min(350, v));
             document.getElementById(`s-${id}`).value = v;
-            triggerUpdate();
+            triggerUpdate(); saveLocal();
         }
         
         function setCCState(cc, state) {
-            if(cc===1) state1 = state;
-            else state2 = state;
+            if(cc===1) state1 = state; else state2 = state;
 
             const btns = ['정지','운전','운전11','기동','계획정비'];
-            const color = cc === 1 ? 'blue' : 'teal';
-            const colorDark = cc === 1 ? 'indigo' : 'teal';
+            const colorDark = cc === 1 ? 'blue' : 'teal';
 
             btns.forEach(b => {
                 const el = document.getElementById(`btn-${cc}cc-${b}`);
                 if(b === state) {
-                    el.className = `py-2.5 rounded-xl border border-${colorDark}-500 bg-${colorDark}-600/20 text-[11px] font-bold text-${colorDark}-400`;
+                    el.className = `py-2.5 rounded-xl border border-${colorDark}-500 bg-${colorDark}-600/20 text-[11px] font-bold text-${colorDark}-400 active:scale-95 transition-all`;
                 } else {
-                    el.className = `py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-[11px] font-bold text-slate-400`;
+                    el.className = `py-2.5 rounded-xl border border-slate-600 bg-slate-700 text-[11px] font-bold text-slate-400 active:scale-95 transition-all`;
                 }
             });
 
-            // 뱃지 업데이트
             const badge = document.getElementById(`badge-${cc}cc`);
             let bText = state + ' 상태';
             if(state === '운전') bText = '2+1 운전중';
@@ -510,7 +603,6 @@
             else if(state === '계획정비') bText = '계획정비 중';
             badge.innerText = bText;
 
-            // 정비 및 비활성화 락
             const ids = cc === 1 ? ['gt11','gt12','st10'] : ['gt21','gt22','st20'];
             const isOff = (state === '정지' || state === '계획정비');
             
@@ -520,54 +612,83 @@
                 if(isOff) {
                     s.value = 0; i.value = 0;
                     s.disabled = true; i.disabled = true;
-                    i.classList.add('opacity-50');
+                    i.classList.add('opacity-40');
                 } else {
                     s.disabled = false; i.disabled = false;
-                    i.classList.remove('opacity-50');
+                    i.classList.remove('opacity-40');
                 }
             });
 
             document.getElementById(`m-box-${cc}`).style.display = state === '계획정비' ? 'block' : 'none';
-            triggerUpdate();
+            triggerUpdate(); saveLocal();
         }
 
-        // 출력값 정렬기 (요청받은 양식 띄어쓰기 100% 동일하게 하드코딩)
+        function triggerUpdate() {
+            renderMorningMemo();
+        }
+
+        // --- 강력한 띄어쓰기 100% 매칭 함수 ---
         function padMW1(g1, g2, s) {
-            // #1CC는 8칸 띄어쓰기 적용
+            // #1CC는 앞에 공백 8칸, 뒤에 4칸
             return `        ${g1.toString().padStart(3,' ')}/ ${g2.toString().padStart(3,' ')}/ ${s.toString().padStart(3,' ')}MW    `;
         }
         function padMW2(g1, g2, s) {
-            // #2CC는 9칸 띄어쓰기 적용
+            // #2CC는 앞에 공백 9칸, 뒤에 6칸
             return `         ${g1.toString().padStart(3,' ')}/ ${g2.toString().padStart(3,' ')}/ ${s.toString().padStart(3,' ')}MW      `;
         }
 
         function getCCBlock(cc, scheduleArr) {
+            const mt_g1 = document.getElementById(cc===1?'i-gt11':'i-gt21').value;
+            const mt_g2 = document.getElementById(cc===1?'i-gt12':'i-gt22').value;
+            const mt_s = document.getElementById(cc===1?'i-st10':'i-st20').value;
+
+            const g1 = mt_g1 === "" ? 0 : (parseInt(mt_g1) || 0);
+            const g2 = mt_g2 === "" ? 0 : (parseInt(mt_g2) || 0);
+            const s = mt_s === "" ? 0 : (parseInt(mt_s) || 0);
+
             const st = cc===1 ? state1 : state2;
             const prefix = cc===1 ? '#1CC' : '#2CC';
-            const gtNm = cc===1 ? '11GT/12GT/10ST' : '21GT/22GT/20ST';
-            const g1 = parseInt(document.getElementById(cc===1?'i-gt11':'i-gt21').value)||0;
-            const g2 = parseInt(document.getElementById(cc===1?'i-gt12':'i-gt22').value)||0;
-            const s = parseInt(document.getElementById(cc===1?'i-st10':'i-st20').value)||0;
+            
+            // 이름과 토탈로드 공백도 예시와 완전 일치
+            const gtNm1 = "11GT/12GT/10ST ";
+            const gtNm2 = "21GT/22GT/20ST          ";
             const tot = g1+g2+s;
-            const padFunc = cc===1 ? padMW1 : padMW2;
+            const tLoad1 = `(Total Load : ${tot}MW)        `;
+            const tLoad2 = `(Total Load : ${tot}MW)           `;
 
-            if(st==='정지') return `    - ${prefix} 급전지시 정지 상태\n     (Total Load : 0MW)        \n     ${gtNm} \n             0/   0/  0MW`;
-            if(st==='운전') return `    - ${prefix} 2+1 운전 중\n     (Total Load : ${tot}MW)        \n     ${gtNm} \n${padFunc(g1,g2,s)}`;
-            if(st==='운전11') return `    - ${prefix} 1+1 운전 중\n     (Total Load : ${tot}MW)        \n     ${gtNm} \n${padFunc(g1,g2,s)}`;
-            if(st==='기동') return `    - ${prefix} 기동 중\n     (Total Load : ${tot}MW)        \n     ${gtNm} \n${padFunc(g1,g2,s)}`;
-            if(st==='계획정비') {
-                const per = document.getElementById(cc===1?'period-1':'period-2').value;
-                scheduleArr.push(`-${prefix} 계획정비\n      (${per})`);
-                return `    - ${prefix} 계획정비 정지 상태\n     (Total Load : 0MW)        \n     ${gtNm} \n           0/ 0/ 0MW`;
+            if(cc === 1) {
+                if(st==='정지') return `    - ${prefix} 급전지시 정지 상태\n     (Total Load : 0MW)        \n     ${gtNm1}\n             0/   0/  0MW`;
+                if(st==='운전') return `    - ${prefix} 2+1 운전 중\n     ${tLoad1}\n     ${gtNm1}\n${padMW1(g1,g2,s)}`;
+                if(st==='운전11') return `    - ${prefix} 1+1 운전 중\n     ${tLoad1}\n     ${gtNm1}\n${padMW1(g1,g2,s)}`;
+                if(st==='기동') return `    - ${prefix} 기동 중\n     ${tLoad1}\n     ${gtNm1}\n${padMW1(g1,g2,s)}`;
+                if(st==='계획정비') {
+                    const per = document.getElementById('period-1').value;
+                    scheduleArr.push(`-${prefix} 계획정비\n      (${per})`);
+                    return `    - ${prefix} 계획정비 정지 상태\n     (Total Load : 0MW)        \n     ${gtNm1}\n             0/   0/  0MW`;
+                }
+            } else {
+                if(st==='정지') return `    - ${prefix} 급전지시 정지 상태\n     (Total Load : 0MW)           \n     ${gtNm2}\n            0/    0/   0MW      `;
+                if(st==='운전') return `    - ${prefix} 2+1 운전 중\n     ${tLoad2}\n     ${gtNm2}\n${padMW2(g1,g2,s)}`;
+                if(st==='운전11') return `    - ${prefix} 1+1 운전 중\n     ${tLoad2}\n     ${gtNm2}\n${padMW2(g1,g2,s)}`;
+                if(st==='기동') return `    - ${prefix} 기동 중\n     ${tLoad2}\n     ${gtNm2}\n${padMW2(g1,g2,s)}`;
+                if(st==='계획정비') {
+                    const per = document.getElementById('period-2').value;
+                    scheduleArr.push(`-${prefix} 계획정비\n      (${per})`);
+                    return `    - ${prefix} 계획정비 정지 상태\n     (Total Load : 0MW)           \n     ${gtNm2}\n            0/    0/   0MW      `;
+                }
             }
         }
 
         function renderMorningMemo() {
             const d = document.getElementById('m-date').value;
-            if(!d) return;
-            const days = ['일','월','화','수','목','금','토'];
-            const dateObj = new Date(d);
-            const dateHeader = `${dateObj.getMonth()+1}월 ${dateObj.getDate()}일(${days[dateObj.getDay()]})`;
+            let dateHeader = "";
+            if(d) {
+                const days = ['일','월','화','수','목','금','토'];
+                const dateObj = new Date(d);
+                dateHeader = `${dateObj.getMonth()+1}월 ${dateObj.getDate()}일(${days[dateObj.getDay()]})`;
+            } else {
+                dateHeader = "O월 O일(O)";
+            }
 
             const t = document.getElementById('m-temp').value;
             const w = document.getElementById('m-weather').value;
@@ -576,46 +697,90 @@
             const blk1 = getCCBlock(1, sch);
             const blk2 = getCCBlock(2, sch);
             
-            const issue = document.getElementById('m-issue').value;
+            const issueInput = document.getElementById('m-issue').value;
             let issueStr = "";
             if(sch.length > 0) {
                 issueStr = "     " + sch.join('\n     ');
-                if(issue && issue !== '없음') issueStr += `\n     -${issue}`;
+                if(issueInput && issueInput !== '없음') {
+                    issueStr += `\n     -${issueInput}`;
+                }
             } else {
-                issueStr = `     -${issue}`;
+                if(issueInput && issueInput !== '없음') {
+                    issueStr = `     -${issueInput}`;
+                } else {
+                    issueStr = `     -없음`;
+                }
             }
 
             const text = `${dateHeader} 7:00 운전현황\n\n■ 급전지시\n    - 없음\n■ 대기온도 : ${t}°C (${w})\n■ 운전현황\n${blk1}\n${blk2}\n■ 특이사항\n${issueStr}`;
+            
             const memoEl = document.getElementById('memo-morning');
             memoEl.value = text;
             autoResize(memoEl);
         }
 
         // =====================================
-        // [탭 2] 급전 지시 로직
+        // [공통] 24시간 휠 시간 입력 제어
         // =====================================
-        function setNow(prefix) {
+        function updateTimeFromSelects(prefix) {
+            const h = document.getElementById(`${prefix}-hour`).value;
+            const m = document.getElementById(`${prefix}-minute`).value;
+            document.getElementById(`${prefix}-time`).value = `${h}:${m}`;
+            saveLocal();
+        }
+
+        function setNowSilent(prefix) {
             const now = new Date();
             const h = String(now.getHours()).padStart(2, '0');
             const m = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById(`${prefix}-hour`).value = h;
+            document.getElementById(`${prefix}-minute`).value = m;
             document.getElementById(`${prefix}-time`).value = `${h}:${m}`;
-            showToast(`현재 시간 입력 완료`);
         }
 
+        function setNow(prefix) {
+            setNowSilent(prefix);
+            saveLocal();
+            const timeStr = document.getElementById(`${prefix}-time`).value;
+            showToast(`현재 시간(${timeStr}) 주입 완료`);
+        }
+
+        function adjustTimeBy(prefix, mins) {
+            let h = parseInt(document.getElementById(`${prefix}-hour`).value) || 0;
+            let m = parseInt(document.getElementById(`${prefix}-minute`).value) || 0;
+            if (mins === 0) { m = 0; } else {
+                let tempDate = new Date();
+                tempDate.setHours(h, m + mins, 0);
+                h = tempDate.getHours(); m = tempDate.getMinutes();
+            }
+            const newH = String(h).padStart(2, '0');
+            const newM = String(m).padStart(2, '0');
+            document.getElementById(`${prefix}-hour`).value = newH;
+            document.getElementById(`${prefix}-minute`).value = newM;
+            document.getElementById(`${prefix}-time`).value = `${newH}:${newM}`;
+            saveLocal();
+        }
+
+        // =====================================
+        // [탭 2] 급전 지시 로직
+        // =====================================
         function dMake(type) {
-            const time = document.getElementById('d-time').value; // HH:MM 
-            if(!time) { showToast('지시 시간을 입력해주세요.','error'); return; }
+            const time = document.getElementById('d-time').value; 
+            if(!time) { showToast('시간을 입력해주세요.','error'); return; }
             const target = document.getElementById('d-target').value;
             
             let line = "";
-            if(type === 'GT 추가 계통연결') line = `${time}  ${target} ${type}`; // 띄어쓰기 2칸 특수 조건
+            if(type === 'GT 추가 계통연결') line = `${time}  ${target} ${type}`; // 띄어쓰기 2칸
             else line = `${time} ${target} ${type}`;
 
             const text = `급전지시입니다.\n${line}`;
             const memo = document.getElementById('memo-dispatch');
             memo.value = text;
             autoResize(memo);
+            saveLocal();
+            showToast("급전지시 양식 생성 완료");
         }
+
 
         // =====================================
         // [탭 3] 계통 연결/분리 로직
@@ -625,6 +790,7 @@
             if(memo.value) memo.value += "\n" + str;
             else memo.value = str;
             autoResize(memo);
+            saveLocal();
         }
 
         function getGTargetName(type) {
@@ -639,6 +805,7 @@
             if(!time) { showToast('시간을 입력해주세요.','error'); return; }
             const name = getGTargetName(type);
             appendGridMemo(`${time} #${name} 계통연결`);
+            showToast(`#${name} 연결 추가`);
         }
 
         function gAddSeparateSingle(type) {
@@ -646,6 +813,7 @@
             if(!time) { showToast('시간을 입력해주세요.','error'); return; }
             const name = getGTargetName(type);
             appendGridMemo(`${time} #${name} 계통분리`);
+            showToast(`#${name} 분리 추가`);
         }
 
         function gAddAgc(mode) {
@@ -653,9 +821,9 @@
             if(!time) { showToast('시간을 입력해주세요.','error'); return; }
             const block = document.getElementById('g-target').value === '1' ? '#1CC' : '#2CC';
             appendGridMemo(`${time} ${block} AGC On (${mode})`);
+            showToast(`${block} AGC 추가`);
         }
 
-        // 시차 역산 로직
         function subMins(timeStr, mins) {
             if(!timeStr) return "00:00";
             const [h, m] = timeStr.split(':').map(Number);
@@ -689,11 +857,12 @@
         }
 
         // =====================================
-        // 공통 유틸 
+        // 공통 유틸 및 백업
         // =====================================
         function autoResize(el) {
+            if(!el) return;
             el.style.height = 'auto';
-            el.style.height = (el.scrollHeight + 20) + 'px';
+            el.style.height = (el.scrollHeight + 2) + 'px';
         }
 
         function copyMemo(id) {
@@ -729,6 +898,74 @@
                 el.classList.add('opacity-0', 'scale-90');
                 setTimeout(()=>el.remove(), 300);
             }, 2000);
+        }
+
+        function saveLocal() {
+            const data = {
+                mDate: document.getElementById('m-date').value,
+                mTemp: document.getElementById('m-temp').value,
+                mWeather: document.getElementById('m-weather').value,
+                iGt11: document.getElementById('i-gt11').value,
+                iGt12: document.getElementById('i-gt12').value,
+                iSt10: document.getElementById('i-st10').value,
+                period1: document.getElementById('period-1').value,
+                state1: state1,
+                iGt21: document.getElementById('i-gt21').value,
+                iGt22: document.getElementById('i-gt22').value,
+                iSt20: document.getElementById('i-st20').value,
+                period2: document.getElementById('period-2').value,
+                state2: state2,
+                memoMorning: document.getElementById('memo-morning').value,
+                memoDispatch: document.getElementById('memo-dispatch').value,
+                memoGrid: document.getElementById('memo-grid').value,
+                dHour: document.getElementById('d-hour').value,
+                dMinute: document.getElementById('d-minute').value,
+                dTarget: document.getElementById('d-target').value,
+                gHour: document.getElementById('g-hour').value,
+                gMinute: document.getElementById('g-minute').value,
+                gTarget: document.getElementById('g-target').value,
+            };
+            localStorage.setItem('smartReportPajuV4', JSON.stringify(data));
+        }
+
+        function loadLocal() {
+            const saved = localStorage.getItem('smartReportPajuV4');
+            if(saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    document.getElementById('m-date').value = data.mDate || '';
+                    document.getElementById('m-temp').value = data.mTemp || '';
+                    document.getElementById('m-weather').value = data.mWeather || '흐림';
+                    
+                    document.getElementById('i-gt11').value = data.iGt11 || '0';
+                    document.getElementById('i-gt12').value = data.iGt12 || '0';
+                    document.getElementById('i-st10').value = data.iSt10 || '0';
+                    document.getElementById('period-1').value = data.period1 || '5/14 00:00 ~ 5/27 24:00';
+                    
+                    document.getElementById('i-gt21').value = data.iGt21 || '0';
+                    document.getElementById('i-gt22').value = data.iGt22 || '0';
+                    document.getElementById('i-st20').value = data.iSt20 || '0';
+                    document.getElementById('period-2').value = data.period2 || '5/16 00:00 ~ 5/17 19:00';
+
+                    document.getElementById('d-hour').value = data.dHour || '10';
+                    document.getElementById('d-minute').value = data.dMinute || '00';
+                    document.getElementById('g-hour').value = data.gHour || '18';
+                    document.getElementById('g-minute').value = data.gMinute || '30';
+
+                    document.getElementById('d-time').value = `${data.dHour || '10'}:${data.dMinute || '00'}`;
+                    document.getElementById('g-time').value = `${data.gHour || '18'}:${data.gMinute || '30'}`;
+
+                    setCCState(1, data.state1 || '운전');
+                    setCCState(2, data.state2 || '운전');
+
+                    document.getElementById('memo-morning').value = data.memoMorning || '';
+                    document.getElementById('memo-dispatch').value = data.memoDispatch || '';
+                    document.getElementById('memo-grid').value = data.memoGrid || '';
+
+                    return true;
+                } catch(e) { return false; }
+            }
+            return false;
         }
     </script>
 </body>
