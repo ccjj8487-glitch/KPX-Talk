@@ -5,8 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>파주사업소 스마트 보고서</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
@@ -70,6 +73,7 @@
 
     <div class="max-w-md mx-auto px-4 pt-6 space-y-6 relative">
 
+        <!-- 헤더 영역 -->
         <header class="glass-card rounded-3xl p-6 relative overflow-hidden flex flex-col gap-4">
             <div class="absolute -right-8 -top-8 w-40 h-40 bg-blue-400/10 rounded-full blur-3xl"></div>
             <div class="absolute -left-8 -bottom-8 w-32 h-32 bg-indigo-400/10 rounded-full blur-2xl"></div>
@@ -103,6 +107,7 @@
             </div>
         </header>
 
+        <!-- 탭 네비게이션 -->
         <nav class="sticky top-4 z-40 flex p-1.5 bg-gray-200/70 backdrop-blur-md rounded-2xl shadow-sm border border-white/50">
             <button onclick="switchTab('morning')" id="tab-morning" class="tab-btn flex-1 py-3 rounded-xl text-xs flex items-center justify-center gap-2 tab-active">
                 <i class="fa-solid fa-sun text-[14px]"></i> 아침 현황
@@ -115,6 +120,7 @@
             </button>
         </nav>
 
+        <!-- [탭 1] 아침 운전현황 -->
         <div id="panel-morning" class="space-y-5">
             <div class="glass-card rounded-3xl p-5 space-y-4">
                 <div class="flex items-center gap-2 mb-2">
@@ -141,6 +147,7 @@
                 </div>
             </div>
 
+            <!-- #1CC Card -->
             <div class="glass-card rounded-3xl p-5 border-l-4 border-l-indigo-500">
                 <div class="flex justify-between items-center mb-5">
                     <div class="flex items-center gap-2">
@@ -167,7 +174,7 @@
                     <div id="wrap-gt11" class="flex items-center justify-between p-2.5 bg-gray-50/80 rounded-xl border border-gray-100 shadow-sm transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-700 ml-2">11GT 출력</span>
                         <div class="relative w-36">
-                            <select id="i-gt11" onchange="iSync()" class="w-full bg-white border border-gray-200 shadow-sm rounded-lg py-2.5 pr-12 pl-3 text-center text-sm font-bold text-indigo-700 focus:outline-none appearance-none cursor-pointer">
+                            <select id="i-gt11" onchange="iSync()" class="w-full bg-white border border-gray-200 shadow-sm rounded-lg py-2.5 pr-12 pl-3 text-center text-sm font-bold text-indigo-700 focus:outline-none appearance-none cursor-pointer font-mono">
                             </select>
                             <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400 pointer-events-none">MW</span>
                         </div>
@@ -175,7 +182,7 @@
                     <div id="wrap-gt12" class="flex items-center justify-between p-2.5 bg-gray-50/80 rounded-xl border border-gray-100 shadow-sm transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-700 ml-2">12GT 출력</span>
                         <div class="relative w-36">
-                            <select id="i-gt12" onchange="iSync()" class="w-full bg-white border border-gray-200 shadow-sm rounded-lg py-2.5 pr-12 pl-3 text-center text-sm font-bold text-indigo-700 focus:outline-none appearance-none cursor-pointer">
+                            <select id="i-gt12" onchange="iSync()" class="w-full bg-white border border-gray-200 shadow-sm rounded-lg py-2.5 pr-12 pl-3 text-center text-sm font-bold text-indigo-700 focus:outline-none appearance-none cursor-pointer font-mono">
                             </select>
                             <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400 pointer-events-none">MW</span>
                         </div>
@@ -183,7 +190,7 @@
                     <div id="wrap-st10" class="flex items-center justify-between p-2.5 bg-gray-50/80 rounded-xl border border-gray-100 shadow-sm transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-700 ml-2">10ST 출력</span>
                         <div class="relative w-36">
-                            <select id="i-st10" onchange="iSync()" class="w-full bg-white border border-gray-200 shadow-sm rounded-lg py-2.5 pr-12 pl-3 text-center text-sm font-bold text-indigo-700 focus:outline-none appearance-none cursor-pointer">
+                            <select id="i-st10" onchange="iSync()" class="w-full bg-white border border-gray-200 shadow-sm rounded-lg py-2.5 pr-12 pl-3 text-center text-sm font-bold text-indigo-700 focus:outline-none appearance-none cursor-pointer font-mono">
                             </select>
                             <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400 pointer-events-none">MW</span>
                         </div>
@@ -191,6 +198,7 @@
                 </div>
             </div>
 
+            <!-- #2CC Card -->
             <div class="glass-card rounded-3xl p-5 border-l-4 border-l-teal-500">
                 <div class="flex justify-between items-center mb-5">
                     <div class="flex items-center gap-2">
@@ -217,7 +225,7 @@
                     <div id="wrap-gt21" class="flex items-center justify-between p-2.5 bg-gray-50/80 rounded-xl border border-gray-100 shadow-sm transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-700 ml-2">21GT 출력</span>
                         <div class="relative w-36">
-                            <select id="i-gt21" onchange="iSync()" class="w-full bg-white border border-gray-200 shadow-sm rounded-lg py-2.5 pr-12 pl-3 text-center text-sm font-bold text-teal-700 focus:outline-none appearance-none cursor-pointer">
+                            <select id="i-gt21" onchange="iSync()" class="w-full bg-white border border-gray-200 shadow-sm rounded-lg py-2.5 pr-12 pl-3 text-center text-sm font-bold text-teal-700 focus:outline-none appearance-none cursor-pointer font-mono">
                             </select>
                             <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400 pointer-events-none">MW</span>
                         </div>
@@ -225,7 +233,7 @@
                     <div id="wrap-gt22" class="flex items-center justify-between p-2.5 bg-gray-50/80 rounded-xl border border-gray-100 shadow-sm transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-700 ml-2">22GT 출력</span>
                         <div class="relative w-36">
-                            <select id="i-gt22" onchange="iSync()" class="w-full bg-white border border-gray-200 shadow-sm rounded-lg py-2.5 pr-12 pl-3 text-center text-sm font-bold text-teal-700 focus:outline-none appearance-none cursor-pointer">
+                            <select id="i-gt22" onchange="iSync()" class="w-full bg-white border border-gray-200 shadow-sm rounded-lg py-2.5 pr-12 pl-3 text-center text-sm font-bold text-teal-700 focus:outline-none appearance-none cursor-pointer font-mono">
                             </select>
                             <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400 pointer-events-none">MW</span>
                         </div>
@@ -233,7 +241,7 @@
                     <div id="wrap-st20" class="flex items-center justify-between p-2.5 bg-gray-50/80 rounded-xl border border-gray-100 shadow-sm transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-700 ml-2">20ST 출력</span>
                         <div class="relative w-36">
-                            <select id="i-st20" onchange="iSync()" class="w-full bg-white border border-gray-200 shadow-sm rounded-lg py-2.5 pr-12 pl-3 text-center text-sm font-bold text-teal-700 focus:outline-none appearance-none cursor-pointer">
+                            <select id="i-st20" onchange="iSync()" class="w-full bg-white border border-gray-200 shadow-sm rounded-lg py-2.5 pr-12 pl-3 text-center text-sm font-bold text-teal-700 focus:outline-none appearance-none cursor-pointer font-mono">
                             </select>
                             <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400 pointer-events-none">MW</span>
                         </div>
@@ -241,6 +249,7 @@
                 </div>
             </div>
 
+            <!-- 터미널 에디터 -->
             <div class="bg-[#0f172a] rounded-3xl shadow-xl border border-slate-700 overflow-hidden relative mt-8">
                 <div class="flex justify-between items-center px-4 py-3 bg-[#1e293b] border-b border-slate-700 sticky top-0">
                     <div class="flex gap-1.5 items-center">
@@ -264,6 +273,7 @@
             </div>
         </div>
 
+        <!-- [탭 2] 급전 지시 -->
         <div id="panel-dispatch" class="hidden space-y-5">
             <div class="glass-card rounded-3xl p-5 space-y-4 border-t-4 border-t-amber-500">
                 <div class="flex items-center gap-2">
@@ -348,6 +358,7 @@
             </div>
         </div>
 
+        <!-- [탭 3] 계통 조작 -->
         <div id="panel-grid" class="hidden space-y-5">
             <div class="glass-card rounded-3xl p-5 space-y-6 border-t-4 border-t-cyan-500">
                 <div class="flex items-center gap-2">
@@ -457,6 +468,7 @@
     <script>
         let state1 = '운전';
         let state2 = '운전';
+        let activeTab = 'morning';
 
         function initSelects() {
             const ids = ['i-gt11', 'i-gt12', 'i-st10', 'i-gt21', 'i-gt22', 'i-st20'];
@@ -505,12 +517,15 @@
         window.onload = function() {
             initSelects();
 
+            // 오늘 날짜 기본 바인딩
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            const defaultDateString = `${yyyy}-${mm}-${dd}`;
+
             if(!loadLocal()) {
-                const today = new Date();
-                const yyyy = today.getFullYear();
-                const mm = String(today.getMonth() + 1).padStart(2, '0');
-                const dd = String(today.getDate()).padStart(2, '0');
-                document.getElementById('m-date').value = `${yyyy}-${mm}-${dd}`;
+                document.getElementById('m-date').value = defaultDateString;
                 
                 // 디폴트 2+1 기본 부하 매핑 초기화
                 document.getElementById('i-gt11').value = 158;
@@ -525,8 +540,15 @@
                 
                 setNowSilent('d');
                 setNowSilent('g');
+            } else {
+                // 저장되어 불러온 로컬 데이터 중 날짜가 비어 있다면 오늘 날짜 주입
+                const mDateInput = document.getElementById('m-date');
+                if(!mDateInput.value) {
+                    mDateInput.value = defaultDateString;
+                }
             }
 
+            // 날씨 즉시 가져오기 연동
             fetchWeather();
 
             const inputs = ['m-date', 'm-temp', 'm-weather', 'i-gt11', 'i-gt12', 'i-st10', 'i-gt21', 'i-gt22', 'i-st20', 'period-1', 'period-2'];
@@ -590,7 +612,6 @@
                     document.getElementById('i-st20').value = data.iSt20 || '0';
                     document.getElementById('period-2').value = data.period2 || '5/16 00:00 ~ 5/17 19:00';
 
-                    // 명시적 옵션 리빌딩 후 주입 보장
                     document.getElementById('d-hour').value = data.dHour || '10';
                     document.getElementById('d-minute').value = data.dMinute || '00';
                     document.getElementById('g-hour').value = data.gHour || '18';
@@ -623,7 +644,7 @@
         function updateTimeFromSelects(prefix) {
             const h = document.getElementById(`${prefix}-hour`).value;
             const m = document.getElementById(`${prefix}-minute`).value;
-            document.getElementById(`${prefix}-time').value = `${h}:${m}`;
+            document.getElementById(`${prefix}-time`).value = `${h}:${m}`;
             saveLocal();
         }
 
@@ -732,9 +753,14 @@
         function padMW(g1, g2, s) { return `${g1.toString().padStart(3,' ')}/ ${g2.toString().padStart(3,' ')}/ ${s.toString().padStart(3,' ')}MW`; }
 
         function getCCBlock(cc, scheduleArr) {
-            const g1 = parseInt(document.getElementById(cc===1?'i-gt11':'i-gt21').value)||0;
-            const g2 = parseInt(document.getElementById(cc===1?'i-gt12':'i-gt22').value)||0;
-            const s = parseInt(document.getElementById(cc===1?'i-st10':'i-st20').value)||0;
+            const mt_g1 = document.getElementById(cc===1?'i-gt11':'i-gt21').value;
+            const mt_g2 = document.getElementById(cc===1?'i-gt12':'i-gt22').value;
+            const mt_s = document.getElementById(cc===1?'i-st10':'i-st20').value;
+
+            const g1 = mt_g1 === "" ? 0 : (parseInt(mt_g1) || 0);
+            const g2 = mt_g2 === "" ? 0 : (parseInt(mt_g2) || 0);
+            const s = mt_s === "" ? 0 : (parseInt(mt_s) || 0);
+
             const st = cc===1 ? state1 : state2;
             const prefix = cc===1 ? '#1CC' : '#2CC';
             const gtNm = cc===1 ? '11GT/12GT/10ST' : '21GT/22GT/20ST';
