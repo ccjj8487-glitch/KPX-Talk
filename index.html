@@ -40,19 +40,14 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
         
-        /* 탭 애니메이션 */
         .tab-btn { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .tab-active { background: white; color: #1D4ED8; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); font-weight: 700; transform: translateY(-1px); }
         .tab-inactive { color: #64748B; font-weight: 500; }
         .tab-inactive:hover { color: #3B82F6; }
 
-        /* 터미널 스타일 텍스트에디터 */
         textarea { resize: none; line-height: 1.7; letter-spacing: -0.02em; overflow-y: hidden; }
-        
-        /* Select 커스텀 */
         select { text-align-last: center; }
 
-        /* 글래스 모피즘 카드 */
         .glass-card {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
@@ -61,7 +56,6 @@
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
         }
 
-        /* 펄스 애니메이션 */
         @keyframes soft-pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.7; }
@@ -173,22 +167,25 @@
                     <div id="wrap-gt11" class="flex items-center justify-between p-2.5 bg-gray-50/80 rounded-xl border border-gray-100 shadow-sm transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-700 ml-2">11GT 출력</span>
                         <div class="relative w-36">
-                            <select id="i-gt11" class="w-full bg-white border border-gray-200 shadow-sm rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-indigo-700 focus:outline-none appearance-none cursor-pointer"></select>
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400 pointer-events-none">MW</span>
+                            <select id="i-gt11" class="w-full bg-white border border-gray-200 shadow-sm rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-indigo-700 focus:outline-none appearance-none cursor-pointer font-mono">
+                            </select>
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400 pointer-events-none">MW <i class="fa-solid fa-chevron-down ml-1 text-[8px] text-indigo-300"></i></span>
                         </div>
                     </div>
                     <div id="wrap-gt12" class="flex items-center justify-between p-2.5 bg-gray-50/80 rounded-xl border border-gray-100 shadow-sm transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-700 ml-2">12GT 출력</span>
                         <div class="relative w-36">
-                            <select id="i-gt12" class="w-full bg-white border border-gray-200 shadow-sm rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-indigo-700 focus:outline-none appearance-none cursor-pointer"></select>
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400 pointer-events-none">MW</span>
+                            <select id="i-gt12" class="w-full bg-white border border-gray-200 shadow-sm rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-indigo-700 focus:outline-none appearance-none cursor-pointer font-mono">
+                            </select>
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400 pointer-events-none">MW <i class="fa-solid fa-chevron-down ml-1 text-[8px] text-indigo-300"></i></span>
                         </div>
                     </div>
                     <div id="wrap-st10" class="flex items-center justify-between p-2.5 bg-gray-50/80 rounded-xl border border-gray-100 shadow-sm transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-700 ml-2">10ST 출력</span>
                         <div class="relative w-36">
-                            <select id="i-st10" class="w-full bg-white border border-gray-200 shadow-sm rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-indigo-700 focus:outline-none appearance-none cursor-pointer"></select>
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400 pointer-events-none">MW</span>
+                            <select id="i-st10" class="w-full bg-white border border-gray-200 shadow-sm rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-indigo-700 focus:outline-none appearance-none cursor-pointer font-mono">
+                            </select>
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400 pointer-events-none">MW <i class="fa-solid fa-chevron-down ml-1 text-[8px] text-indigo-300"></i></span>
                         </div>
                     </div>
                 </div>
@@ -220,22 +217,25 @@
                     <div id="wrap-gt21" class="flex items-center justify-between p-2.5 bg-gray-50/80 rounded-xl border border-gray-100 shadow-sm transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-700 ml-2">21GT 출력</span>
                         <div class="relative w-36">
-                            <select id="i-gt21" class="w-full bg-white border border-gray-200 shadow-sm rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-teal-700 focus:outline-none appearance-none cursor-pointer"></select>
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400 pointer-events-none">MW</span>
+                            <select id="i-gt21" class="w-full bg-white border border-gray-200 shadow-sm rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-teal-700 focus:outline-none appearance-none cursor-pointer font-mono">
+                            </select>
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400 pointer-events-none">MW <i class="fa-solid fa-chevron-down ml-1 text-[8px] text-teal-300"></i></span>
                         </div>
                     </div>
                     <div id="wrap-gt22" class="flex items-center justify-between p-2.5 bg-gray-50/80 rounded-xl border border-gray-100 shadow-sm transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-700 ml-2">22GT 출력</span>
                         <div class="relative w-36">
-                            <select id="i-gt22" class="w-full bg-white border border-gray-200 shadow-sm rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-teal-700 focus:outline-none appearance-none cursor-pointer"></select>
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400 pointer-events-none">MW</span>
+                            <select id="i-gt22" class="w-full bg-white border border-gray-200 shadow-sm rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-teal-700 focus:outline-none appearance-none cursor-pointer font-mono">
+                            </select>
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400 pointer-events-none">MW <i class="fa-solid fa-chevron-down ml-1 text-[8px] text-teal-300"></i></span>
                         </div>
                     </div>
                     <div id="wrap-st20" class="flex items-center justify-between p-2.5 bg-gray-50/80 rounded-xl border border-gray-100 shadow-sm transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-700 ml-2">20ST 출력</span>
                         <div class="relative w-36">
-                            <select id="i-st20" class="w-full bg-white border border-gray-200 shadow-sm rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-teal-700 focus:outline-none appearance-none cursor-pointer"></select>
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400 pointer-events-none">MW</span>
+                            <select id="i-st20" class="w-full bg-white border border-gray-200 shadow-sm rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-teal-700 focus:outline-none appearance-none cursor-pointer font-mono">
+                            </select>
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400 pointer-events-none">MW <i class="fa-solid fa-chevron-down ml-1 text-[8px] text-teal-300"></i></span>
                         </div>
                     </div>
                 </div>
@@ -251,24 +251,24 @@
             </button>
 
             <div class="bg-[#0f172a] rounded-3xl shadow-xl border border-slate-700 overflow-hidden relative mt-4">
-                <div class="flex justify-between items-center px-4 py-3 bg-[#1e293b] border-b border-slate-700 sticky top-0 z-10">
+                <div class="flex justify-between items-center px-4 py-3 bg-[#1e293b] border-b border-slate-700 sticky top-0">
                     <div class="flex gap-1.5 items-center">
-                        <div class="flex gap-1 mr-1">
-                            <div class="w-2.5 h-2.5 rounded-full bg-red-500"></div>
-                            <div class="w-2.5 h-2.5 rounded-full bg-yellow-500"></div>
-                            <div class="w-2.5 h-2.5 rounded-full bg-green-500"></div>
+                        <div class="flex gap-1.5 mr-2">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
                         </div>
                         <span class="text-[11px] font-bold text-slate-400 tracking-wide">Morning_Report.txt</span>
                     </div>
+                    <div class="flex gap-2">
+                        <button onclick="copyMemo('memo-morning')" class="text-[10px] bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded-lg transition-colors flex items-center gap-1 font-bold shadow-md">
+                            <i class="fa-regular fa-copy"></i> 전체 복사
+                        </button>
+                    </div>
                 </div>
                 <textarea id="memo-morning" oninput="autoResize(this)" class="w-full min-h-[300px] bg-transparent text-emerald-400 p-5 font-mono text-[13px] outline-none leading-relaxed"></textarea>
-                
-                <button onclick="copyMemo('memo-morning')" class="absolute bottom-5 right-5 bg-blue-600 hover:bg-blue-500 text-white shadow-[0_0_15px_rgba(37,99,235,0.5)] rounded-full px-5 py-3 flex items-center gap-2 text-xs font-extrabold active:scale-95 transition-all">
-                    <i class="fa-solid fa-copy"></i> 복사하기
-                </button>
             </div>
         </div>
-
 
         <div id="panel-dispatch" class="hidden space-y-5 animate-fade-in">
             
@@ -281,7 +281,7 @@
                 <div class="grid grid-cols-2 gap-4">
                     <div class="space-y-1.5 col-span-2">
                         <div class="flex justify-between items-center pr-1 mb-1">
-                            <label class="block text-[11px] font-bold text-gray-500 pl-1">지시 시간 (24H 휠 + 퀵조정)</label>
+                            <label class="block text-[11px] font-bold text-gray-500 pl-1">지시 시간 <span class="text-amber-600 font-extrabold">(24H 휠 + 퀵조정)</span></label>
                             <button onclick="setNow('d')" class="text-[10px] text-blue-500 hover:text-blue-600 font-bold flex items-center gap-1"><i class="fa-regular fa-clock"></i> 현재시간</button>
                         </div>
                         
@@ -290,7 +290,8 @@
                                 <div class="flex flex-col items-center">
                                     <span class="text-[9px] font-extrabold text-gray-400 mb-1">시 (Hour)</span>
                                     <div class="relative bg-white border border-gray-200 rounded-xl px-4 py-2 shadow-sm">
-                                        <select id="d-hour" onchange="updateTimeFromSelects('d')" class="bg-transparent text-lg font-extrabold text-gray-800 outline-none appearance-none pr-4 cursor-pointer text-center w-12"></select>
+                                        <select id="d-hour" onchange="updateTimeFromSelects('d')" class="bg-transparent text-lg font-extrabold text-gray-800 outline-none appearance-none pr-4 cursor-pointer text-center w-12">
+                                        </select>
                                         <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-gray-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
                                     </div>
                                 </div>
@@ -298,7 +299,8 @@
                                 <div class="flex flex-col items-center">
                                     <span class="text-[9px] font-extrabold text-gray-400 mb-1">분 (Minute)</span>
                                     <div class="relative bg-white border border-gray-200 rounded-xl px-4 py-2 shadow-sm">
-                                        <select id="d-minute" onchange="updateTimeFromSelects('d')" class="bg-transparent text-lg font-extrabold text-gray-800 outline-none appearance-none pr-4 cursor-pointer text-center w-12"></select>
+                                        <select id="d-minute" onchange="updateTimeFromSelects('d')" class="bg-transparent text-lg font-extrabold text-gray-800 outline-none appearance-none pr-4 cursor-pointer text-center w-12">
+                                        </select>
                                         <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-gray-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
                                     </div>
                                 </div>
@@ -307,7 +309,7 @@
                             <div class="grid grid-cols-5 gap-1.5 pt-1.5 border-t border-gray-200/65">
                                 <button onclick="adjustTimeBy('d', -10)" class="py-2 bg-white hover:bg-gray-100 border border-gray-200 text-[11px] font-bold text-gray-600 rounded-lg active:scale-95 transition-transform shadow-sm">-10분</button>
                                 <button onclick="adjustTimeBy('d', -5)" class="py-2 bg-white hover:bg-gray-100 border border-gray-200 text-[11px] font-bold text-gray-600 rounded-lg active:scale-95 transition-transform shadow-sm">-5분</button>
-                                <button onclick="adjustTimeBy('d', 0)" class="py-2 bg-white hover:bg-amber-50 border border-amber-200 text-[11px] font-black text-amber-600 rounded-lg active:scale-95 transition-transform shadow-sm">정각</button>
+                                <button onclick="adjustTimeBy('d', 0)" class="py-2 bg-white hover:bg-indigo-50 border border-indigo-100 text-[11px] font-black text-indigo-600 rounded-lg active:scale-95 transition-transform shadow-sm">정각</button>
                                 <button onclick="adjustTimeBy('d', 5)" class="py-2 bg-white hover:bg-gray-100 border border-gray-200 text-[11px] font-bold text-gray-600 rounded-lg active:scale-95 transition-transform shadow-sm">+5분</button>
                                 <button onclick="adjustTimeBy('d', 10)" class="py-2 bg-white hover:bg-gray-100 border border-gray-200 text-[11px] font-bold text-gray-600 rounded-lg active:scale-95 transition-transform shadow-sm">+10분</button>
                             </div>
@@ -318,7 +320,7 @@
                     <div class="space-y-1.5 col-span-2">
                         <label class="block text-[11px] font-bold text-gray-500 pl-1">대상 호기 선택</label>
                         <div class="flex p-1 bg-gray-100 rounded-xl border border-gray-200/50 h-[54px]">
-                            <button id="btn-dispatch-target-1" onclick="selectDispatchTarget('#1CC')" class="flex-1 text-xs font-bold rounded-lg transition-all text-amber-600 bg-white shadow-sm border border-gray-100">#1CC</button>
+                            <button id="btn-dispatch-target-1" onclick="selectDispatchTarget('#1CC')" class="flex-1 text-xs font-bold rounded-lg transition-all text-blue-600 bg-white shadow-sm border border-gray-100">#1CC</button>
                             <button id="btn-dispatch-target-2" onclick="selectDispatchTarget('#2CC')" class="flex-1 text-xs font-bold rounded-lg transition-all text-gray-500 hover:text-gray-800 bg-transparent border border-transparent">#2CC</button>
                         </div>
                         <input type="hidden" id="d-target" value="#1CC">
@@ -361,7 +363,7 @@
                 <div class="grid grid-cols-2 gap-4">
                     <div class="space-y-1.5 col-span-2">
                         <div class="flex justify-between items-center pr-1 mb-1">
-                            <label class="block text-[11px] font-bold text-gray-500 pl-1">기준 시간 (24H 휠 + 퀵조정)</label>
+                            <label class="block text-[11px] font-bold text-gray-500 pl-1">기준 시간 <span class="text-cyan-600 font-extrabold">(24H 휠 + 퀵조정)</span></label>
                             <button onclick="setNow('g')" class="text-[10px] text-cyan-600 hover:text-cyan-700 font-bold flex items-center gap-1"><i class="fa-regular fa-clock"></i> 현재시간</button>
                         </div>
                         
@@ -370,7 +372,8 @@
                                 <div class="flex flex-col items-center">
                                     <span class="text-[9px] font-extrabold text-gray-400 mb-1">시 (Hour)</span>
                                     <div class="relative bg-white border border-gray-200 rounded-xl px-4 py-2 shadow-sm">
-                                        <select id="g-hour" onchange="updateTimeFromSelects('g')" class="bg-transparent text-lg font-extrabold text-gray-800 outline-none appearance-none pr-4 cursor-pointer text-center w-12"></select>
+                                        <select id="g-hour" onchange="updateTimeFromSelects('g')" class="bg-transparent text-lg font-extrabold text-gray-800 outline-none appearance-none pr-4 cursor-pointer text-center w-12">
+                                        </select>
                                         <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-gray-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
                                     </div>
                                 </div>
@@ -378,7 +381,8 @@
                                 <div class="flex flex-col items-center">
                                     <span class="text-[9px] font-extrabold text-gray-400 mb-1">분 (Minute)</span>
                                     <div class="relative bg-white border border-gray-200 rounded-xl px-4 py-2 shadow-sm">
-                                        <select id="g-minute" onchange="updateTimeFromSelects('g')" class="bg-transparent text-lg font-extrabold text-gray-800 outline-none appearance-none pr-4 cursor-pointer text-center w-12"></select>
+                                        <select id="g-minute" onchange="updateTimeFromSelects('g')" class="bg-transparent text-lg font-extrabold text-gray-800 outline-none appearance-none pr-4 cursor-pointer text-center w-12">
+                                        </select>
                                         <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-gray-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
                                     </div>
                                 </div>
@@ -386,7 +390,7 @@
                             <div class="grid grid-cols-5 gap-1.5 pt-1.5 border-t border-gray-200/65">
                                 <button onclick="adjustTimeBy('g', -10)" class="py-2 bg-white border border-gray-200 text-[11px] font-bold text-gray-600 rounded-lg shadow-sm">-10분</button>
                                 <button onclick="adjustTimeBy('g', -5)" class="py-2 bg-white border border-gray-200 text-[11px] font-bold text-gray-600 rounded-lg shadow-sm">-5분</button>
-                                <button onclick="adjustTimeBy('g', 0)" class="py-2 bg-white border border-cyan-500/50 text-[11px] font-black text-cyan-600 rounded-lg shadow-sm">정각</button>
+                                <button onclick="adjustTimeBy('g', 0)" class="py-2 bg-white border border-cyan-100 text-[11px] font-black text-cyan-600 rounded-lg shadow-sm">정각</button>
                                 <button onclick="adjustTimeBy('g', 5)" class="py-2 bg-white border border-gray-200 text-[11px] font-bold text-gray-600 rounded-lg shadow-sm">+5분</button>
                                 <button onclick="adjustTimeBy('g', 10)" class="py-2 bg-white border border-gray-200 text-[11px] font-bold text-gray-600 rounded-lg shadow-sm">+10분</button>
                             </div>
@@ -468,6 +472,7 @@
         let state2 = '운전';
 
         function initSelects() {
+            // 출력 (0~321 3단위 증가, 322 추가)
             const ids = ['i-gt11', 'i-gt12', 'i-st10', 'i-gt21', 'i-gt22', 'i-st20'];
             ids.forEach(id => {
                 const select = document.getElementById(id);
@@ -487,6 +492,7 @@
                 }
             });
 
+            // 시간 Hour(00-23)
             ['d-hour', 'g-hour'].forEach(id => {
                 const select = document.getElementById(id);
                 if(select) {
@@ -501,6 +507,7 @@
                 }
             });
 
+            // 분 Minute(00-59)
             ['d-minute', 'g-minute'].forEach(id => {
                 const select = document.getElementById(id);
                 if(select) {
@@ -526,13 +533,14 @@
                 const dd = String(today.getDate()).padStart(2, '0');
                 document.getElementById('m-date').value = `${yyyy}-${mm}-${dd}`;
                 
-                document.getElementById('i-gt11').value = 285; document.getElementById('s-gt11').value = 285;
-                document.getElementById('i-gt12').value = 285; document.getElementById('s-gt12').value = 285;
-                document.getElementById('i-st10').value = 299; document.getElementById('s-st10').value = 299;
+                // 예시에 맞춘 2+1 기본 부하 매핑 초기화
+                document.getElementById('i-gt11').value = 285; 
+                document.getElementById('i-gt12').value = 285; 
+                document.getElementById('i-st10').value = 299; 
                 
-                document.getElementById('i-gt21').value = 289; document.getElementById('s-gt21').value = 289;
-                document.getElementById('i-gt22').value = 289; document.getElementById('s-gt22').value = 289;
-                document.getElementById('i-st20').value = 297; document.getElementById('s-st20').value = 297;
+                document.getElementById('i-gt21').value = 289; 
+                document.getElementById('i-gt22').value = 289; 
+                document.getElementById('i-st20').value = 297; 
 
                 setCCState(1, '운전');
                 setCCState(2, '운전');
@@ -543,18 +551,22 @@
 
             fetchWeather();
 
-            // 입력 시 로컬스토리지에만 저장 (실시간 렌더링 X)
+            // LocalStorage 자동 저장을 위한 전역 이벤트 리스너 세팅
             document.querySelectorAll('input, select').forEach(el => {
                 if(el.id !== 'memo-morning' && el.id !== 'memo-dispatch' && el.id !== 'memo-grid') {
                     el.addEventListener('input', saveLocal);
                     el.addEventListener('change', saveLocal);
                 }
             });
+
             document.querySelectorAll('textarea').forEach(el => autoResize(el));
 
             switchTab('morning');
         }
 
+        // =====================================
+        // Local Storage 자동 저장 및 불러오기
+        // =====================================
         function saveLocal() {
             const data = {
                 mDate: document.getElementById('m-date').value,
@@ -593,19 +605,13 @@
                     document.getElementById('m-weather').value = data.mWeather || '흐림';
                     
                     document.getElementById('i-gt11').value = data.iGt11 || '0';
-                    document.getElementById('s-gt11').value = data.iGt11 || '0';
                     document.getElementById('i-gt12').value = data.iGt12 || '0';
-                    document.getElementById('s-gt12').value = data.iGt12 || '0';
                     document.getElementById('i-st10').value = data.iSt10 || '0';
-                    document.getElementById('s-st10').value = data.iSt10 || '0';
                     document.getElementById('period-1').value = data.period1 || '5/14 00:00 ~ 5/27 24:00';
                     
                     document.getElementById('i-gt21').value = data.iGt21 || '0';
-                    document.getElementById('s-gt21').value = data.iGt21 || '0';
                     document.getElementById('i-gt22').value = data.iGt22 || '0';
-                    document.getElementById('s-gt22').value = data.iGt22 || '0';
                     document.getElementById('i-st20').value = data.iSt20 || '0';
-                    document.getElementById('s-st20').value = data.iSt20 || '0';
                     document.getElementById('period-2').value = data.period2 || '5/16 00:00 ~ 5/17 19:00';
 
                     document.getElementById('memo-morning').value = data.memoMorning || '';
@@ -633,10 +639,14 @@
         }
 
         function autoResize(el) {
+            if(!el) return;
             el.style.height = 'auto';
-            el.style.height = el.scrollHeight + 'px';
+            el.style.height = (el.scrollHeight + 5) + 'px';
         }
 
+        // =====================================
+        // 시간 설정
+        // =====================================
         function updateTimeFromSelects(prefix) {
             const h = document.getElementById(`${prefix}-hour`).value;
             const m = document.getElementById(`${prefix}-minute`).value;
@@ -657,12 +667,13 @@
             setNowSilent(prefix);
             saveLocal();
             const timeStr = document.getElementById(`${prefix}-time`).value;
-            showToast(`현재 시간(${timeStr}) 주입`);
+            showToast(`현재 시간(${timeStr}) 적용`);
         }
 
         function adjustTimeBy(prefix, mins) {
             let h = parseInt(document.getElementById(`${prefix}-hour`).value) || 0;
             let m = parseInt(document.getElementById(`${prefix}-minute`).value) || 0;
+            
             if (mins === 0) {
                 m = 0;
             } else {
@@ -671,19 +682,27 @@
                 h = tempDate.getHours();
                 m = tempDate.getMinutes();
             }
+
             const newH = String(h).padStart(2, '0');
             const newM = String(m).padStart(2, '0');
+
             document.getElementById(`${prefix}-hour`).value = newH;
             document.getElementById(`${prefix}-minute`).value = newM;
             document.getElementById(`${prefix}-time`).value = `${newH}:${newM}`;
+            
             saveLocal();
         }
 
+
+        // =====================================
+        // 날씨 API
+        // =====================================
         async function fetchWeather() {
             const spinner = document.getElementById('weather-spinner');
             const tempLabel = document.getElementById('quick-weather-temp');
             const descLabel = document.getElementById('quick-weather-desc');
             const iconLabel = document.getElementById('weather-icon');
+            
             spinner.classList.add('animate-spin');
             descLabel.innerText = '동기화 중...';
 
@@ -693,7 +712,8 @@
                 const temp = data.current.temperature_2m;
                 const code = data.current.weather_code;
 
-                let txt = '흐림'; let icon = '☁️';
+                let txt = '흐림';
+                let icon = '☁️';
                 if(code === 0) { txt = '맑음'; icon = '☀️'; }
                 else if(code <= 3 || code === 45 || code === 48) { txt = '흐림'; icon = '☁️'; }
                 else if([51,53,55,56,57,61,63,65,66,67,80,81,82].includes(code)) { txt = '비'; icon = '🌧️'; }
@@ -704,6 +724,7 @@
                     document.getElementById('m-temp').value = temp.toFixed(1);
                     document.getElementById('m-weather').value = txt;
                 }
+                
                 tempLabel.innerText = `${temp.toFixed(1)}°C`;
                 descLabel.innerText = txt;
                 iconLabel.innerText = icon;
@@ -715,6 +736,9 @@
             }
         }
 
+        // =====================================
+        // 탭 UI 제어
+        // =====================================
         function switchTab(t) {
             ['morning', 'dispatch', 'grid'].forEach(tab => {
                 const btn = document.getElementById(`tab-${tab}`);
@@ -733,17 +757,8 @@
         }
 
         // =====================================
-        // [탭 1] 아침현황 적용 및 수식 로직
+        // [탭 1] 아침현황 (수동 적용 방식)
         // =====================================
-        function syncFromSlider(id) {
-            document.getElementById(`i-${id}`).value = document.getElementById(`s-${id}`).value;
-        }
-        function syncFromInput(id) {
-            let v = parseInt(document.getElementById(`i-${id}`).value) || 0;
-            v = Math.max(0, Math.min(350, v));
-            document.getElementById(`s-${id}`).value = v;
-        }
-        
         function setCCState(cc, state) {
             if(cc===1) state1 = state;
             else state2 = state;
@@ -771,27 +786,30 @@
             const isOff = (state === '정지' || state === '계획정비');
             
             ids.forEach(id => {
-                const s = document.getElementById(`s-${id}`);
-                const i = document.getElementById(`i-${id}`);
+                const select = document.getElementById(`i-${id}`);
+                const wrapper = document.getElementById(`wrap-${id}`);
                 if(isOff) {
-                    s.value = 0; i.value = 0;
-                    s.disabled = true; i.disabled = true;
-                    i.classList.add('opacity-40');
+                    select.value = 0; select.disabled = true;
+                    wrapper.classList.add('opacity-40');
                 } else {
-                    s.disabled = false; i.disabled = false;
-                    i.classList.remove('opacity-40');
+                    select.disabled = false;
+                    wrapper.classList.remove('opacity-40');
                 }
             });
+
             document.getElementById(`m-box-${cc}`).style.display = state === '계획정비' ? 'block' : 'none';
         }
 
+        // 완벽한 띄어쓰기 100% 매칭 함수 (1CC, 2CC 동일)
         function padMW(g1, g2, s) {
-            return `        ${g1.toString().padStart(3,' ')}/ ${g2.toString().padStart(3,' ')}/ ${s.toString().padStart(3,' ')}MW    `;
+            return `        ${g1.toString().padStart(3,' ')}/ ${g2.toString().padStart(3,' ')}/ ${s.toString().padStart(3,' ')}MW`;
         }
 
         function getCCBlock(cc, scheduleArr) {
             const st = (cc===1 ? state1 : state2);
             const prefix = (cc===1 ? '#1CC' : '#2CC');
+            
+            // 이름 공백 고정
             const gtNm = (cc===1 ? "11GT/12GT/10ST " : "21GT/22GT/20ST ");
             
             const g1 = parseInt(document.getElementById(cc===1?'i-gt11':'i-gt21').value)||0;
@@ -799,14 +817,14 @@
             const s = parseInt(document.getElementById(cc===1?'i-st10':'i-st20').value)||0;
             const tot = g1+g2+s;
 
-            if(st==='정지') return `    - ${prefix} 급전지시 정지 상태\n     (Total Load : 0MW)        \n     ${gtNm}\n             0/   0/  0MW`;
-            if(st==='운전') return `    - ${prefix} 2+1 운전 중\n     (Total Load : ${tot}MW)        \n     ${gtNm}\n${padMW(g1,g2,s)}`;
-            if(st==='운전11') return `    - ${prefix} 1+1 운전 중\n     (Total Load : ${tot}MW)        \n     ${gtNm}\n${padMW(g1,g2,s)}`;
-            if(st==='기동') return `    - ${prefix} 기동 중\n     (Total Load : ${tot}MW)        \n     ${gtNm}\n${padMW(g1,g2,s)}`;
+            if(st==='정지') return `    - ${prefix} 급전지시 정지 상태\n     (Total Load : 0MW)\n     ${gtNm} \n          0/   0/   0MW`;
+            if(st==='운전') return `    - ${prefix} 2+1 운전 중\n     (Total Load : ${tot}MW)\n     ${gtNm} \n${padMW(g1,g2,s)}`;
+            if(st==='운전11') return `    - ${prefix} 1+1 운전 중\n     (Total Load : ${tot}MW)\n     ${gtNm} \n${padMW(g1,g2,s)}`;
+            if(st==='기동') return `    - ${prefix} 기동 중\n     (Total Load : ${tot}MW)\n     ${gtNm} \n${padMW(g1,g2,s)}`;
             if(st==='계획정비') {
                 const per = document.getElementById(cc===1?'period-1':'period-2').value;
                 scheduleArr.push(`-${prefix} 계획정비\n      (${per})`);
-                return `    - ${prefix} 계획정비 정지 상태\n     (Total Load : 0MW)        \n     ${gtNm}\n             0/   0/  0MW`;
+                return `    - ${prefix} 계획정비 정지 상태\n     (Total Load : 0MW)\n     ${gtNm} \n          0/   0/   0MW`;
             }
             return "";
         }
@@ -814,13 +832,11 @@
         // 수동 적용 버튼 클릭 시 실행
         function renderMorningMemo() {
             const d = document.getElementById('m-date').value;
-            let dateHeader = "";
+            let dateHeader = "O월 O일(O)";
             if(d) {
                 const days = ['일','월','화','수','목','금','토'];
                 const dateObj = new Date(d);
                 dateHeader = `${dateObj.getMonth()+1}월 ${dateObj.getDate()}일(${days[dateObj.getDay()]})`;
-            } else {
-                dateHeader = "O월 O일(O)";
             }
 
             const t = document.getElementById('m-temp').value;
@@ -834,10 +850,15 @@
             let issueStr = "";
             if(sch.length > 0) {
                 issueStr = "     " + sch.join('\n     ');
-                if(issueInput && issueInput !== '없음') issueStr += `\n     -${issueInput}`;
+                if(issueInput && issueInput !== '없음') {
+                    issueStr += `\n     -${issueInput}`;
+                }
             } else {
-                if(issueInput && issueInput !== '없음') issueStr = `     -${issueInput}`;
-                else issueStr = "     -없음";
+                if(issueInput && issueInput !== '없음') {
+                    issueStr = `     -${issueInput}`;
+                } else {
+                    issueStr = `     -없음`;
+                }
             }
 
             const text = `${dateHeader} 7:00 운전현황\n\n■ 급전지시\n    - 없음\n■ 대기온도 : ${t}°C (${w})\n■ 운전현황\n${blk1}\n${blk2}\n■ 특이사항\n${issueStr}`;
@@ -856,12 +877,13 @@
             document.getElementById('d-target').value = targetVal;
             const btn1 = document.getElementById('btn-dispatch-target-1');
             const btn2 = document.getElementById('btn-dispatch-target-2');
+            
             if(targetVal === '#1CC') {
-                btn1.className = "flex-1 text-xs font-bold rounded-lg transition-all text-amber-600 bg-white shadow-sm border border-gray-100";
-                btn2.className = "flex-1 text-xs font-bold rounded-lg transition-all text-gray-500 hover:text-gray-800 bg-transparent border border-transparent";
+                btn1.className = "flex-1 text-xs font-extrabold rounded-lg py-2.5 transition-all text-blue-600 bg-white shadow-sm border border-gray-100";
+                btn2.className = "flex-1 text-xs font-extrabold rounded-lg py-2.5 transition-all text-gray-500 hover:text-gray-800 bg-transparent border border-transparent";
             } else {
-                btn1.className = "flex-1 text-xs font-bold rounded-lg transition-all text-gray-500 hover:text-gray-800 bg-transparent border border-transparent";
-                btn2.className = "flex-1 text-xs font-bold rounded-lg transition-all text-amber-600 bg-white shadow-sm border border-gray-100";
+                btn1.className = "flex-1 text-xs font-extrabold rounded-lg py-2.5 transition-all text-gray-500 hover:text-gray-800 bg-transparent border border-transparent";
+                btn2.className = "flex-1 text-xs font-extrabold rounded-lg py-2.5 transition-all text-blue-600 bg-white shadow-sm border border-gray-100";
             }
             saveLocal();
         }
@@ -869,13 +891,15 @@
         function dMake(type) {
             const time = document.getElementById('d-time').value; 
             const target = document.getElementById('d-target').value;
-            if(!time) { showToast('시간을 선택한 후 다시 눌러주세요.', 'error'); return; }
+            
+            if(!time) { showToast('시간을 설정해주세요.', 'error'); return; }
 
             let line = "";
             if(type === 'GT 추가 계통연결') line = `${time}  ${target} ${type}`; 
             else line = `${time} ${target} ${type}`;
 
             const text = `급전지시입니다.\n${line}`;
+            
             const memoEl = document.getElementById('memo-dispatch');
             memoEl.value = text;
             autoResize(memoEl);
@@ -889,20 +913,24 @@
             document.getElementById('g-target').value = targetVal;
             const btn1 = document.getElementById('btn-grid-target-1');
             const btn2 = document.getElementById('btn-grid-target-2');
+            
             if(targetVal === '1') {
-                btn1.className = "flex-1 text-xs font-bold rounded-lg transition-all text-cyan-600 bg-white shadow-sm border border-gray-100";
-                btn2.className = "flex-1 text-xs font-bold rounded-lg transition-all text-gray-500 hover:text-gray-800 bg-transparent border border-transparent";
+                btn1.className = "flex-1 text-xs font-extrabold rounded-lg py-2.5 transition-all text-cyan-600 bg-white shadow-sm border border-gray-100";
+                btn2.className = "flex-1 text-xs font-extrabold rounded-lg py-2.5 transition-all text-gray-500 hover:text-gray-800 bg-transparent border border-transparent";
             } else {
-                btn1.className = "flex-1 text-xs font-bold rounded-lg transition-all text-gray-500 hover:text-gray-800 bg-transparent border border-transparent";
-                btn2.className = "flex-1 text-xs font-bold rounded-lg transition-all text-cyan-600 bg-white shadow-sm border border-gray-100";
+                btn1.className = "flex-1 text-xs font-extrabold rounded-lg py-2.5 transition-all text-gray-500 hover:text-gray-800 bg-transparent border border-transparent";
+                btn2.className = "flex-1 text-xs font-extrabold rounded-lg py-2.5 transition-all text-cyan-600 bg-white shadow-sm border border-gray-100";
             }
             saveLocal();
         }
 
         function appendGridMemo(str) {
             const memo = document.getElementById('memo-grid');
-            if(memo.value && memo.value.trim() !== "") memo.value += "\n" + str;
-            else memo.value = str;
+            if(memo.value && memo.value.trim() !== "") {
+                memo.value += "\n" + str;
+            } else {
+                memo.value = str;
+            }
             autoResize(memo);
             saveLocal();
         }
@@ -938,7 +966,8 @@
         function subMins(timeStr, mins) {
             if(!timeStr) return "00:00";
             const [h, m] = timeStr.split(':').map(Number);
-            let d = new Date(); d.setHours(h, m - mins, 0);
+            let d = new Date();
+            d.setHours(h, m - mins, 0);
             return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
         }
 
@@ -965,9 +994,14 @@
         function copyMemo(id) {
             const text = document.getElementById(id).value;
             if(!text || text.trim() === "") { showToast("복사할 내용이 없습니다.", "error"); return; }
+
             const ta = document.createElement("textarea");
-            ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
-            document.body.appendChild(ta); ta.select();
+            ta.value = text;
+            ta.style.position = "fixed"; 
+            ta.style.opacity = "0";
+            document.body.appendChild(ta);
+            ta.select();
+
             try {
                 document.execCommand('copy');
                 showToast("📋 완벽하게 복사되었습니다!");
@@ -980,14 +1014,26 @@
         function showToast(msg, type = "success") {
             const box = document.getElementById('toast-container');
             const el = document.createElement('div');
+            
             const baseClass = "flex items-center gap-3 px-5 py-3.5 rounded-2xl text-sm font-bold shadow-2xl transition-all duration-400 translate-y-4 opacity-0 border backdrop-blur-md text-white";
-            const colorClass = type === 'success' ? "bg-slate-800 border-slate-700 shadow-black/50" : "bg-red-600 border-red-500 shadow-red-900/50";
+            const colorClass = type === 'success' 
+                ? "bg-slate-800 border-slate-700 shadow-black/50" 
+                : "bg-red-600 border-red-500 shadow-red-900/50";
+            
             const icon = type === 'success' ? '<i class="fa-solid fa-circle-check text-blue-400"></i>' : '<i class="fa-solid fa-triangle-exclamation text-white"></i>';
+
             el.className = `${baseClass} ${colorClass}`;
             el.innerHTML = `${icon} <span>${msg}</span>`;
             box.appendChild(el);
-            requestAnimationFrame(() => { setTimeout(() => el.classList.remove('translate-y-4', 'opacity-0'), 10); });
-            setTimeout(() => { el.classList.add('opacity-0', '-translate-y-2'); setTimeout(() => el.remove(), 400); }, 2500);
+            
+            requestAnimationFrame(() => {
+                setTimeout(() => el.classList.remove('translate-y-4', 'opacity-0'), 10);
+            });
+
+            setTimeout(() => {
+                el.classList.add('opacity-0', '-translate-y-2');
+                setTimeout(() => el.remove(), 400);
+            }, 2500);
         }
     </script>
 </body>
