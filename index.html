@@ -9,7 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
-            theme: { extend: { fontFamily: { sans: ['Pretendard', 'sans-serif'] } } }
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Pretendard', 'sans-serif'] },
+                }
+            }
         }
     </script>
     <style>
@@ -21,10 +25,16 @@
         .tab-active { background: #334155; color: #60a5fa; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3); font-weight: 800; border: 1px solid #475569; }
         .tab-inactive { color: #94a3b8; font-weight: 600; background: transparent; }
 
-        textarea { resize: none; line-height: 1.6; letter-spacing: -0.01em; overflow-y: hidden; }
+        textarea { resize: none; line-height: 1.7; letter-spacing: -0.02em; overflow-y: hidden; }
         select { text-align-last: center; }
 
-        @keyframes soft-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        @keyframes soft-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
         .animate-soft-pulse { animation: soft-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
     </style>
 </head>
@@ -32,272 +42,394 @@
 
     <div id="toast-container" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-3 w-full max-w-[320px] px-4 pointer-events-none"></div>
 
-    <div class="max-w-md mx-auto px-4 pt-6 space-y-5 relative">
-        <header class="bg-slate-800 rounded-3xl p-5 border border-slate-700 shadow-xl relative overflow-hidden flex flex-col gap-4">
+    <div class="max-w-md mx-auto px-4 pt-6 space-y-6 relative">
+
+        <header class="bg-slate-800 rounded-3xl p-6 border border-slate-700 shadow-xl relative overflow-hidden flex flex-col gap-4">
             <div class="absolute -right-8 -top-8 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl"></div>
+            <div class="absolute -left-8 -bottom-8 w-32 h-32 bg-indigo-500/20 rounded-full blur-2xl"></div>
+            
             <div class="relative z-10 flex justify-between items-start">
                 <div>
-                    <div class="flex items-center gap-2 mb-1">
+                    <div class="flex items-center gap-2 mb-1.5">
                         <div class="w-2.5 h-2.5 rounded-full bg-blue-400 animate-soft-pulse shadow-[0_0_8px_rgba(96,165,250,0.8)]"></div>
-                        <h1 class="text-lg font-extrabold text-white tracking-tight">스마트 보고서</h1>
+                        <span class="text-[10px] font-bold text-blue-400 tracking-wider uppercase">Paju Power Plant</span>
                     </div>
-                    <div class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-900 border border-slate-700 rounded-full mt-1.5">
-                        <i class="fa-solid fa-crown text-[11px] text-yellow-400"></i>
-                        <span class="text-[10px] font-bold text-yellow-400">천재 탱PL 제작</span>
-                    </div>
+                    <h1 class="text-2xl font-extrabold text-white tracking-tight">스마트 보고서</h1>
                 </div>
-                <button onclick="fetchWeather()" class="flex flex-col items-end gap-1 active:scale-95 transition-transform text-right">
-                    <div class="flex items-center gap-2 px-3 py-2 bg-slate-900/80 border border-slate-700 rounded-2xl">
+                <button onclick="fetchWeather()" class="group flex flex-col items-end gap-1 active:scale-95 transition-transform text-right">
+                    <div class="flex items-center gap-2 px-3 py-2 bg-slate-900/80 border border-slate-700 rounded-2xl shadow-sm transition-colors">
                         <div id="weather-icon" class="text-lg">🌤️</div>
                         <div class="flex flex-col items-start">
-                            <span id="quick-weather-temp" class="text-sm font-extrabold text-white">--°C</span>
-                            <span id="quick-weather-desc" class="text-[10px] font-semibold text-slate-400 mt-1">동기화 중</span>
+                            <span id="quick-weather-temp" class="text-sm font-extrabold text-white leading-none">--°C</span>
+                            <span id="quick-weather-desc" class="text-[10px] font-semibold text-slate-400 leading-none mt-1">동기화 중</span>
                         </div>
+                        <i id="weather-spinner" class="fa-solid fa-rotate-right text-[10px] text-slate-500 ml-1"></i>
                     </div>
                 </button>
             </div>
+            
+            <div class="relative z-10 pt-2 border-t border-slate-700/50 flex justify-between items-center">
+                <p class="text-[11px] text-blue-400 font-bold"><i class="fa-solid fa-floppy-disk"></i> 자동 저장 (Local) 활성화</p>
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-900 border border-slate-700 rounded-full shadow-md">
+                    <i class="fa-solid fa-crown text-[10px] text-yellow-400"></i>
+                    <span class="text-[10px] font-bold text-yellow-400 tracking-wide">천재 탱PL 제작</span>
+                </div>
+            </div>
         </header>
 
-        <nav class="sticky top-2 z-40 flex p-1.5 bg-slate-900/80 backdrop-blur-md rounded-2xl border border-slate-700">
-            <button onclick="switchTab('morning')" id="tab-morning" class="tab-btn flex-1 py-2.5 rounded-xl text-[11px] tab-active">아침 현황</button>
-            <button onclick="switchTab('dispatch')" id="tab-dispatch" class="tab-btn flex-1 py-2.5 rounded-xl text-[11px] tab-inactive">급전 지시</button>
-            <button onclick="switchTab('grid')" id="tab-grid" class="tab-btn flex-1 py-2.5 rounded-xl text-[11px] tab-inactive">계통 조작</button>
+        <nav class="sticky top-4 z-40 flex p-1.5 bg-slate-900/80 backdrop-blur-md rounded-2xl border border-slate-700 shadow-lg">
+            <button onclick="switchTab('morning')" id="tab-morning" class="tab-btn flex-1 py-3 rounded-xl text-xs flex items-center justify-center gap-2 tab-active">
+                <i class="fa-solid fa-sun text-[14px]"></i> 아침 현황
+            </button>
+            <button onclick="switchTab('dispatch')" id="tab-dispatch" class="tab-btn flex-1 py-3 rounded-xl text-xs flex items-center justify-center gap-2 tab-inactive">
+                <i class="fa-solid fa-tower-broadcast text-[14px]"></i> 급전 지시
+            </button>
+            <button onclick="switchTab('grid')" id="tab-grid" class="tab-btn flex-1 py-3 rounded-xl text-xs flex items-center justify-center gap-2 tab-inactive">
+                <i class="fa-solid fa-network-wired text-[14px]"></i> 계통 조작
+            </button>
         </nav>
 
         <div id="panel-morning" class="space-y-5 animate-fade-in">
-            <div class="bg-slate-800 rounded-3xl p-5 border border-slate-700 space-y-4">
-                <h3 class="text-sm font-bold text-white flex items-center gap-2"><i class="fa-regular fa-calendar-check text-blue-400"></i> 기본 정보 설정</h3>
-                <div class="grid grid-cols-2 gap-3">
+            
+            <div class="bg-slate-800 rounded-3xl p-5 border border-slate-700 space-y-4 shadow-md">
+                <div class="flex items-center gap-2 mb-2">
+                    <div class="p-1.5 bg-blue-500/20 rounded-lg text-blue-400"><i class="fa-regular fa-calendar-check text-sm"></i></div>
+                    <h3 class="text-sm font-bold text-white">기본 정보 설정</h3>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
                     <div class="space-y-1.5">
                         <label class="block text-[11px] font-bold text-slate-400 pl-1">보고 날짜</label>
-                        <input type="date" id="m-date" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-white text-xs font-bold outline-none">
+                        <input type="date" id="m-date" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm font-semibold outline-none focus:border-blue-500">
                     </div>
                     <div class="space-y-1.5">
-                        <label class="block text-[11px] font-bold text-slate-400 pl-1">대기 온도 / 날씨</label>
-                        <div class="flex gap-1.5">
-                            <input type="number" id="m-temp" step="0.1" class="w-14 bg-slate-900 border border-slate-700 rounded-xl px-1 py-2.5 text-white text-xs font-bold text-center outline-none">
-                            <select id="m-weather" class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-1 py-2.5 text-white text-xs font-bold outline-none text-center">
-                                <option value="맑음">맑음</option><option value="흐림">흐림</option><option value="비">비</option><option value="눈">눈</option>
+                        <label class="block text-[11px] font-bold text-slate-400 pl-1">대기 온도 및 날씨</label>
+                        <div class="flex gap-2">
+                            <input type="number" id="m-temp" step="0.1" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-2 py-3 text-white text-sm font-semibold text-center outline-none focus:border-blue-500">
+                            <select id="m-weather" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-2 py-3 text-white text-sm font-semibold outline-none focus:border-blue-500 appearance-none text-center">
+                                <option value="맑음">맑음 ☀️</option>
+                                <option value="흐림" selected>흐림 ☁️</option>
+                                <option value="비">비 🌧️</option>
+                                <option value="눈">눈 ❄️</option>
                             </select>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-slate-800 rounded-3xl p-5 border border-slate-700 border-l-4 border-l-blue-500">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-sm font-bold text-white flex items-center gap-2"><i class="fa-solid fa-industry text-blue-400"></i> #1CC 출력 설정</h3>
-                    <span id="badge-1cc" class="bg-blue-500/20 text-blue-300 text-[10px] font-bold px-2.5 py-1 rounded-full border border-blue-500/30">2+1 운전중</span>
+            <div class="bg-slate-800 rounded-3xl p-5 border border-slate-700 border-l-4 border-l-blue-500 shadow-md">
+                <div class="flex justify-between items-center mb-5">
+                    <div class="flex items-center gap-2">
+                        <div class="p-1.5 bg-blue-500/20 rounded-lg text-blue-400"><i class="fa-solid fa-industry text-sm"></i></div>
+                        <h3 class="text-sm font-bold text-white">#1CC 출력 설정</h3>
+                    </div>
+                    <span id="badge-1cc" class="bg-blue-500/20 text-blue-300 text-[10px] font-bold px-3 py-1.5 rounded-full border border-blue-500/30">2+1 운전중</span>
                 </div>
-                <div class="grid grid-cols-5 gap-1.5 mb-4">
+                
+                <div class="grid grid-cols-5 gap-2 mb-5">
                     <button onclick="setCCState(1, '정지')" id="btn-1-정지" class="py-2.5 rounded-xl border border-slate-700 bg-slate-900 text-[11px] font-bold text-slate-400">정지</button>
-                    <button onclick="setCCState(1, '운전')" id="btn-1-운전" class="py-2.5 rounded-xl border border-slate-700 bg-slate-900 text-[11px] font-bold text-slate-400">2+1</button>
+                    <button onclick="setCCState(1, '운전')" id="btn-1-운전" class="py-2.5 rounded-xl border border-blue-500 bg-blue-600/20 text-[11px] font-bold text-blue-400">2+1</button>
                     <button onclick="setCCState(1, '운전11')" id="btn-1-운전11" class="py-2.5 rounded-xl border border-slate-700 bg-slate-900 text-[11px] font-bold text-slate-400">1+1</button>
                     <button onclick="setCCState(1, '기동')" id="btn-1-기동" class="py-2.5 rounded-xl border border-slate-700 bg-slate-900 text-[11px] font-bold text-slate-400">기동</button>
                     <button onclick="setCCState(1, '계획정비')" id="btn-1-계획정비" class="py-2.5 rounded-xl border border-slate-700 bg-slate-900 text-[11px] font-bold text-slate-400">정비</button>
                 </div>
-                <div id="m-box-1" class="hidden bg-slate-900 border border-slate-700 p-3 rounded-xl mb-4">
-                    <label class="block text-[10px] font-bold text-slate-400 mb-1 pl-1">정비 기간</label>
-                    <input type="text" id="period-1" value="5/14 00:00 ~ 5/27 24:00" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs font-semibold text-white outline-none">
+
+                <div id="m-box-1" class="hidden bg-slate-900/50 border border-slate-700 p-3 rounded-2xl mb-4">
+                    <label class="block text-[10px] font-bold text-slate-400 mb-1 pl-1">정비 기간 입력</label>
+                    <input type="text" id="period-1" value="5/14 00:00 ~ 5/27 24:00" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm font-semibold text-white outline-none focus:border-blue-400">
                 </div>
+
                 <div class="space-y-2.5">
-                    <div class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700">
-                        <span class="text-[12px] font-extrabold text-slate-400 pl-2">11GT 출력</span>
-                        <select id="i-gt11" onchange="iSync()" class="w-24 bg-slate-800 border border-slate-600 rounded-lg py-2 text-center text-sm font-bold text-white outline-none"></select>
+                    <div id="wrap-gt11" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
+                        <span class="text-[13px] font-extrabold text-slate-400 ml-2">11GT 출력</span>
+                        <div class="relative w-36">
+                            <select id="i-gt11" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer"></select>
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW</span>
+                        </div>
                     </div>
-                    <div class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700">
-                        <span class="text-[12px] font-extrabold text-slate-400 pl-2">12GT 출력</span>
-                        <select id="i-gt12" onchange="iSync()" class="w-24 bg-slate-800 border border-slate-600 rounded-lg py-2 text-center text-sm font-bold text-white outline-none"></select>
+                    <div id="wrap-gt12" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
+                        <span class="text-[13px] font-extrabold text-slate-400 ml-2">12GT 출력</span>
+                        <div class="relative w-36">
+                            <select id="i-gt12" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer"></select>
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW</span>
+                        </div>
                     </div>
-                    <div class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700">
-                        <span class="text-[12px] font-extrabold text-slate-400 pl-2">10ST 출력</span>
-                        <select id="i-st10" onchange="iSync()" class="w-24 bg-slate-800 border border-slate-600 rounded-lg py-2 text-center text-sm font-bold text-white outline-none"></select>
+                    <div id="wrap-st10" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
+                        <span class="text-[13px] font-extrabold text-slate-400 ml-2">10ST 출력</span>
+                        <div class="relative w-36">
+                            <select id="i-st10" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer"></select>
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-slate-800 rounded-3xl p-5 border border-slate-700 border-l-4 border-l-teal-500">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-sm font-bold text-white flex items-center gap-2"><i class="fa-solid fa-industry text-teal-400"></i> #2CC 출력 설정</h3>
-                    <span id="badge-2cc" class="bg-teal-500/20 text-teal-300 text-[10px] font-bold px-2.5 py-1 rounded-full border border-teal-500/30">2+1 운전중</span>
+            <div class="bg-slate-800 rounded-3xl p-5 border border-slate-700 border-l-4 border-l-teal-500 shadow-md">
+                <div class="flex justify-between items-center mb-5">
+                    <div class="flex items-center gap-2">
+                        <div class="p-1.5 bg-teal-500/20 rounded-lg text-teal-400"><i class="fa-solid fa-industry text-sm"></i></div>
+                        <h3 class="text-sm font-bold text-white">#2CC 출력 설정</h3>
+                    </div>
+                    <span id="badge-2cc" class="bg-teal-500/20 text-teal-300 text-[10px] font-bold px-3 py-1.5 rounded-full border border-teal-500/30">2+1 운전중</span>
                 </div>
-                <div class="grid grid-cols-5 gap-1.5 mb-4">
+                
+                <div class="grid grid-cols-5 gap-2 mb-5">
                     <button onclick="setCCState(2, '정지')" id="btn-2-정지" class="py-2.5 rounded-xl border border-slate-700 bg-slate-900 text-[11px] font-bold text-slate-400">정지</button>
-                    <button onclick="setCCState(2, '운전')" id="btn-2-운전" class="py-2.5 rounded-xl border border-slate-700 bg-slate-900 text-[11px] font-bold text-slate-400">2+1</button>
+                    <button onclick="setCCState(2, '운전')" id="btn-2-운전" class="py-2.5 rounded-xl border border-teal-500 bg-teal-600/20 text-[11px] font-bold text-teal-400">2+1</button>
                     <button onclick="setCCState(2, '운전21')" id="btn-2-운전21" class="py-2.5 rounded-xl border border-slate-700 bg-slate-900 text-[11px] font-bold text-slate-400">1+1</button>
                     <button onclick="setCCState(2, '기동')" id="btn-2-기동" class="py-2.5 rounded-xl border border-slate-700 bg-slate-900 text-[11px] font-bold text-slate-400">기동</button>
                     <button onclick="setCCState(2, '계획정비')" id="btn-2-계획정비" class="py-2.5 rounded-xl border border-slate-700 bg-slate-900 text-[11px] font-bold text-slate-400">정비</button>
                 </div>
-                <div id="m-box-2" class="hidden bg-slate-900 border border-slate-700 p-3 rounded-xl mb-4">
-                    <label class="block text-[10px] font-bold text-slate-400 mb-1 pl-1">정비 기간</label>
-                    <input type="text" id="period-2" value="5/16 00:00 ~ 5/17 19:00" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs font-semibold text-white outline-none">
+
+                <div id="m-box-2" class="hidden bg-slate-900/50 border border-slate-700 p-3 rounded-2xl mb-4">
+                    <label class="block text-[10px] font-bold text-slate-400 mb-1 pl-1">정비 기간 입력</label>
+                    <input type="text" id="period-2" value="5/16 00:00 ~ 5/17 19:00" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm font-semibold text-white outline-none focus:border-teal-400 shadow-sm">
                 </div>
+
                 <div class="space-y-2.5">
-                    <div class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700">
-                        <span class="text-[12px] font-extrabold text-slate-400 pl-2">21GT 출력</span>
-                        <select id="i-gt21" onchange="iSync()" class="w-24 bg-slate-800 border border-slate-600 rounded-lg py-2 text-center text-sm font-bold text-white outline-none"></select>
+                    <div id="wrap-gt21" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
+                        <span class="text-[13px] font-extrabold text-slate-400 ml-2">21GT 출력</span>
+                        <div class="relative w-36">
+                            <select id="i-gt21" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer"></select>
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW</span>
+                        </div>
                     </div>
-                    <div class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700">
-                        <span class="text-[12px] font-extrabold text-slate-400 pl-2">22GT 출력</span>
-                        <select id="i-gt22" onchange="iSync()" class="w-24 bg-slate-800 border border-slate-600 rounded-lg py-2 text-center text-sm font-bold text-white outline-none"></select>
+                    <div id="wrap-gt22" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
+                        <span class="text-[13px] font-extrabold text-slate-400 ml-2">22GT 출력</span>
+                        <div class="relative w-36">
+                            <select id="i-gt22" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer"></select>
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW</span>
+                        </div>
                     </div>
-                    <div class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700">
-                        <span class="text-[12px] font-extrabold text-slate-400 pl-2">20ST 출력</span>
-                        <select id="i-st20" onchange="iSync()" class="w-24 bg-slate-800 border border-slate-600 rounded-lg py-2 text-center text-sm font-bold text-white outline-none"></select>
+                    <div id="wrap-st20" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
+                        <span class="text-[13px] font-extrabold text-slate-400 ml-2">20ST 출력</span>
+                        <div class="relative w-36">
+                            <select id="i-st20" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer"></select>
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-slate-800 rounded-3xl p-5 border border-slate-700">
-                <label class="block text-slate-400 text-xs font-bold mb-2">특이사항 추가</label>
-                <input type="text" id="m-issue" value="없음" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-xs font-semibold outline-none">
+            <div class="bg-slate-800 rounded-3xl p-5 border border-slate-700 shadow-md">
+                <label class="block text-slate-400 text-xs font-bold mb-2 pl-1">특이사항 추가</label>
+                <input type="text" id="m-issue" value="없음" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-xs font-semibold outline-none focus:border-blue-500 shadow-sm">
             </div>
 
-            <button onclick="renderMorningMemo()" class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-extrabold text-sm transition-all active:scale-95 flex items-center justify-center gap-2">
+            <button onclick="renderMorningMemo()" class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-extrabold text-sm shadow-lg shadow-blue-500/30 transition-all active:scale-95 flex items-center justify-center gap-2 mt-4 mb-2">
                 <i class="fa-solid fa-wand-magic-sparkles"></i> 설정한 수치 메모장에 적용하기
             </button>
 
-            <div class="bg-[#0f172a] rounded-3xl border border-slate-700 overflow-hidden relative">
-                <div class="flex justify-between items-center px-4 py-3 bg-[#1e293b] border-b border-slate-700">
-                    <span class="text-[11px] font-bold text-slate-400 tracking-wide">Morning_Report.txt</span>
+            <div class="bg-[#0f172a] rounded-3xl shadow-xl border border-slate-700 overflow-hidden relative mt-4">
+                <div class="flex justify-between items-center px-4 py-3 bg-[#1e293b] border-b border-slate-700 sticky top-0 z-10">
+                    <div class="flex gap-1.5 items-center">
+                        <div class="flex gap-1 mr-1">
+                            <div class="w-2.5 h-2.5 rounded-full bg-red-500"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-yellow-500"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-green-500"></div>
+                        </div>
+                        <span class="text-[11px] font-bold text-slate-400 tracking-wide">Morning_Report.txt</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="copyMemo('memo-morning')" class="text-[10px] bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded-lg transition-colors flex items-center gap-1 font-bold shadow-md">
+                            <i class="fa-regular fa-copy"></i> 전체 복사
+                        </button>
+                    </div>
                 </div>
-                <textarea id="memo-morning" oninput="autoResize(this)" class="w-full min-h-[150px] bg-transparent text-emerald-400 p-5 font-mono text-[13px] outline-none leading-relaxed"></textarea>
-                <button onclick="copyMemo('memo-morning')" class="absolute bottom-5 right-5 bg-blue-600 text-white rounded-full px-5 py-3 flex items-center gap-2 text-xs font-extrabold active:scale-95">
-                    <i class="fa-solid fa-copy"></i> 복사하기
-                </button>
+                <textarea id="memo-morning" oninput="autoResize(this); saveLocal();" class="w-full min-h-[300px] bg-transparent text-emerald-400 p-5 font-mono text-[13px] outline-none leading-relaxed"></textarea>
             </div>
         </div>
 
+
         <div id="panel-dispatch" class="hidden space-y-5 animate-fade-in">
-            <div class="bg-slate-800 rounded-3xl p-5 border border-slate-700 border-l-4 border-l-amber-500">
-                <h3 class="text-sm font-bold text-white mb-4"><i class="fa-solid fa-bolt-lightning text-amber-500"></i> 급전 지시 설정</h3>
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                    <div class="col-span-2">
-                        <div class="flex justify-between mb-1">
-                            <label class="text-[11px] font-bold text-slate-400">지시 시간</label>
-                            <button onclick="setNow('d')" class="text-[10px] text-blue-400 font-bold">현재시간</button>
+            
+            <div class="bg-slate-800 rounded-3xl p-5 space-y-5 border border-slate-700 border-l-4 border-l-amber-500 shadow-md">
+                <div class="flex items-center gap-2">
+                    <div class="p-1.5 bg-amber-500/20 rounded-lg text-amber-500"><i class="fa-solid fa-bolt-lightning text-sm"></i></div>
+                    <h3 class="text-sm font-bold text-white">급전 지시 설정</h3>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1.5 col-span-2">
+                        <div class="flex justify-between items-center pr-1 mb-1">
+                            <label class="block text-[11px] font-bold text-slate-400 pl-1">지시 시간 <span class="text-amber-500 font-extrabold">(24H 휠 + 퀵조정)</span></label>
+                            <button onclick="setNow('d')" class="text-[10px] text-blue-400 hover:text-blue-300 font-bold flex items-center gap-1"><i class="fa-regular fa-clock"></i> 현재시간</button>
                         </div>
-                        <div class="bg-slate-900 border border-slate-700 rounded-xl p-3 flex justify-center items-center gap-2">
-                            <select id="d-hour" onchange="updateTimeFromSelects('d')" class="bg-slate-800 text-white font-bold rounded-lg px-2 py-1.5 w-16 outline-none text-center"></select>
-                            <span class="text-slate-400 font-bold">:</span>
-                            <select id="d-minute" onchange="updateTimeFromSelects('d')" class="bg-slate-800 text-white font-bold rounded-lg px-2 py-1.5 w-16 outline-none text-center"></select>
+                        
+                        <div class="bg-slate-900 border border-slate-700 rounded-2xl p-3 flex flex-col gap-2.5 shadow-inner">
+                            <div class="flex items-center justify-center gap-4">
+                                <div class="flex flex-col items-center">
+                                    <span class="text-[9px] font-extrabold text-slate-500 mb-1">시 (Hour)</span>
+                                    <div class="relative bg-slate-800 border border-slate-600 rounded-xl px-4 py-2 shadow-sm">
+                                        <select id="d-hour" onchange="updateTimeFromSelects('d')" class="bg-transparent text-lg font-extrabold text-white outline-none appearance-none pr-4 cursor-pointer text-center w-12"></select>
+                                        <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
+                                    </div>
+                                </div>
+                                <span class="text-2xl font-black text-slate-600 mt-4">:</span>
+                                <div class="flex flex-col items-center">
+                                    <span class="text-[9px] font-extrabold text-slate-500 mb-1">분 (Minute)</span>
+                                    <div class="relative bg-slate-800 border border-slate-600 rounded-xl px-4 py-2 shadow-sm">
+                                        <select id="d-minute" onchange="updateTimeFromSelects('d')" class="bg-transparent text-lg font-extrabold text-white outline-none appearance-none pr-4 cursor-pointer text-center w-12"></select>
+                                        <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-5 gap-1.5 pt-1.5 border-t border-slate-700/50">
+                                <button onclick="adjustTimeBy('d', -10)" class="py-2 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-lg active:scale-95 transition-transform">-10분</button>
+                                <button onclick="adjustTimeBy('d', -5)" class="py-2 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-lg active:scale-95 transition-transform">-5분</button>
+                                <button onclick="adjustTimeBy('d', 0)" class="py-2 bg-slate-800 border border-amber-500/50 text-[11px] font-black text-amber-500 rounded-lg active:scale-95 transition-transform">정각</button>
+                                <button onclick="adjustTimeBy('d', 5)" class="py-2 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-lg active:scale-95 transition-transform">+5분</button>
+                                <button onclick="adjustTimeBy('d', 10)" class="py-2 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-lg active:scale-95 transition-transform">+10분</button>
+                            </div>
                         </div>
-                        <div class="grid grid-cols-5 gap-1 mt-2">
-                            <button onclick="adjustTimeBy('d', -10)" class="py-1.5 bg-slate-800 border border-slate-600 text-[10px] font-bold text-slate-300 rounded-lg">-10분</button>
-                            <button onclick="adjustTimeBy('d', -5)" class="py-1.5 bg-slate-800 border border-slate-600 text-[10px] font-bold text-slate-300 rounded-lg">-5분</button>
-                            <button onclick="adjustTimeBy('d', 0)" class="py-1.5 bg-slate-800 border border-amber-500/50 text-[10px] font-bold text-amber-400 rounded-lg">정각</button>
-                            <button onclick="adjustTimeBy('d', 5)" class="py-1.5 bg-slate-800 border border-slate-600 text-[10px] font-bold text-slate-300 rounded-lg">+5분</button>
-                            <button onclick="adjustTimeBy('d', 10)" class="py-1.5 bg-slate-800 border border-slate-600 text-[10px] font-bold text-slate-300 rounded-lg">+10분</button>
-                        </div>
-                        <input type="hidden" id="d-time">
+                        <input type="hidden" id="d-time" value="">
                     </div>
-                    <div class="col-span-2">
-                        <label class="block text-[11px] font-bold text-slate-400 mb-1">대상 호기</label>
-                        <div class="flex p-1 bg-slate-900 rounded-xl border border-slate-700">
-                            <button id="btn-d-target-1" onclick="selectDispatchTarget('#1CC')" class="flex-1 text-xs font-bold py-2 rounded-lg text-blue-400 bg-slate-800 border border-slate-600">#1CC</button>
-                            <button id="btn-d-target-2" onclick="selectDispatchTarget('#2CC')" class="flex-1 text-xs font-bold py-2 rounded-lg text-slate-500">#2CC</button>
+                    
+                    <div class="space-y-1.5 col-span-2">
+                        <label class="block text-[11px] font-bold text-slate-400 pl-1">대상 호기 선택</label>
+                        <div class="flex p-1.5 bg-slate-900 rounded-xl border border-slate-700 h-[54px]">
+                            <button id="btn-dispatch-target-1" onclick="selectDispatchTarget('#1CC')" class="flex-1 text-xs font-bold rounded-lg transition-all text-blue-400 bg-slate-800 border border-slate-600">#1CC</button>
+                            <button id="btn-dispatch-target-2" onclick="selectDispatchTarget('#2CC')" class="flex-1 text-xs font-bold rounded-lg transition-all text-slate-500 bg-transparent border border-transparent">#2CC</button>
                         </div>
                         <input type="hidden" id="d-target" value="#1CC">
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-700">
-                    <button onclick="dMake('2+1 계통연결')" class="py-3 bg-slate-900 border border-slate-700 rounded-xl text-xs font-bold text-slate-300">2+1 연결</button>
-                    <button onclick="dMake('1+1 계통연결')" class="py-3 bg-slate-900 border border-slate-700 rounded-xl text-xs font-bold text-slate-300">1+1 연결</button>
-                    <button onclick="dMake('GT 추가 계통연결')" class="py-3 bg-slate-900 border border-slate-700 rounded-xl text-xs font-bold text-slate-300 col-span-2">GT 추가 계통연결</button>
-                    <button onclick="dMake('계통분리')" class="py-3 bg-slate-900 border border-slate-700 rounded-xl text-xs font-bold text-slate-300">전체 계통분리</button>
-                    <button onclick="dMake('GT 1대 계통분리')" class="py-3 bg-slate-900 border border-slate-700 rounded-xl text-xs font-bold text-slate-300">GT 1대 분리</button>
+                <div class="space-y-1.5 pt-2 border-t border-slate-700">
+                    <label class="block text-slate-400 text-[10px] font-bold mb-1.5 ml-1 mt-2">지시 문구 빠른 생성 (원클릭 추가)</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="dMake('2+1 계통연결')" class="py-3 bg-slate-900 border border-slate-700 rounded-xl text-xs font-bold text-slate-300 hover:text-amber-400 transition-all text-center">2+1 연결</button>
+                        <button onclick="dMake('1+1 계통연결')" class="py-3 bg-slate-900 border border-slate-700 rounded-xl text-xs font-bold text-slate-300 hover:text-amber-400 transition-all text-center">1+1 연결</button>
+                        <button onclick="dMake('GT 추가 계통연결')" class="py-3 bg-slate-900 border border-slate-700 rounded-xl text-xs font-bold text-slate-300 hover:text-amber-400 transition-all text-center col-span-2">GT 추가 계통연결</button>
+                        <button onclick="dMake('계통분리')" class="py-3 bg-slate-900 border border-slate-700 rounded-xl text-xs font-bold text-slate-300 hover:text-red-400 transition-all text-center">전체 계통분리</button>
+                        <button onclick="dMake('GT 1대 계통분리')" class="py-3 bg-slate-900 border border-slate-700 rounded-xl text-xs font-bold text-slate-300 hover:text-red-400 transition-all text-center">GT 1대 분리</button>
+                    </div>
                 </div>
             </div>
 
-            <div class="bg-[#0f172a] rounded-3xl border border-slate-700 overflow-hidden relative">
+            <div class="bg-[#0f172a] rounded-3xl shadow-xl border border-slate-700 overflow-hidden relative mt-6">
                 <div class="flex justify-between items-center px-4 py-3 bg-[#1e293b] border-b border-slate-700">
                     <span class="text-[11px] font-bold text-amber-400">Dispatch_Memo.txt</span>
                 </div>
-                <textarea id="memo-dispatch" oninput="autoResize(this)" class="w-full min-h-[120px] bg-gray-800 text-gray-100 p-4 font-mono text-[13px] outline-none rounded-b-2xl"></textarea>
-                <button onclick="copyMemo('memo-dispatch')" class="absolute bottom-4 right-4 bg-amber-500 text-white rounded-full px-5 py-2.5 text-xs font-bold">복사하기</button>
+                <textarea id="memo-dispatch" oninput="autoResize(this); saveLocal();" class="w-full min-h-[120px] bg-transparent text-amber-400 p-5 font-mono text-[13px] outline-none rounded-b-2xl"></textarea>
+                
+                <button onclick="copyMemo('memo-dispatch')" class="absolute bottom-4 right-4 bg-amber-600 hover:bg-amber-500 text-white rounded-full px-5 py-2.5 flex items-center gap-2 text-xs font-extrabold active:scale-95 transition-all">
+                    <i class="fa-regular fa-copy"></i> 복사하기
+                </button>
             </div>
         </div>
 
+
         <div id="panel-grid" class="hidden space-y-5 animate-fade-in">
-            <div class="bg-slate-800 rounded-3xl p-5 border border-slate-700 border-l-4 border-l-cyan-500">
-                <h3 class="text-sm font-bold text-white mb-4"><i class="fa-solid fa-plug-circle-check text-cyan-400"></i> 계통 조작 매크로</h3>
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                    <div class="col-span-2">
-                        <div class="flex justify-between mb-1">
-                            <label class="text-[11px] font-bold text-slate-400">기준 시간</label>
-                            <button onclick="setNow('g')" class="text-[10px] text-cyan-400 font-bold">현재시간</button>
+            
+            <div class="bg-slate-800 rounded-3xl p-5 space-y-6 border border-slate-700 border-l-4 border-l-cyan-500 shadow-md">
+                <div class="flex items-center gap-2">
+                    <div class="p-1.5 bg-cyan-500/20 rounded-lg text-cyan-400"><i class="fa-solid fa-plug-circle-check text-sm"></i></div>
+                    <h3 class="text-sm font-bold text-white">계통 조작 매크로</h3>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1.5 col-span-2">
+                        <div class="flex justify-between items-center pr-1 mb-1">
+                            <label class="block text-[11px] font-bold text-slate-400 pl-1">기준 시간 <span class="text-cyan-500 font-extrabold">(24H 휠 + 퀵조정)</span></label>
+                            <button onclick="setNow('g')" class="text-[10px] text-cyan-400 hover:text-cyan-300 font-bold flex items-center gap-1"><i class="fa-regular fa-clock"></i> 현재시간</button>
                         </div>
-                        <div class="bg-slate-900 border border-slate-700 rounded-xl p-3 flex justify-center items-center gap-2">
-                            <select id="g-hour" onchange="updateTimeFromSelects('g')" class="bg-slate-800 text-white font-bold rounded-lg px-2 py-1.5 w-16 outline-none text-center"></select>
-                            <span class="text-slate-400 font-bold">:</span>
-                            <select id="g-minute" onchange="updateTimeFromSelects('g')" class="bg-slate-800 text-white font-bold rounded-lg px-2 py-1.5 w-16 outline-none text-center"></select>
+                        
+                        <div class="bg-slate-900 border border-slate-700 rounded-2xl p-3 flex flex-col gap-2.5 shadow-inner">
+                            <div class="flex items-center justify-center gap-4">
+                                <div class="flex flex-col items-center">
+                                    <span class="text-[9px] font-extrabold text-slate-500 mb-1">시 (Hour)</span>
+                                    <div class="relative bg-slate-800 border border-slate-600 rounded-xl px-4 py-2 shadow-sm">
+                                        <select id="g-hour" onchange="updateTimeFromSelects('g')" class="bg-transparent text-lg font-extrabold text-white outline-none appearance-none pr-4 cursor-pointer text-center w-12"></select>
+                                        <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
+                                    </div>
+                                </div>
+                                <span class="text-2xl font-black text-slate-600 mt-4">:</span>
+                                <div class="flex flex-col items-center">
+                                    <span class="text-[9px] font-extrabold text-slate-500 mb-1">분 (Minute)</span>
+                                    <div class="relative bg-slate-800 border border-slate-600 rounded-xl px-4 py-2 shadow-sm">
+                                        <select id="g-minute" onchange="updateTimeFromSelects('g')" class="bg-transparent text-lg font-extrabold text-white outline-none appearance-none pr-4 cursor-pointer text-center w-12"></select>
+                                        <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-5 gap-1.5 pt-1.5 border-t border-slate-700/65">
+                                <button onclick="adjustTimeBy('g', -10)" class="py-2 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-lg shadow-sm active:scale-95 transition-transform">-10분</button>
+                                <button onclick="adjustTimeBy('g', -5)" class="py-2 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-lg shadow-sm active:scale-95 transition-transform">-5분</button>
+                                <button onclick="adjustTimeBy('g', 0)" class="py-2 bg-slate-800 border border-cyan-500/50 text-[11px] font-black text-cyan-400 rounded-lg shadow-sm active:scale-95 transition-transform">정각</button>
+                                <button onclick="adjustTimeBy('g', 5)" class="py-2 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-lg shadow-sm active:scale-95 transition-transform">+5분</button>
+                                <button onclick="adjustTimeBy('g', 10)" class="py-2 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-lg shadow-sm active:scale-95 transition-transform">+10분</button>
+                            </div>
                         </div>
-                        <div class="grid grid-cols-5 gap-1 mt-2">
-                            <button onclick="adjustTimeBy('g', -10)" class="py-1.5 bg-slate-800 border border-slate-600 text-[10px] font-bold text-slate-300 rounded-lg">-10분</button>
-                            <button onclick="adjustTimeBy('g', -5)" class="py-1.5 bg-slate-800 border border-slate-600 text-[10px] font-bold text-slate-300 rounded-lg">-5분</button>
-                            <button onclick="adjustTimeBy('g', 0)" class="py-1.5 bg-slate-800 border border-cyan-500/50 text-[10px] font-bold text-cyan-400 rounded-lg">정각</button>
-                            <button onclick="adjustTimeBy('g', 5)" class="py-1.5 bg-slate-800 border border-slate-600 text-[10px] font-bold text-slate-300 rounded-lg">+5분</button>
-                            <button onclick="adjustTimeBy('g', 10)" class="py-1.5 bg-slate-800 border border-slate-600 text-[10px] font-bold text-slate-300 rounded-lg">+10분</button>
-                        </div>
-                        <input type="hidden" id="g-time">
+                        <input type="hidden" id="g-time" value="">
                     </div>
-                    <div class="col-span-2">
-                        <label class="block text-[11px] font-bold text-slate-400 mb-1">대상 호기</label>
-                        <div class="flex p-1 bg-slate-900 rounded-xl border border-slate-700">
-                            <button id="btn-g-target-1" onclick="selectGridTarget('1')" class="flex-1 text-xs font-bold py-2 rounded-lg text-cyan-400 bg-slate-800 border border-slate-600">#1CC</button>
-                            <button id="btn-g-target-2" onclick="selectGridTarget('2')" class="flex-1 text-xs font-bold py-2 rounded-lg text-slate-500">#2CC</button>
+                    
+                    <div class="space-y-1.5 col-span-2">
+                        <label class="block text-[11px] font-bold text-slate-400 pl-1">대상 호기 선택</label>
+                        <div class="flex p-1.5 bg-slate-900 rounded-xl border border-slate-700 h-[54px]">
+                            <button id="btn-grid-target-1" onclick="selectGridTarget('1')" class="flex-1 text-xs font-bold rounded-lg transition-all text-cyan-400 bg-slate-800 border border-slate-600">#1CC</button>
+                            <button id="btn-grid-target-2" onclick="selectGridTarget('2')" class="flex-1 text-xs font-bold rounded-lg transition-all text-slate-500 bg-transparent border border-transparent">#2CC</button>
                         </div>
                         <input type="hidden" id="g-target" value="1">
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-3 mb-3">
-                    <div class="p-3 bg-slate-900 rounded-xl border border-slate-700">
-                        <label class="block text-slate-400 text-[11px] font-bold mb-2 text-center">연결 추가</label>
+                <div class="grid grid-cols-2 gap-3 mt-2">
+                    <div class="p-3 bg-slate-900 rounded-2xl border border-slate-700 shadow-inner">
+                        <label class="block text-slate-400 text-[11px] font-extrabold mb-2.5 text-center">연결 추가 (건별)</label>
                         <div class="flex flex-col gap-1.5">
-                            <button onclick="gAddConnect('GT1')" class="py-2 bg-slate-800 rounded-lg text-[10px] font-bold text-slate-300">GT1 연결</button>
-                            <button onclick="gAddConnect('GT2')" class="py-2 bg-slate-800 rounded-lg text-[10px] font-bold text-slate-300">GT2 연결</button>
-                            <button onclick="gAddConnect('ST')" class="py-2 bg-slate-800 rounded-lg text-[10px] font-bold text-slate-300">ST 연결</button>
+                            <button onclick="gAddConnect('GT1')" class="py-2 bg-slate-800 border border-slate-600 rounded-lg text-[10px] font-bold text-slate-300 shadow-sm active:scale-95 transition-transform">GT1 연결</button>
+                            <button onclick="gAddConnect('GT2')" class="py-2 bg-slate-800 border border-slate-600 rounded-lg text-[10px] font-bold text-slate-300 shadow-sm active:scale-95 transition-transform">GT2 연결</button>
+                            <button onclick="gAddConnect('ST')" class="py-2 bg-slate-800 border border-slate-600 rounded-lg text-[10px] font-bold text-slate-300 shadow-sm active:scale-95 transition-transform">ST 연결</button>
                         </div>
                     </div>
-                    <div class="p-3 bg-slate-900 rounded-xl border border-slate-700">
-                        <label class="block text-slate-400 text-[11px] font-bold mb-2 text-center">분리 추가</label>
+                    
+                    <div class="p-3 bg-slate-900 rounded-2xl border border-slate-700 shadow-inner">
+                        <label class="block text-slate-400 text-[11px] font-extrabold mb-2.5 text-center">분리 추가 (건별)</label>
                         <div class="flex flex-col gap-1.5">
-                            <button onclick="gAddSeparateSingle('GT1')" class="py-2 bg-slate-800 rounded-lg text-[10px] font-bold text-slate-300">GT1 분리</button>
-                            <button onclick="gAddSeparateSingle('GT2')" class="py-2 bg-slate-800 rounded-lg text-[10px] font-bold text-slate-300">GT2 분리</button>
-                            <button onclick="gAddSeparateSingle('ST')" class="py-2 bg-slate-800 rounded-lg text-[10px] font-bold text-slate-300">ST 분리</button>
+                            <button onclick="gAddSeparateSingle('GT1')" class="py-2 bg-slate-800 border border-slate-600 rounded-lg text-[10px] font-bold text-slate-300 shadow-sm active:scale-95 transition-transform">GT1 분리</button>
+                            <button onclick="gAddSeparateSingle('GT2')" class="py-2 bg-slate-800 border border-slate-600 rounded-lg text-[10px] font-bold text-slate-300 shadow-sm active:scale-95 transition-transform">GT2 분리</button>
+                            <button onclick="gAddSeparateSingle('ST')" class="py-2 bg-slate-800 border border-slate-600 rounded-lg text-[10px] font-bold text-slate-300 shadow-sm active:scale-95 transition-transform">ST 분리</button>
                         </div>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
-                    <div class="p-3 bg-slate-900 rounded-xl border border-slate-700">
-                        <label class="block text-indigo-400 text-[11px] font-bold mb-2 text-center">AGC 제어</label>
+                    <div class="p-3 bg-slate-900 rounded-2xl border border-slate-700 shadow-inner">
+                        <label class="block text-indigo-400 text-[11px] font-extrabold mb-2.5 text-center">AGC 제어</label>
                         <div class="flex flex-col gap-1.5">
-                            <button onclick="gAddAgc('2+1')" class="py-2 bg-indigo-900/40 rounded-lg text-[10px] font-bold text-indigo-300">AGC On (2+1)</button>
-                            <button onclick="gAddAgc('1+1')" class="py-2 bg-indigo-900/40 rounded-lg text-[10px] font-bold text-indigo-300">AGC On (1+1)</button>
+                            <button onclick="gAddAgc('2+1')" class="py-2 bg-slate-800 border border-indigo-500/50 rounded-lg text-[10px] font-bold text-indigo-400 shadow-sm active:scale-95 transition-transform">AGC On (2+1)</button>
+                            <button onclick="gAddAgc('1+1')" class="py-2 bg-slate-800 border border-indigo-500/50 rounded-lg text-[10px] font-bold text-indigo-400 shadow-sm active:scale-95 transition-transform">AGC On (1+1)</button>
                         </div>
                     </div>
-                    <div class="p-3 bg-cyan-900/20 rounded-xl border border-cyan-500/30">
-                        <label class="block text-cyan-400 text-[11px] font-bold mb-2 text-center">자동 매크로</label>
-                        <button onclick="gAddSeparate('2+1')" class="w-full h-14 bg-cyan-600 text-white rounded-lg text-xs font-bold flex flex-col items-center justify-center">
-                            <span>2+1 분리 연산</span>
-                            <span class="text-[9px] font-normal opacity-80">-19분/-10분/-2분</span>
-                        </button>
+                    
+                    <div class="p-3 bg-cyan-900/20 rounded-2xl border border-cyan-500/30 shadow-inner">
+                        <label class="block text-cyan-400 text-[11px] font-extrabold mb-2.5 text-center">시차분리 매크로</label>
+                        <div class="flex h-[calc(100%-25px)]">
+                            <button onclick="gAddSeparate('2+1')" class="w-full h-full bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl text-xs font-extrabold shadow-sm active:scale-95 transition-all flex flex-col items-center justify-center gap-1.5">
+                                <span>2+1 분리 연산</span>
+                                <span class="text-[9px] font-normal opacity-80 leading-tight">-19분/-10분/-2분</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-[#0f172a] rounded-3xl border border-slate-700 overflow-hidden relative">
+            <div class="bg-[#0f172a] rounded-3xl shadow-xl border border-slate-700 overflow-hidden relative mt-6">
                 <div class="flex justify-between items-center px-4 py-3 bg-[#1e293b] border-b border-slate-700">
                     <span class="text-[11px] font-bold text-cyan-400">Grid_Operation.txt</span>
-                    <button onclick="document.getElementById('memo-grid').value=''" class="text-[10px] text-gray-400 bg-gray-700 px-2 py-1 rounded">지우기 <i class="fa-solid fa-trash"></i></button>
+                    <button onclick="document.getElementById('memo-grid').value=''; autoResize(document.getElementById('memo-grid')); saveLocal();" class="text-[10px] text-slate-300 bg-slate-700 px-2 py-1 rounded-md hover:text-white transition-colors">
+                        비우기 <i class="fa-solid fa-trash ml-1"></i>
+                    </button>
                 </div>
-                <textarea id="memo-grid" oninput="autoResize(this)" class="w-full min-h-[150px] bg-gray-800 text-gray-100 p-4 font-mono text-[13px] outline-none rounded-b-2xl placeholder-gray-500" placeholder="버튼을 누르면 여기에 조작 문구가 생성됩니다."></textarea>
-                <button onclick="copyMemo('memo-grid')" class="absolute bottom-4 right-4 bg-cyan-600 text-white rounded-full px-5 py-2.5 text-xs font-bold">복사하기</button>
+                <textarea id="memo-grid" oninput="autoResize(this); saveLocal();" class="w-full min-h-[150px] bg-transparent text-cyan-400 p-5 font-mono text-[13px] outline-none placeholder-slate-600 leading-relaxed" placeholder="버튼을 누르면 여기에 조작 문구가 생성됩니다."></textarea>
+                
+                <button onclick="copyMemo('memo-grid')" class="absolute bottom-4 right-4 bg-cyan-600 hover:bg-cyan-500 text-white shadow-xl shadow-cyan-600/30 rounded-full px-5 py-2.5 flex items-center gap-2 text-xs font-extrabold active:scale-95 transition-all">
+                    <i class="fa-regular fa-copy"></i> 복사하기
+                </button>
             </div>
         </div>
+
     </div>
 
     <script>
@@ -310,7 +442,9 @@
                 const select = document.getElementById(id);
                 if(select) {
                     select.innerHTML = '';
-                    for(let i=0; i<=321; i+=3) select.add(new Option(i, i));
+                    for(let i=0; i<=321; i+=3) {
+                        select.add(new Option(i, i));
+                    }
                     select.add(new Option(322, 322));
                     select.value = 0;
                 }
@@ -366,6 +500,7 @@
 
             fetchWeather();
 
+            // 모든 폼 요소 변경 시 로컬에 저장만 함. (메모장은 수동 적용 시에만 변경됨)
             document.querySelectorAll('input, select').forEach(el => {
                 if(el.id !== 'memo-morning' && el.id !== 'memo-dispatch' && el.id !== 'memo-grid') {
                     el.addEventListener('input', saveLocal);
@@ -374,6 +509,118 @@
             });
 
             switchTab('morning');
+        }
+
+        function saveLocal() {
+            const data = {
+                mDate: document.getElementById('m-date').value,
+                mTemp: document.getElementById('m-temp').value,
+                mWeather: document.getElementById('m-weather').value,
+                iGt11: document.getElementById('i-gt11').value,
+                iGt12: document.getElementById('i-gt12').value,
+                iSt10: document.getElementById('i-st10').value,
+                period1: document.getElementById('period-1').value,
+                state1: state1,
+                iGt21: document.getElementById('i-gt21').value,
+                iGt22: document.getElementById('i-gt22').value,
+                iSt20: document.getElementById('i-st20').value,
+                period2: document.getElementById('period-2').value,
+                state2: state2,
+                memoMorning: document.getElementById('memo-morning').value,
+                memoDispatch: document.getElementById('memo-dispatch').value,
+                memoGrid: document.getElementById('memo-grid').value,
+                dHour: document.getElementById('d-hour').value,
+                dMinute: document.getElementById('d-minute').value,
+                dTarget: document.getElementById('d-target').value,
+                gHour: document.getElementById('g-hour').value,
+                gMinute: document.getElementById('g-minute').value,
+                gTarget: document.getElementById('g-target').value,
+            };
+            localStorage.setItem('pajuReportDataV3', JSON.stringify(data));
+        }
+
+        function loadLocal() {
+            const saved = localStorage.getItem('pajuReportDataV3');
+            if(saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    document.getElementById('m-date').value = data.mDate || '';
+                    document.getElementById('m-temp').value = data.mTemp || '';
+                    document.getElementById('m-weather').value = data.mWeather || '흐림';
+                    
+                    document.getElementById('i-gt11').value = data.iGt11 || '0';
+                    document.getElementById('i-gt12').value = data.iGt12 || '0';
+                    document.getElementById('i-st10').value = data.iSt10 || '0';
+                    document.getElementById('period-1').value = data.period1 || '5/14 00:00 ~ 5/27 24:00';
+                    
+                    document.getElementById('i-gt21').value = data.iGt21 || '0';
+                    document.getElementById('i-gt22').value = data.iGt22 || '0';
+                    document.getElementById('i-st20').value = data.iSt20 || '0';
+                    document.getElementById('period-2').value = data.period2 || '5/16 00:00 ~ 5/17 19:00';
+
+                    document.getElementById('memo-morning').value = data.memoMorning || '';
+                    document.getElementById('memo-dispatch').value = data.memoDispatch || '';
+                    document.getElementById('memo-grid').value = data.memoGrid || '';
+
+                    // 24H 휠 셀렉터 값 복구
+                    document.getElementById('d-hour').value = data.dHour || '00';
+                    document.getElementById('d-minute').value = data.dMinute || '00';
+                    document.getElementById('g-hour').value = data.gHour || '00';
+                    document.getElementById('g-minute').value = data.gMinute || '00';
+
+                    document.getElementById('d-time').value = `${data.dHour || '00'}:${data.dMinute || '00'}`;
+                    document.getElementById('g-time').value = `${data.gHour || '00'}:${data.gMinute || '00'}`;
+
+                    setCCState(1, data.state1 || '운전');
+                    setCCState(2, data.state2 || '운전');
+                    
+                    if(data.dTarget) selectDispatchTarget(data.dTarget);
+                    if(data.gTarget) selectGridTarget(data.gTarget);
+
+                    return true;
+                } catch(e) { return false; }
+            }
+            return false;
+        }
+
+        async function fetchWeather() {
+            const spinner = document.getElementById('weather-spinner');
+            const tempLabel = document.getElementById('quick-weather-temp');
+            const descLabel = document.getElementById('quick-weather-desc');
+            const iconLabel = document.getElementById('weather-icon');
+            
+            spinner.classList.add('animate-spin');
+            descLabel.innerText = '동기화 중...';
+
+            try {
+                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=37.8544&longitude=126.7881&current=temperature_2m,weather_code&timezone=Asia/Seoul');
+                const data = await res.json();
+                const temp = data.current.temperature_2m;
+                const code = data.current.weather_code;
+
+                let txt = '흐림';
+                let icon = '☁️';
+                if(code === 0) { txt = '맑음'; icon = '☀️'; }
+                else if(code <= 3 || code === 45 || code === 48) { txt = '흐림'; icon = '☁️'; }
+                else if([51,53,55,56,57,61,63,65,66,67,80,81,82].includes(code)) { txt = '비'; icon = '🌧️'; }
+                else if([71,73,75,77,85,86].includes(code)) { txt = '눈'; icon = '❄️'; }
+
+                const savedTemp = document.getElementById('m-temp').value;
+                if(!savedTemp || savedTemp === '--') {
+                    document.getElementById('m-temp').value = temp.toFixed(1);
+                    document.getElementById('m-weather').value = txt;
+                }
+                
+                tempLabel.innerText = `${temp.toFixed(1)}°C`;
+                descLabel.innerText = txt;
+                iconLabel.innerText = icon;
+                
+                saveLocal();
+            } catch(e) {
+                descLabel.innerText = "날씨 오프라인";
+            } finally {
+                spinner.classList.remove('animate-spin');
+            }
         }
 
         function switchTab(t) {
@@ -460,9 +707,12 @@
             const d = document.getElementById('m-date').value;
             let dateHeader = "O월 O일(O)";
             if(d) {
-                const days = ['일','월','화','수','목','금','토'];
-                const dateObj = new Date(d);
-                dateHeader = `${dateObj.getMonth()+1}월 ${dateObj.getDate()}일(${days[dateObj.getDay()]})`;
+                const parts = d.split('-');
+                if(parts.length === 3) {
+                    const dateObj = new Date(parts[0], parseInt(parts[1])-1, parts[2]);
+                    const days = ['일','월','화','수','목','금','토'];
+                    dateHeader = `${parseInt(parts[1])}월 ${parseInt(parts[2])}일(${days[dateObj.getDay()]})`;
+                }
             }
 
             const t = document.getElementById('m-temp').value;
@@ -492,28 +742,28 @@
 
         function selectDispatchTarget(targetVal) {
             document.getElementById('d-target').value = targetVal;
-            const btn1 = document.getElementById('btn-d-target-1');
-            const btn2 = document.getElementById('btn-d-target-2');
+            const btn1 = document.getElementById('btn-dispatch-target-1');
+            const btn2 = document.getElementById('btn-dispatch-target-2');
             if(targetVal === '#1CC') {
-                btn1.className = "flex-1 text-xs font-bold py-2 rounded-lg text-blue-400 bg-slate-800 border border-slate-600";
-                btn2.className = "flex-1 text-xs font-bold py-2 rounded-lg text-slate-500";
+                btn1.className = "flex-1 text-xs font-bold py-2 rounded-lg transition-all text-blue-400 bg-slate-800 border border-slate-600";
+                btn2.className = "flex-1 text-xs font-bold py-2 rounded-lg transition-all text-slate-500 bg-transparent border border-transparent";
             } else {
-                btn1.className = "flex-1 text-xs font-bold py-2 rounded-lg text-slate-500";
-                btn2.className = "flex-1 text-xs font-bold py-2 rounded-lg text-blue-400 bg-slate-800 border border-slate-600";
+                btn1.className = "flex-1 text-xs font-bold py-2 rounded-lg transition-all text-slate-500 bg-transparent border border-transparent";
+                btn2.className = "flex-1 text-xs font-bold py-2 rounded-lg transition-all text-blue-400 bg-slate-800 border border-slate-600";
             }
             saveLocal();
         }
 
         function selectGridTarget(targetVal) {
             document.getElementById('g-target').value = targetVal;
-            const btn1 = document.getElementById('btn-g-target-1');
-            const btn2 = document.getElementById('btn-g-target-2');
+            const btn1 = document.getElementById('btn-grid-target-1');
+            const btn2 = document.getElementById('btn-grid-target-2');
             if(targetVal === '1') {
-                btn1.className = "flex-1 text-xs font-bold py-2 rounded-lg text-cyan-400 bg-slate-800 border border-slate-600";
-                btn2.className = "flex-1 text-xs font-bold py-2 rounded-lg text-slate-500";
+                btn1.className = "flex-1 text-xs font-bold py-2 rounded-lg transition-all text-cyan-400 bg-slate-800 border border-slate-600";
+                btn2.className = "flex-1 text-xs font-bold py-2 rounded-lg transition-all text-slate-500 bg-transparent border border-transparent";
             } else {
-                btn1.className = "flex-1 text-xs font-bold py-2 rounded-lg text-slate-500";
-                btn2.className = "flex-1 text-xs font-bold py-2 rounded-lg text-cyan-400 bg-slate-800 border border-slate-600";
+                btn1.className = "flex-1 text-xs font-bold py-2 rounded-lg transition-all text-slate-500 bg-transparent border border-transparent";
+                btn2.className = "flex-1 text-xs font-bold py-2 rounded-lg transition-all text-cyan-400 bg-slate-800 border border-slate-600";
             }
             saveLocal();
         }
@@ -562,21 +812,49 @@
             showToast("급전지시 생성 완료");
         }
 
-        // 💡 [탭 3 매크로 실제 자바스크립트 함수명 매핑 일치화 완료]
+        // =====================================
+        // [탭 3] 계통 연결/분리 매크로 핵심 연동 로직
+        // =====================================
+        function appendGridMemo(str) {
+            const memo = document.getElementById('memo-grid');
+            if(memo.value && memo.value.trim() !== "") {
+                memo.value += "\n" + str;
+            } else {
+                memo.value = str;
+            }
+            autoResize(memo);
+            saveLocal();
+        }
+
+        function getGTargetName(type) {
+            const block = document.getElementById('g-target').value; 
+            if(type === 'GT1') return block === '1' ? '11GT' : '21GT';
+            if(type === 'GT2') return block === '1' ? '12GT' : '22GT';
+            if(type === 'ST')  return block === '1' ? '10ST' : '20ST';
+        }
+
         function gAddConnect(type) {
-            const time = document.getElementById('g-time').value; if(!time) return;
-            appendGridMemo(`${time} #${getGTargetName(type)} 계통연결`);
+            const time = document.getElementById('g-time').value; 
+            if(!time) { showToast('기준 시간을 설정해주세요.', 'error'); return; }
+            const name = getGTargetName(type);
+            appendGridMemo(`${time} #${name} 계통연결`);
+            showToast(`#${name} 연결 추가 완료`);
         }
 
         function gAddSeparateSingle(type) {
-            const time = document.getElementById('g-time').value; if(!time) return;
-            appendGridMemo(`${time} #${getGTargetName(type)} 계통분리`);
+            const time = document.getElementById('g-time').value; 
+            if(!time) { showToast('기준 시간을 설정해주세요.', 'error'); return; }
+            const name = getGTargetName(type);
+            appendGridMemo(`${time} #${name} 계통분리`);
+            showToast(`#${name} 분리 추가 완료`);
         }
 
         function gAddAgc(mode) {
-            const time = document.getElementById('g-time').value; if(!time) return;
+            const time = document.getElementById('g-time').value; 
+            if(!time) { showToast('기준 시간을 설정해주세요.', 'error'); return; }
             const block = document.getElementById('g-target').value === '1' ? '#1CC' : '#2CC';
             appendGridMemo(`${time} ${block} AGC On (${mode})`);
+            showToast(`${block} AGC On 추가 완료`);
         }
 
         function subMins(timeStr, mins) {
@@ -586,10 +864,15 @@
         }
 
         function gAddSeparate(mode) {
-            const time = document.getElementById('g-time').value; if(!time) return;
-            const stName = getGTargetName('ST'); const gt1Name = getGTargetName('GT1'); const gt2Name = getGTargetName('GT2');
+            const time = document.getElementById('g-time').value; 
+            if(!time) { showToast('기준 시간을 설정해주세요.', 'error'); return; }
+            const stName = getGTargetName('ST'); 
+            const gt1Name = getGTargetName('GT1'); 
+            const gt2Name = getGTargetName('GT2');
+            
             if(mode === '2+1') {
                 appendGridMemo(`${subMins(time, 19)} #${stName} 계통분리\n${subMins(time, 10)} #${gt1Name} 계통분리\n${subMins(time, 2)} #${gt2Name} 계통분리`);
+                showToast(`2+1 분리 연산 완료`);
             }
         }
 
@@ -606,61 +889,10 @@
 
         function showToast(msg, type = "success") {
             const box = document.getElementById('toast-container'); const el = document.createElement('div');
-            el.className = `flex items-center justify-center gap-2 px-4 py-3.5 rounded-full text-xs font-bold shadow-xl transition-all duration-350 translate-y-4 opacity-0 text-white ${type==='success'?'bg-blue-600':'bg-red-500'}`;
+            el.className = `flex items-center justify-center gap-2 px-4 py-3.5 rounded-full text-xs font-bold shadow-xl transition-all duration-350 translate-y-4 opacity-0 text-white ${type==='success'?'bg-blue-600 border border-blue-500':'bg-red-500 border border-red-400'}`;
             el.innerHTML = `<span>${msg}</span>`; box.appendChild(el);
             requestAnimationFrame(() => setTimeout(() => el.classList.remove('translate-y-4', 'opacity-0'), 10));
             setTimeout(() => { el.classList.add('opacity-0', '-translate-y-2'); setTimeout(() => el.remove(), 400); }, 2000);
-        }
-
-        async function fetchWeather() {
-            try {
-                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=37.8544&longitude=126.7881&current=temperature_2m,weather_code&timezone=Asia/Seoul');
-                const data = await res.json();
-                const temp = data.current.temperature_2m;
-                const code = data.current.weather_code;
-                let txt = '흐림'; if(code === 0) txt = '맑음';
-                document.getElementById('m-temp').value = temp.toFixed(1);
-                document.getElementById('m-weather').value = txt;
-                document.getElementById('quick-weather-temp').innerText = `${temp.toFixed(1)}°C`;
-                document.getElementById('quick-weather-desc').innerText = txt;
-            } catch(e) {}
-        }
-
-        function saveLocal() {
-            const data = {
-                mDate: document.getElementById('m-date').value, mTemp: document.getElementById('m-temp').value, mWeather: document.getElementById('m-weather').value,
-                iGt11: document.getElementById('i-gt11').value, iGt12: document.getElementById('i-gt12').value, iSt10: document.getElementById('i-st10').value, period1: document.getElementById('period-1').value, state1: state1,
-                iGt21: document.getElementById('i-gt21').value, iGt22: document.getElementById('i-gt22').value, iSt20: document.getElementById('i-st20').value, period2: document.getElementById('period-2').value, state2: state2,
-                memoMorning: document.getElementById('memo-morning').value, memoDispatch: document.getElementById('memo-dispatch').value, memoGrid: document.getElementById('memo-grid').value,
-                dHour: document.getElementById('d-hour').value, dMinute: document.getElementById('d-minute').value, dTarget: document.getElementById('d-target').value,
-                gHour: document.getElementById('g-hour').value, gMinute: document.getElementById('g-minute').value, gTarget: document.getElementById('g-target').value,
-            };
-            localStorage.setItem('pajuReportData', JSON.stringify(data));
-        }
-
-        function loadLocal() {
-            const saved = localStorage.getItem('pajuReportData');
-            if(!saved) return false;
-            try {
-                const data = JSON.parse(saved);
-                document.getElementById('m-date').value = data.mDate || ''; document.getElementById('m-temp').value = data.mTemp || ''; document.getElementById('m-weather').value = data.mWeather || '흐림';
-                document.getElementById('i-gt11').value = data.iGt11 || '0'; document.getElementById('i-gt12').value = data.iGt12 || '0'; document.getElementById('i-st10').value = data.iSt10 || '0'; document.getElementById('period-1').value = data.period1 || '';
-                document.getElementById('i-gt21').value = data.iGt21 || '0'; document.getElementById('i-gt22').value = data.iGt22 || '0'; document.getElementById('i-st20').value = data.iSt20 || '0'; document.getElementById('period-2').value = data.period2 || '';
-                document.getElementById('memo-morning').value = data.memoMorning || ''; document.getElementById('memo-dispatch').value = data.memoDispatch || ''; document.getElementById('memo-grid').value = data.memoGrid || '';
-                document.getElementById('d-hour').value = data.dHour || '00'; document.getElementById('d-minute').value = data.dMinute || '00'; document.getElementById('g-hour').value = data.gHour || '00'; document.getElementById('g-minute').value = data.gMinute || '00';
-                document.getElementById('d-time').value = `${data.dHour||'00'}:${data.dMinute||'00'}`; document.getElementById('g-time').value = `${data.gHour||'00'}:${data.gMinute||'00'}`;
-                setCCState(1, data.state1 || '운전'); setCCState(2, data.state2 || '운전');
-                if(data.dTarget) selectDispatchTarget(data.dTarget); if(data.gTarget) selectGridTarget(data.gTarget);
-                return true;
-            } catch(e) { return false; }
-        }
-
-        function iSync() { saveLocal(); }
-        function getGTargetName(type) {
-            const block = document.getElementById('g-target').value;
-            if(type === 'GT1') return block === '1' ? '11GT' : '21GT';
-            if(type === 'GT2') return block === '1' ? '12GT' : '22GT';
-            if(type === 'ST')  return block === '1' ? '10ST' : '20ST';
         }
     </script>
 </body>
