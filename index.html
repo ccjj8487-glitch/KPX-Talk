@@ -380,7 +380,7 @@
                                     <span class="text-[9px] font-extrabold text-gray-400 mb-1">시 (Hour)</span>
                                     <div class="relative bg-white border border-gray-200 rounded-xl px-4 py-2 shadow-sm">
                                         <select id="g-hour" onchange="updateTimeFromSelects('g')" class="bg-transparent text-lg font-extrabold text-gray-800 outline-none appearance-none pr-4 cursor-pointer text-center w-12"></select>
-                                        <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-gray-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
+                                        <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
                                     </div>
                                 </div>
                                 <span class="text-2xl font-black text-gray-300 mt-4">:</span>
@@ -388,7 +388,7 @@
                                     <span class="text-[9px] font-extrabold text-gray-400 mb-1">분 (Minute)</span>
                                     <div class="relative bg-white border border-gray-200 rounded-xl px-4 py-2 shadow-sm">
                                         <select id="g-minute" onchange="updateTimeFromSelects('g')" class="bg-transparent text-lg font-extrabold text-gray-800 outline-none appearance-none pr-4 cursor-pointer text-center w-12"></select>
-                                        <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-gray-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
+                                        <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -773,7 +773,7 @@
         }
 
         // =====================================
-        // [탭 1] 아침현황 상태 로직 (동기화 제거, 수동 적용)
+        // [탭 1] 아침현황 로직 (슬라이더 ↔ 인풋 실시간 동기화)
         // =====================================
         function syncFromSlider(id) {
             document.getElementById(`i-${id}`).value = document.getElementById(`s-${id}`).value;
@@ -838,40 +838,38 @@
             return `        ${g1.toString().padStart(3,' ')}/ ${g2.toString().padStart(3,' ')}/ ${s.toString().padStart(3,' ')}MW    `;
         }
         function padMW2(g1, g2, s) {
-            // #2CC는 9칸 띄어쓰기 적용
-            return `         ${g1.toString().padStart(3,' ')}/ ${g2.toString().padStart(3,' ')}/ ${s.toString().padStart(3,' ')}MW      `;
+            // #2CC 자간 줄간격 정밀 수정을 통하여 #1CC와 공백 및 뒤 공간 규격 100% 일치화
+            return `        ${g1.toString().padStart(3,' ')}/ ${g2.toString().padStart(3,' ')}/ ${s.toString().padStart(3,' ')}MW    `;
         }
 
         function getCCBlock(cc) {
             const st = cc===1 ? state1 : state2;
             const prefix = cc===1 ? '#1CC' : '#2CC';
-            const gtNm1 = "11GT/12GT/10ST ";
-            const gtNm2 = "21GT/22GT/20ST          ";
-            const gtNm = cc===1 ? gtNm1 : gtNm2;
-
+            
+            // #1CC 와 #2CC의 내부 탭 여백 및 뒤 공간 노출 규격을 똑같이 수정
+            const gtNm = cc===1 ? "11GT/12GT/10ST \n" : "21GT/22GT/20ST \n";
             const g1 = parseInt(document.getElementById(cc===1?'i-gt11':'i-gt21').value)||0;
             const g2 = parseInt(document.getElementById(cc===1?'i-gt12':'i-gt22').value)||0;
             const s = parseInt(document.getElementById(cc===1?'i-st10':'i-st20').value)||0;
             const tot = g1+g2+s;
             const padFunc = cc===1 ? padMW1 : padMW2;
             
-            const tLoad1 = `(Total Load : ${tot}MW)        `;
-            const tLoad2 = `(Total Load : ${tot}MW)           `;
-            const tLoad = cc===1 ? tLoad1 : tLoad2;
+            // 토탈 로드 뒤의 빈칸 공백도 8칸으로 완전 통일
+            const tLoad = `     (Total Load : ${tot}MW)        `;
 
-            if(cc===1) {
-                if(st==='정지') return `    - ${prefix} 급전지시 정지 상태\n     (Total Load : 0MW)        \n     ${gtNm} \n             0/   0/  0MW`;
-                if(st==='운전') return `    - ${prefix} 2+1 운전 중\n     ${tLoad}\n     ${gtNm} \n${padFunc(g1,g2,s)}`;
-                if(st==='운전11') return `    - ${prefix} 1+1 운전 중\n     ${tLoad}\n     ${gtNm} \n${padFunc(g1,g2,s)}`;
-                if(st==='기동') return `    - ${prefix} 기동 중\n     ${tLoad}\n     ${gtNm} \n${padFunc(g1,g2,s)}`;
-                if(st==='계획정비') return `    - ${prefix} 계획정비 정지 상태\n     (Total Load : 0MW)        \n     ${gtNm} \n             0/   0/  0MW`;
-            } else {
-                if(st==='정지') return `    - ${prefix} 급전지시 정지 상태\n     (Total Load : 0MW)           \n     ${gtNm}\n            0/    0/   0MW      `;
-                if(st==='운전') return `    - ${prefix} 2+1 운전 중\n     ${tLoad}\n     ${gtNm}\n${padFunc(g1,g2,s)}`;
-                if(st==='운전11') return `    - ${prefix} 1+1 운전 중\n     ${tLoad}\n     ${gtNm}\n${padFunc(g1,g2,s)}`;
-                if(st==='기동') return `    - ${prefix} 기동 중\n     ${tLoad}\n     ${gtNm}\n${padFunc(g1,g2,s)}`;
-                if(st==='계획정비') return `    - ${prefix} 계획정비 정지 상태\n     (Total Load : 0MW)           \n     ${gtNm}\n            0/    0/   0MW      `;
+            if(st==='정지') {
+                return `    - ${prefix} 급전지시 정지 상태\n     (Total Load : 0MW)        \n     ${cc===1?'11GT/12GT/10ST':'21GT/22GT/20ST'}\n             0/   0/  0MW`;
             }
+            if(st==='운전') return `    - ${prefix} 2+1 운전 중\n${tLoad}\n     ${gtFunc(cc)}${padFunc(g1,g2,s)}`;
+            if(st==='운전11') return `    - ${prefix} 1+1 운전 중\n${tLoad}\n     ${gtFunc(cc)}${padFunc(g1,g2,s)}`;
+            if(st==='기동') return `    - ${prefix} 기동 중\n${tLoad}\n     ${gtFunc(cc)}${padFunc(g1,g2,s)}`;
+            if(st==='계획정비') {
+                return `    - ${prefix} 계획정비 정지 상태\n     (Total Load : 0MW)        \n     ${cc===1?'11GT/12GT/10ST':'21GT/22GT/20ST'}\n             0/   0/  0MW`;
+            }
+        }
+
+        function gtFunc(cc) {
+            return cc===1 ? "11GT/12GT/10ST \n" : "21GT/22GT/20ST \n";
         }
 
         function renderMorningMemo() {
@@ -891,7 +889,6 @@
             const blk1 = getCCBlock(1);
             const blk2 = getCCBlock(2);
             
-            // 특이사항에 계획정비 추가
             let issues = [];
             if (state1 === '계획정비') {
                 const per = document.getElementById('period-1').value;
@@ -902,11 +899,14 @@
                 issues.push(`-#2CC 계획정비\n      (${per})`);
             }
 
+            const issueInput = document.getElementById('m-issue').value;
             let issueStr = "";
             if(issues.length > 0) {
                 issueStr = "     " + issues.join('\n     ');
+                if(issueInput && issueInput !== '없음') issueStr += `\n     -${issueInput}`;
             } else {
-                issueStr = "     -없음";
+                if(issueInput && issueInput !== '없음') issueStr = `     -${issueInput}`;
+                else issueStr = "     -없음";
             }
 
             const text = `${dateHeader} 7:00 운전현황\n\n■ 급전지시\n    - 없음\n■ 대기온도 : ${t}°C (${w})\n■ 운전현황\n${blk1}\n${blk2}\n■ 특이사항\n${issueStr}`;
@@ -960,13 +960,13 @@
         // [탭 2] 급전 지시 매크로 로직
         // =====================================
         function dMake(type) {
-            const time = document.getElementById('d-time').value; // HH:MM
+            const time = document.getElementById('d-time').value; 
             const target = document.getElementById('d-target').value;
             
             if(!time) { showToast('시간을 선택한 후 다시 눌러주세요.', 'error'); return; }
 
             let line = "";
-            if(type === 'GT 추가 계통연결') line = `${time}  ${target} ${type}`; // 띄어쓰기 2칸 특수 조건
+            if(type === 'GT 추가 계통연결') line = `${time}  ${target} ${type}`; 
             else line = `${time} ${target} ${type}`;
 
             const text = `급전지시입니다.\n${line}`;
@@ -993,14 +993,14 @@
         }
 
         function getGTargetName(type) {
-            const block = document.getElementById('g-target').value; // 1 or 2
+            const block = document.getElementById('g-target').value; 
             if(type === 'GT1') return block === '1' ? '11GT' : '21GT';
             if(type === 'GT2') return block === '1' ? '12GT' : '22GT';
             if(type === 'ST')  return block === '1' ? '10ST' : '20ST';
         }
 
         function gAddConnect(type) {
-            const time = document.getElementById('g-time').value; // HH:MM
+            const time = document.getElementById('g-time').value; 
             if(!time) { showToast('시간을 선택하세요.', 'error'); return; }
             const name = getGTargetName(type);
             appendGridMemo(`${time} #${name} 계통연결`);
@@ -1013,6 +1013,7 @@
             appendGridMemo(`${time} #${name} 계통분리`);
         }
 
+        // AGC 양식 매칭 픽스
         function gAddAgc(mode) {
             const time = document.getElementById('g-time').value;
             if(!time) { showToast('시간을 선택하세요.', 'error'); return; }
@@ -1029,7 +1030,7 @@
         }
 
         function gAddSeparate(mode) {
-            const time = document.getElementById('g-time').value; // Base Time
+            const time = document.getElementById('g-time').value; 
             if(!time) { showToast('기준 시간을 설정해주세요.', 'error'); return; }
             
             const stName = getGTargetName('ST');
@@ -1046,8 +1047,15 @@
         }
 
         // =====================================
-        // 공통 복사 기능
+        // 공통 유틸 및 백업
         // =====================================
+        function autoResize(el) {
+            if(!el) return;
+            el.style.height = 'auto';
+            el.style.height = (el.scrollHeight + 2) + 'px';
+        }
+
+        // 수동 강제 복사 폴백
         function copyMemo(id) {
             const text = document.getElementById(id).value;
             if(!text || text.trim() === "") { showToast("복사할 내용이 없습니다.", "error"); return; }
@@ -1068,30 +1076,19 @@
             document.body.removeChild(ta);
         }
 
-        // 세련된 토스트 알림
         function showToast(msg, type = "success") {
             const box = document.getElementById('toast-container');
             const el = document.createElement('div');
-            
-            const baseClass = "flex items-center gap-3 px-5 py-3.5 rounded-2xl text-sm font-bold shadow-2xl transition-all duration-400 translate-y-4 opacity-0 border backdrop-blur-md text-white";
-            const colorClass = type === 'success' 
-                ? "bg-slate-800 border-slate-700 shadow-black/50" 
-                : "bg-red-600 border-red-500 shadow-red-900/50";
-            
-            const icon = type === 'success' ? '<i class="fa-solid fa-circle-check text-blue-400"></i>' : '<i class="fa-solid fa-triangle-exclamation text-white"></i>';
-
-            el.className = `${baseClass} ${colorClass}`;
-            el.innerHTML = `${icon} <span>${msg}</span>`;
+            el.className = `flex items-center justify-center gap-2 px-4 py-3.5 rounded-full text-xs font-bold shadow-xl transition-all duration-300 translate-y-4 opacity-0 text-white ${
+                type==='success' ? 'bg-blue-600 shadow-blue-500/40' : 'bg-red-500 shadow-red-500/40'
+            }`;
+            el.innerHTML = msg;
             box.appendChild(el);
-            
-            requestAnimationFrame(() => {
-                setTimeout(() => el.classList.remove('translate-y-4', 'opacity-0'), 10);
-            });
-
+            setTimeout(() => el.classList.remove('translate-y-4', 'opacity-0'), 10);
             setTimeout(() => {
-                el.classList.add('opacity-0', '-translate-y-2');
-                setTimeout(() => el.remove(), 400);
-            }, 2500);
+                el.classList.add('opacity-0', 'scale-90');
+                setTimeout(()=>el.remove(), 300);
+            }, 2000);
         }
     </script>
 </body>
