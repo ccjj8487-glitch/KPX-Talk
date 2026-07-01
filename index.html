@@ -105,7 +105,7 @@
                         <label class="block text-[11px] font-bold text-slate-400 pl-1">대기 온도 및 날씨</label>
                         <div class="flex gap-2">
                             <input type="number" id="m-temp" step="0.1" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-2 py-3 text-white text-sm font-semibold text-center outline-none focus:border-blue-500">
-                            <select id="m-weather" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-2 py-3 text-white text-sm font-semibold outline-none focus:border-blue-500 appearance-none text-center">
+                            <select id="m-weather" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-2 py-3 text-white text-sm font-semibold outline-none focus:border-blue-500 appearance-none text-center cursor-pointer">
                                 <option value="맑음">맑음 ☀️</option>
                                 <option value="흐림" selected>흐림 ☁️</option>
                                 <option value="비">비 🌧️</option>
@@ -142,22 +142,22 @@
                     <div id="wrap-gt11" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-400 ml-2">11GT 출력</span>
                         <div class="relative w-36">
-                            <select id="i-gt11" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer"></select>
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW</span>
+                            <select id="i-gt11" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer font-mono"></select>
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW <i class="fa-solid fa-chevron-down ml-1 text-[8px] text-slate-500"></i></span>
                         </div>
                     </div>
                     <div id="wrap-gt12" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-400 ml-2">12GT 출력</span>
                         <div class="relative w-36">
-                            <select id="i-gt12" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer"></select>
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW</span>
+                            <select id="i-gt12" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer font-mono"></select>
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW <i class="fa-solid fa-chevron-down ml-1 text-[8px] text-slate-500"></i></span>
                         </div>
                     </div>
                     <div id="wrap-st10" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-400 ml-2">10ST 출력</span>
                         <div class="relative w-36">
-                            <select id="i-st10" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer"></select>
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW</span>
+                            <select id="i-st10" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer font-mono"></select>
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW <i class="fa-solid fa-chevron-down ml-1 text-[8px] text-slate-500"></i></span>
                         </div>
                     </div>
                 </div>
@@ -189,22 +189,22 @@
                     <div id="wrap-gt21" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-400 ml-2">21GT 출력</span>
                         <div class="relative w-36">
-                            <select id="i-gt21" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer"></select>
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW</span>
+                            <select id="i-gt21" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer font-mono"></select>
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW <i class="fa-solid fa-chevron-down ml-1 text-[8px] text-slate-500"></i></span>
                         </div>
                     </div>
                     <div id="wrap-gt22" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-400 ml-2">22GT 출력</span>
                         <div class="relative w-36">
-                            <select id="i-gt22" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer"></select>
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW</span>
+                            <select id="i-gt22" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer font-mono"></select>
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW <i class="fa-solid fa-chevron-down ml-1 text-[8px] text-slate-500"></i></span>
                         </div>
                     </div>
                     <div id="wrap-st20" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-400 ml-2">20ST 출력</span>
                         <div class="relative w-36">
-                            <select id="i-st20" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer"></select>
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW</span>
+                            <select id="i-st20" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer font-mono"></select>
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW <i class="fa-solid fa-chevron-down ml-1 text-[8px] text-slate-500"></i></span>
                         </div>
                     </div>
                 </div>
@@ -288,8 +288,8 @@
                     <div class="space-y-1.5 col-span-2">
                         <label class="block text-[11px] font-bold text-slate-400 pl-1">대상 호기 선택</label>
                         <div class="flex p-1.5 bg-slate-900 rounded-xl border border-slate-700 h-[54px]">
-                            <button id="btn-dispatch-target-1" onclick="selectDispatchTarget('#1CC')" class="flex-1 text-xs font-bold rounded-lg transition-all text-blue-400 bg-slate-800 border border-slate-600">#1CC</button>
-                            <button id="btn-dispatch-target-2" onclick="selectDispatchTarget('#2CC')" class="flex-1 text-xs font-bold rounded-lg transition-all text-slate-500 bg-transparent border border-transparent">#2CC</button>
+                            <button id="btn-dispatch-target-1" onclick="selectDispatchTarget('#1CC')" class="flex-1 text-xs font-bold py-2 rounded-lg transition-all text-blue-400 bg-slate-800 border border-slate-600">#1CC</button>
+                            <button id="btn-dispatch-target-2" onclick="selectDispatchTarget('#2CC')" class="flex-1 text-xs font-bold py-2 rounded-lg transition-all text-slate-500 bg-transparent border border-transparent">#2CC</button>
                         </div>
                         <input type="hidden" id="d-target" value="#1CC">
                     </div>
@@ -318,7 +318,6 @@
                 </button>
             </div>
         </div>
-
 
         <div id="panel-grid" class="hidden space-y-5 animate-fade-in">
             
@@ -367,8 +366,8 @@
                     <div class="space-y-1.5 col-span-2">
                         <label class="block text-[11px] font-bold text-slate-400 pl-1">대상 호기 선택</label>
                         <div class="flex p-1.5 bg-slate-900 rounded-xl border border-slate-700 h-[54px]">
-                            <button id="btn-grid-target-1" onclick="selectGridTarget('1')" class="flex-1 text-xs font-bold rounded-lg transition-all text-cyan-400 bg-slate-800 border border-slate-600">#1CC</button>
-                            <button id="btn-grid-target-2" onclick="selectGridTarget('2')" class="flex-1 text-xs font-bold rounded-lg transition-all text-slate-500 bg-transparent border border-transparent">#2CC</button>
+                            <button id="btn-grid-target-1" onclick="selectGridTarget('1')" class="flex-1 text-xs font-bold py-2 rounded-lg transition-all text-cyan-400 bg-slate-800 border border-slate-600">#1CC</button>
+                            <button id="btn-grid-target-2" onclick="selectGridTarget('2')" class="flex-1 text-xs font-bold py-2 rounded-lg transition-all text-slate-500 bg-transparent border border-transparent">#2CC</button>
                         </div>
                         <input type="hidden" id="g-target" value="1">
                     </div>
@@ -442,10 +441,9 @@
                 const select = document.getElementById(id);
                 if(select) {
                     select.innerHTML = '';
-                    for(let i=0; i<=321; i+=3) {
+                    for(let i=0; i<=322; i++) { // 1MW 단위
                         select.add(new Option(i, i));
                     }
-                    select.add(new Option(322, 322));
                     select.value = 0;
                 }
             });
@@ -500,7 +498,6 @@
 
             fetchWeather();
 
-            // 모든 폼 요소 변경 시 로컬에 저장만 함. (메모장은 수동 적용 시에만 변경됨)
             document.querySelectorAll('input, select').forEach(el => {
                 if(el.id !== 'memo-morning' && el.id !== 'memo-dispatch' && el.id !== 'memo-grid') {
                     el.addEventListener('input', saveLocal);
@@ -536,11 +533,11 @@
                 gMinute: document.getElementById('g-minute').value,
                 gTarget: document.getElementById('g-target').value,
             };
-            localStorage.setItem('pajuReportDataV3', JSON.stringify(data));
+            localStorage.setItem('pajuReportDataV4', JSON.stringify(data));
         }
 
         function loadLocal() {
-            const saved = localStorage.getItem('pajuReportDataV3');
+            const saved = localStorage.getItem('pajuReportDataV4');
             if(saved) {
                 try {
                     const data = JSON.parse(saved);
@@ -562,7 +559,6 @@
                     document.getElementById('memo-dispatch').value = data.memoDispatch || '';
                     document.getElementById('memo-grid').value = data.memoGrid || '';
 
-                    // 24H 휠 셀렉터 값 복구
                     document.getElementById('d-hour').value = data.dHour || '00';
                     document.getElementById('d-minute').value = data.dMinute || '00';
                     document.getElementById('g-hour').value = data.gHour || '00';
@@ -663,11 +659,11 @@
             else if(targetState === '계획정비') bText = '계획정비 중';
             badge.innerText = bText;
 
-            const ids = cc === 1 ? ['gt11','gt12','st10'] : ['gt21','gt22','st20'];
+            const ids = cc === 1 ? ['i-gt11','i-gt12','i-st10'] : ['i-gt21','i-gt22','i-st20'];
             const isOff = (targetState === '정지' || targetState === '계획정비');
             
             ids.forEach(id => {
-                const i = document.getElementById(`i-${id}`);
+                const i = document.getElementById(id);
                 if(isOff) { i.value = 0; i.disabled = true; i.classList.add('opacity-40'); } 
                 else { i.disabled = false; i.classList.remove('opacity-40'); }
             });
@@ -812,9 +808,6 @@
             showToast("급전지시 생성 완료");
         }
 
-        // =====================================
-        // [탭 3] 계통 연결/분리 매크로 핵심 연동 로직
-        // =====================================
         function appendGridMemo(str) {
             const memo = document.getElementById('memo-grid');
             if(memo.value && memo.value.trim() !== "") {
@@ -866,6 +859,7 @@
         function gAddSeparate(mode) {
             const time = document.getElementById('g-time').value; 
             if(!time) { showToast('기준 시간을 설정해주세요.', 'error'); return; }
+            
             const stName = getGTargetName('ST'); 
             const gt1Name = getGTargetName('GT1'); 
             const gt2Name = getGTargetName('GT2');
