@@ -99,13 +99,13 @@
                 <div class="grid grid-cols-2 gap-4">
                     <div class="space-y-1.5">
                         <label class="block text-[11px] font-bold text-slate-400 pl-1">보고 날짜</label>
-                        <input type="date" id="m-date" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm font-semibold outline-none focus:border-blue-500">
+                        <input type="date" id="m-date" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm font-semibold outline-none focus:border-blue-500 transition-all shadow-sm">
                     </div>
                     <div class="space-y-1.5">
                         <label class="block text-[11px] font-bold text-slate-400 pl-1">대기 온도 및 날씨</label>
                         <div class="flex gap-2">
-                            <input type="number" id="m-temp" step="0.1" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-2 py-3 text-white text-sm font-semibold text-center outline-none focus:border-blue-500">
-                            <select id="m-weather" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-2 py-3 text-white text-sm font-semibold outline-none focus:border-blue-500 appearance-none text-center cursor-pointer">
+                            <input type="number" id="m-temp" step="0.1" placeholder="온도" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-2 py-3 text-white text-sm font-semibold text-center focus:ring-2 focus:ring-blue-500/20 outline-none shadow-sm">
+                            <select id="m-weather" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-2 py-3 text-white text-sm font-semibold focus:ring-2 focus:ring-blue-500/20 outline-none shadow-sm appearance-none text-center cursor-pointer">
                                 <option value="맑음">맑음 ☀️</option>
                                 <option value="흐림" selected>흐림 ☁️</option>
                                 <option value="비">비 🌧️</option>
@@ -135,28 +135,31 @@
 
                 <div id="m-box-1" class="hidden bg-slate-900/50 border border-slate-700 p-3 rounded-2xl mb-4">
                     <label class="block text-[10px] font-bold text-slate-400 mb-1 pl-1">정비 기간 입력</label>
-                    <input type="text" id="period-1" value="5/14 00:00 ~ 5/27 24:00" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm font-semibold text-white outline-none focus:border-blue-400">
+                    <input type="text" id="period-1" value="5/14 00:00 ~ 5/27 24:00" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm font-semibold text-white outline-none focus:border-blue-400 shadow-sm">
                 </div>
 
                 <div class="space-y-2.5">
                     <div id="wrap-gt11" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-400 ml-2">11GT 출력</span>
                         <div class="relative w-36">
-                            <select id="i-gt11" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer font-mono"></select>
+                            <select id="i-gt11" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer font-mono">
+                            </select>
                             <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW <i class="fa-solid fa-chevron-down ml-1 text-[8px] text-slate-500"></i></span>
                         </div>
                     </div>
                     <div id="wrap-gt12" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-400 ml-2">12GT 출력</span>
                         <div class="relative w-36">
-                            <select id="i-gt12" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer font-mono"></select>
+                            <select id="i-gt12" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer font-mono">
+                            </select>
                             <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW <i class="fa-solid fa-chevron-down ml-1 text-[8px] text-slate-500"></i></span>
                         </div>
                     </div>
                     <div id="wrap-st10" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-400 ml-2">10ST 출력</span>
                         <div class="relative w-36">
-                            <select id="i-st10" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer font-mono"></select>
+                            <select id="i-st10" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer font-mono">
+                            </select>
                             <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW <i class="fa-solid fa-chevron-down ml-1 text-[8px] text-slate-500"></i></span>
                         </div>
                     </div>
@@ -189,21 +192,24 @@
                     <div id="wrap-gt21" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-400 ml-2">21GT 출력</span>
                         <div class="relative w-36">
-                            <select id="i-gt21" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer font-mono"></select>
+                            <select id="i-gt21" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer font-mono">
+                            </select>
                             <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW <i class="fa-solid fa-chevron-down ml-1 text-[8px] text-slate-500"></i></span>
                         </div>
                     </div>
                     <div id="wrap-gt22" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-400 ml-2">22GT 출력</span>
                         <div class="relative w-36">
-                            <select id="i-gt22" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer font-mono"></select>
+                            <select id="i-gt22" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer font-mono">
+                            </select>
                             <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW <i class="fa-solid fa-chevron-down ml-1 text-[8px] text-slate-500"></i></span>
                         </div>
                     </div>
                     <div id="wrap-st20" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-400 ml-2">20ST 출력</span>
                         <div class="relative w-36">
-                            <select id="i-st20" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer font-mono"></select>
+                            <select id="i-st20" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer font-mono">
+                            </select>
                             <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW <i class="fa-solid fa-chevron-down ml-1 text-[8px] text-slate-500"></i></span>
                         </div>
                     </div>
@@ -260,7 +266,8 @@
                                 <div class="flex flex-col items-center">
                                     <span class="text-[9px] font-extrabold text-slate-500 mb-1">시 (Hour)</span>
                                     <div class="relative bg-slate-800 border border-slate-600 rounded-xl px-4 py-2 shadow-sm">
-                                        <select id="d-hour" onchange="updateTimeFromSelects('d')" class="bg-transparent text-lg font-extrabold text-white outline-none appearance-none pr-4 cursor-pointer text-center w-12"></select>
+                                        <select id="d-hour" onchange="updateTimeFromSelects('d')" class="bg-transparent text-lg font-extrabold text-white outline-none appearance-none pr-4 cursor-pointer text-center w-12">
+                                        </select>
                                         <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
                                     </div>
                                 </div>
@@ -268,18 +275,19 @@
                                 <div class="flex flex-col items-center">
                                     <span class="text-[9px] font-extrabold text-slate-500 mb-1">분 (Minute)</span>
                                     <div class="relative bg-slate-800 border border-slate-600 rounded-xl px-4 py-2 shadow-sm">
-                                        <select id="d-minute" onchange="updateTimeFromSelects('d')" class="bg-transparent text-lg font-extrabold text-white outline-none appearance-none pr-4 cursor-pointer text-center w-12"></select>
+                                        <select id="d-minute" onchange="updateTimeFromSelects('d')" class="bg-transparent text-lg font-extrabold text-white outline-none appearance-none pr-4 cursor-pointer text-center w-12">
+                                        </select>
                                         <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="grid grid-cols-5 gap-1.5 pt-1.5 border-t border-slate-700/50">
-                                <button onclick="adjustTimeBy('d', -10)" class="py-2 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-lg active:scale-95 transition-transform">-10분</button>
-                                <button onclick="adjustTimeBy('d', -5)" class="py-2 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-lg active:scale-95 transition-transform">-5분</button>
-                                <button onclick="adjustTimeBy('d', 0)" class="py-2 bg-slate-800 border border-amber-500/50 text-[11px] font-black text-amber-500 rounded-lg active:scale-95 transition-transform">정각</button>
-                                <button onclick="adjustTimeBy('d', 5)" class="py-2 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-lg active:scale-95 transition-transform">+5분</button>
-                                <button onclick="adjustTimeBy('d', 10)" class="py-2 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-lg active:scale-95 transition-transform">+10분</button>
+                                <button onclick="adjustTimeBy('d', -10)" class="py-2 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-lg active:scale-95 transition-transform shadow-sm">-10분</button>
+                                <button onclick="adjustTimeBy('d', -5)" class="py-2 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-lg active:scale-95 transition-transform shadow-sm">-5분</button>
+                                <button onclick="adjustTimeBy('d', 0)" class="py-2 bg-slate-800 border border-amber-500/50 text-[11px] font-black text-amber-500 rounded-lg active:scale-95 transition-transform shadow-sm">정각</button>
+                                <button onclick="adjustTimeBy('d', 5)" class="py-2 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-lg active:scale-95 transition-transform shadow-sm">+5분</button>
+                                <button onclick="adjustTimeBy('d', 10)" class="py-2 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-lg active:scale-95 transition-transform shadow-sm">+10분</button>
                             </div>
                         </div>
                         <input type="hidden" id="d-time" value="">
@@ -313,11 +321,12 @@
                 </div>
                 <textarea id="memo-dispatch" oninput="autoResize(this); saveLocal();" class="w-full min-h-[120px] bg-transparent text-amber-400 p-5 font-mono text-[13px] outline-none rounded-b-2xl"></textarea>
                 
-                <button onclick="copyMemo('memo-dispatch')" class="absolute bottom-4 right-4 bg-amber-600 hover:bg-amber-500 text-white rounded-full px-5 py-2.5 flex items-center gap-2 text-xs font-extrabold active:scale-95 transition-all">
+                <button onclick="copyMemo('memo-dispatch')" class="absolute bottom-4 right-4 bg-amber-600 hover:bg-amber-500 text-white shadow-xl shadow-amber-500/30 rounded-full px-5 py-2.5 flex items-center gap-2 text-xs font-extrabold active:scale-95 transition-all">
                     <i class="fa-regular fa-copy"></i> 복사하기
                 </button>
             </div>
         </div>
+
 
         <div id="panel-grid" class="hidden space-y-5 animate-fade-in">
             
@@ -339,7 +348,8 @@
                                 <div class="flex flex-col items-center">
                                     <span class="text-[9px] font-extrabold text-slate-500 mb-1">시 (Hour)</span>
                                     <div class="relative bg-slate-800 border border-slate-600 rounded-xl px-4 py-2 shadow-sm">
-                                        <select id="g-hour" onchange="updateTimeFromSelects('g')" class="bg-transparent text-lg font-extrabold text-white outline-none appearance-none pr-4 cursor-pointer text-center w-12"></select>
+                                        <select id="g-hour" onchange="updateTimeFromSelects('g')" class="bg-transparent text-lg font-extrabold text-white outline-none appearance-none pr-4 cursor-pointer text-center w-12">
+                                        </select>
                                         <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
                                     </div>
                                 </div>
@@ -347,7 +357,8 @@
                                 <div class="flex flex-col items-center">
                                     <span class="text-[9px] font-extrabold text-slate-500 mb-1">분 (Minute)</span>
                                     <div class="relative bg-slate-800 border border-slate-600 rounded-xl px-4 py-2 shadow-sm">
-                                        <select id="g-minute" onchange="updateTimeFromSelects('g')" class="bg-transparent text-lg font-extrabold text-white outline-none appearance-none pr-4 cursor-pointer text-center w-12"></select>
+                                        <select id="g-minute" onchange="updateTimeFromSelects('g')" class="bg-transparent text-lg font-extrabold text-white outline-none appearance-none pr-4 cursor-pointer text-center w-12">
+                                        </select>
                                         <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
                                     </div>
                                 </div>
@@ -417,7 +428,7 @@
             <div class="bg-[#0f172a] rounded-3xl shadow-xl border border-slate-700 overflow-hidden relative mt-6">
                 <div class="flex justify-between items-center px-4 py-3 bg-[#1e293b] border-b border-slate-700">
                     <span class="text-[11px] font-bold text-cyan-400">Grid_Operation.txt</span>
-                    <button onclick="document.getElementById('memo-grid').value=''; autoResize(document.getElementById('memo-grid')); saveLocal();" class="text-[10px] text-slate-300 bg-slate-700 px-2 py-1 rounded-md hover:text-white transition-colors">
+                    <button onclick="document.getElementById('memo-grid').value=''; autoResize(document.getElementById('memo-grid')); saveLocal();" class="text-[10px] text-gray-400 bg-gray-700 px-2 py-1 rounded-md hover:text-white transition-colors">
                         비우기 <i class="fa-solid fa-trash ml-1"></i>
                     </button>
                 </div>
@@ -436,12 +447,13 @@
         let state2 = '운전';
 
         function initSelects() {
+            // 출력 (0~321 3단위 증가 제거, 0~322 1MW 단위로 변경)
             const ids = ['i-gt11', 'i-gt12', 'i-st10', 'i-gt21', 'i-gt22', 'i-st20'];
             ids.forEach(id => {
                 const select = document.getElementById(id);
                 if(select) {
                     select.innerHTML = '';
-                    for(let i=0; i<=322; i++) { // 1MW 단위
+                    for(let i=0; i<=322; i++) {
                         select.add(new Option(i, i));
                     }
                     select.value = 0;
@@ -498,6 +510,7 @@
 
             fetchWeather();
 
+            // 모든 폼 요소 변경 시 로컬에 저장만 함. (메모장은 수동 적용 시에만 변경됨)
             document.querySelectorAll('input, select').forEach(el => {
                 if(el.id !== 'memo-morning' && el.id !== 'memo-dispatch' && el.id !== 'memo-grid') {
                     el.addEventListener('input', saveLocal);
@@ -533,11 +546,11 @@
                 gMinute: document.getElementById('g-minute').value,
                 gTarget: document.getElementById('g-target').value,
             };
-            localStorage.setItem('pajuReportDataV4', JSON.stringify(data));
+            localStorage.setItem('pajuReportDataV5', JSON.stringify(data));
         }
 
         function loadLocal() {
-            const saved = localStorage.getItem('pajuReportDataV4');
+            const saved = localStorage.getItem('pajuReportDataV5');
             if(saved) {
                 try {
                     const data = JSON.parse(saved);
@@ -559,6 +572,7 @@
                     document.getElementById('memo-dispatch').value = data.memoDispatch || '';
                     document.getElementById('memo-grid').value = data.memoGrid || '';
 
+                    // 24H 휠 셀렉터 값 복구
                     document.getElementById('d-hour').value = data.dHour || '00';
                     document.getElementById('d-minute').value = data.dMinute || '00';
                     document.getElementById('g-hour').value = data.gHour || '00';
@@ -601,11 +615,9 @@
                 else if([51,53,55,56,57,61,63,65,66,67,80,81,82].includes(code)) { txt = '비'; icon = '🌧️'; }
                 else if([71,73,75,77,85,86].includes(code)) { txt = '눈'; icon = '❄️'; }
 
-                const savedTemp = document.getElementById('m-temp').value;
-                if(!savedTemp || savedTemp === '--') {
-                    document.getElementById('m-temp').value = temp.toFixed(1);
-                    document.getElementById('m-weather').value = txt;
-                }
+                // 항상 덮어씌움 (날씨 강제 동기화 픽스)
+                document.getElementById('m-temp').value = temp.toFixed(1);
+                document.getElementById('m-weather').value = txt;
                 
                 tempLabel.innerText = `${temp.toFixed(1)}°C`;
                 descLabel.innerText = txt;
@@ -659,11 +671,11 @@
             else if(targetState === '계획정비') bText = '계획정비 중';
             badge.innerText = bText;
 
-            const ids = cc === 1 ? ['i-gt11','i-gt12','i-st10'] : ['i-gt21','i-gt22','i-st20'];
+            const ids = cc === 1 ? ['gt11','gt12','st10'] : ['gt21','gt22','st20'];
             const isOff = (targetState === '정지' || targetState === '계획정비');
             
             ids.forEach(id => {
-                const i = document.getElementById(id);
+                const i = document.getElementById(`i-${id}`);
                 if(isOff) { i.value = 0; i.disabled = true; i.classList.add('opacity-40'); } 
                 else { i.disabled = false; i.classList.remove('opacity-40'); }
             });
@@ -693,7 +705,7 @@
             if(st==='기동') return `    - ${prefix} 기동 중\n${tLoad}\n     ${gtNm}${padMW(g1,g2,s)}`;
             if(st==='계획정비') {
                 const per = document.getElementById(cc===1?'period-1':'period-2').value;
-                scheduleArr.push(`-${prefix} 계획정비\n      (${per})`);
+                scheduleArr.push(`- ${prefix} 계획정비\n      (${per})`); // 하이픈 뒤 공백 픽스
                 return `    - ${prefix} 계획정비 정지 상태\n     (Total Load : 0MW)        \n     ${cc===1?'11GT/12GT/10ST':'21GT/22GT/20ST'} \n             0/   0/  0MW`;
             }
             return "";
@@ -722,10 +734,10 @@
             let issueStr = "";
             if(sch.length > 0) {
                 issueStr = "     " + sch.join('\n     ');
-                if(issueInput && issueInput !== '없음') issueStr += `\n     -${issueInput}`;
+                if(issueInput && issueInput !== '없음') issueStr += `\n     - ${issueInput}`; // 공백 픽스
             } else {
-                if(issueInput && issueInput !== '없음') issueStr = `     -${issueInput}`;
-                else issueStr = "     -없음";
+                if(issueInput && issueInput !== '없음') issueStr = `     - ${issueInput}`; // 공백 픽스
+                else issueStr = "     - 없음"; // 공백 픽스
             }
 
             const text = `${dateHeader} 7:00 운전현황\n\n■ 급전지시\n    - 없음\n■ 대기온도 : ${t}°C (${w})\n■ 운전현황\n${blk1}\n${blk2}\n■ 특이사항\n${issueStr}`;
@@ -741,11 +753,11 @@
             const btn1 = document.getElementById('btn-dispatch-target-1');
             const btn2 = document.getElementById('btn-dispatch-target-2');
             if(targetVal === '#1CC') {
-                btn1.className = "flex-1 text-xs font-bold py-2 rounded-lg transition-all text-blue-400 bg-slate-800 border border-slate-600";
-                btn2.className = "flex-1 text-xs font-bold py-2 rounded-lg transition-all text-slate-500 bg-transparent border border-transparent";
+                btn1.className = "flex-1 text-xs font-bold py-2 rounded-lg transition-all text-blue-600 bg-white shadow-sm border border-gray-100";
+                btn2.className = "flex-1 text-xs font-bold py-2 rounded-lg transition-all text-gray-500 hover:text-gray-800 bg-transparent border border-transparent";
             } else {
-                btn1.className = "flex-1 text-xs font-bold py-2 rounded-lg transition-all text-slate-500 bg-transparent border border-transparent";
-                btn2.className = "flex-1 text-xs font-bold py-2 rounded-lg transition-all text-blue-400 bg-slate-800 border border-slate-600";
+                btn1.className = "flex-1 text-xs font-bold py-2 rounded-lg transition-all text-gray-500 hover:text-gray-800 bg-transparent border border-transparent";
+                btn2.className = "flex-1 text-xs font-bold py-2 rounded-lg transition-all text-blue-600 bg-white shadow-sm border border-gray-100";
             }
             saveLocal();
         }
