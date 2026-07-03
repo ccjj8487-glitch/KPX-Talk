@@ -501,7 +501,7 @@
 
             fetchWeather();
 
-            // 모든 폼 요소 변경 시 로컬에 저장만 함. (메모장은 수동 적용 시에만 변경됨)
+            // 모든 폼 요소 변경 시 로컬에 저장만 함
             document.querySelectorAll('input, select').forEach(el => {
                 if(el.id !== 'memo-morning' && el.id !== 'memo-dispatch' && el.id !== 'memo-grid') {
                     el.addEventListener('input', saveLocal);
@@ -537,11 +537,11 @@
                 gMinute: document.getElementById('g-minute').value,
                 gTarget: document.getElementById('g-target').value,
             };
-            localStorage.setItem('pajuReportDataV6', JSON.stringify(data));
+            localStorage.setItem('pajuReportDataV7', JSON.stringify(data));
         }
 
         function loadLocal() {
-            const saved = localStorage.getItem('pajuReportDataV6');
+            const saved = localStorage.getItem('pajuReportDataV7');
             if(saved) {
                 try {
                     const data = JSON.parse(saved);
@@ -563,7 +563,6 @@
                     document.getElementById('memo-dispatch').value = data.memoDispatch || '';
                     document.getElementById('memo-grid').value = data.memoGrid || '';
 
-                    // 24H 휠 셀렉터 값 복구
                     document.getElementById('d-hour').value = data.dHour || '00';
                     document.getElementById('d-minute').value = data.dMinute || '00';
                     document.getElementById('g-hour').value = data.gHour || '00';
@@ -606,7 +605,7 @@
                 else if([51,53,55,56,57,61,63,65,66,67,80,81,82].includes(code)) { txt = '비'; icon = '🌧️'; }
                 else if([71,73,75,77,85,86].includes(code)) { txt = '눈'; icon = '❄️'; }
 
-                // 강제 덮어쓰기 완료
+                // 💡 날씨 강제 덮어쓰기 로직 픽스
                 document.getElementById('m-temp').value = temp.toFixed(1);
                 document.getElementById('m-weather').value = txt;
                 
@@ -614,7 +613,7 @@
                 descLabel.innerText = txt;
                 iconLabel.innerText = icon;
                 
-                renderMorningMemo(true); // 알림 없이 메모 갱신
+                renderMorningMemo(true); // 날씨 가져오면 메모장도 무음 적용 업데이트
                 saveLocal();
             } catch(e) {
                 descLabel.innerText = "날씨 오프라인";
@@ -697,12 +696,13 @@
             if(st==='기동') return `    - ${prefix} 기동 중\n${tLoad}\n     ${gtNm}${padMW(g1,g2,s)}`;
             if(st==='계획정비') {
                 const per = document.getElementById(cc===1?'period-1':'period-2').value;
-                scheduleArr.push(`- ${prefix} 계획정비\n      (${per})`);
+                scheduleArr.push(`- ${prefix} 계획정비\n      (${per})`); // 💡 하이픈 뒤 공백 추가 픽스
                 return `    - ${prefix} 계획정비 정지 상태\n     (Total Load : 0MW)        \n     ${cc===1?'11GT/12GT/10ST':'21GT/22GT/20ST'} \n             0/   0/  0MW`;
             }
             return "";
         }
 
+        // 💡 silent 플래그: 날씨 동기화 등 내부 변경 시엔 토스트 알림 없이 자동 반영
         function renderMorningMemo(silent = false) {
             const d = document.getElementById('m-date').value;
             let dateHeader = "O월 O일(O)";
@@ -726,10 +726,10 @@
             let issueStr = "";
             if(sch.length > 0) {
                 issueStr = "     " + sch.join('\n     ');
-                if(issueInput && issueInput !== '없음') issueStr += `\n     - ${issueInput}`;
+                if(issueInput && issueInput !== '없음') issueStr += `\n     - ${issueInput}`; // 💡 하이픈 뒤 공백 추가 픽스
             } else {
-                if(issueInput && issueInput !== '없음') issueStr = `     - ${issueInput}`;
-                else issueStr = "     - 없음";
+                if(issueInput && issueInput !== '없음') issueStr = `     - ${issueInput}`; // 💡 하이픈 뒤 공백 추가 픽스
+                else issueStr = "     - 없음"; // 💡 하이픈 뒤 공백 추가 픽스
             }
 
             const text = `${dateHeader} 7:00 운전현황\n\n■ 급전지시\n    - 없음\n■ 대기온도 : ${t}°C (${w})\n■ 운전현황\n${blk1}\n${blk2}\n■ 특이사항\n${issueStr}`;
@@ -737,6 +737,7 @@
             memoEl.value = text;
             autoResize(memoEl);
             saveLocal();
+            
             if(!silent) showToast("메모장에 양식이 적용되었습니다.", "success");
         }
 
