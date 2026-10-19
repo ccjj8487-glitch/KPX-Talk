@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>파주사업소 스마트 보고서</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
@@ -28,6 +31,11 @@
         textarea { resize: none; line-height: 1.7; letter-spacing: -0.02em; overflow-y: hidden; }
         select { text-align-last: center; }
 
+        /* 숫자 인력창 스피너 제거 */
+        input[type="number"]::-webkit-outer-spin-button, 
+        input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type="number"] { -moz-appearance: textfield; }
+
         .glass-card {
             background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(12px);
@@ -44,6 +52,7 @@
 
     <div class="max-w-md mx-auto px-4 pt-6 space-y-6 relative">
 
+        <!-- 헤더 영역 -->
         <header class="bg-slate-800 rounded-3xl p-6 border border-slate-700 shadow-xl relative overflow-hidden flex flex-col gap-4">
             <div class="absolute -right-8 -top-8 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl"></div>
             <div class="absolute -left-8 -bottom-8 w-32 h-32 bg-indigo-500/20 rounded-full blur-2xl"></div>
@@ -77,6 +86,7 @@
             </div>
         </header>
 
+        <!-- 탭 네비게이션 -->
         <nav class="sticky top-4 z-40 flex p-1.5 bg-slate-900/80 backdrop-blur-md rounded-2xl border border-slate-700 shadow-lg">
             <button onclick="switchTab('morning')" id="tab-morning" class="tab-btn flex-1 py-3 rounded-xl text-xs flex items-center justify-center gap-2 tab-active">
                 <i class="fa-solid fa-sun text-[14px]"></i> 아침 현황
@@ -89,6 +99,9 @@
             </button>
         </nav>
 
+        <!-- ============================================== -->
+        <!-- [탭 1] 아침 운전현황 (Morning) -->
+        <!-- ============================================== -->
         <div id="panel-morning" class="space-y-5 animate-fade-in">
             
             <div class="bg-slate-800 rounded-3xl p-5 border border-slate-700 space-y-4 shadow-md">
@@ -104,8 +117,8 @@
                     <div class="space-y-1.5">
                         <label class="block text-[11px] font-bold text-slate-400 pl-1">대기 온도 및 날씨</label>
                         <div class="flex gap-2">
-                            <input type="number" id="m-temp" step="0.1" placeholder="온도" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-2 py-3 text-white text-sm font-semibold text-center focus:ring-2 focus:ring-blue-500/20 outline-none shadow-sm">
-                            <select id="m-weather" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-2 py-3 text-white text-sm font-semibold focus:ring-2 focus:ring-blue-500/20 outline-none shadow-sm appearance-none text-center cursor-pointer">
+                            <input type="number" id="m-temp" step="0.1" placeholder="온도" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-2 py-3 text-white text-sm font-semibold text-center focus:border-blue-500 outline-none shadow-sm">
+                            <select id="m-weather" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-2 py-3 text-white text-sm font-semibold focus:border-blue-500 outline-none shadow-sm appearance-none text-center cursor-pointer">
                                 <option value="맑음">맑음 ☀️</option>
                                 <option value="흐림" selected>흐림 ☁️</option>
                                 <option value="비">비 🌧️</option>
@@ -116,6 +129,7 @@
                 </div>
             </div>
 
+            <!-- #1CC Card -->
             <div class="bg-slate-800 rounded-3xl p-5 border border-slate-700 border-l-4 border-l-blue-500 shadow-md">
                 <div class="flex justify-between items-center mb-5">
                     <div class="flex items-center gap-2">
@@ -142,27 +156,29 @@
                     <div id="wrap-gt11" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-400 ml-2">11GT 출력</span>
                         <div class="relative w-36">
-                            <select id="i-gt11" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer font-mono"></select>
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW <i class="fa-solid fa-chevron-down ml-1 text-[8px] text-slate-500"></i></span>
+                            <!-- 키패드 입력으로 변경 -->
+                            <input type="number" id="i-gt11" inputmode="numeric" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all font-mono">
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW</span>
                         </div>
                     </div>
                     <div id="wrap-gt12" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-400 ml-2">12GT 출력</span>
                         <div class="relative w-36">
-                            <select id="i-gt12" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer font-mono"></select>
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW <i class="fa-solid fa-chevron-down ml-1 text-[8px] text-slate-500"></i></span>
+                            <input type="number" id="i-gt12" inputmode="numeric" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all font-mono">
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW</span>
                         </div>
                     </div>
                     <div id="wrap-st10" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-400 ml-2">10ST 출력</span>
                         <div class="relative w-36">
-                            <select id="i-st10" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer font-mono"></select>
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW <i class="fa-solid fa-chevron-down ml-1 text-[8px] text-slate-500"></i></span>
+                            <input type="number" id="i-st10" inputmode="numeric" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all font-mono">
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW</span>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- #2CC Card -->
             <div class="bg-slate-800 rounded-3xl p-5 border border-slate-700 border-l-4 border-l-teal-500 shadow-md">
                 <div class="flex justify-between items-center mb-5">
                     <div class="flex items-center gap-2">
@@ -189,36 +205,39 @@
                     <div id="wrap-gt21" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-400 ml-2">21GT 출력</span>
                         <div class="relative w-36">
-                            <select id="i-gt21" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer font-mono"></select>
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW <i class="fa-solid fa-chevron-down ml-1 text-[8px] text-slate-500"></i></span>
+                            <input type="number" id="i-gt21" inputmode="numeric" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all font-mono">
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW</span>
                         </div>
                     </div>
                     <div id="wrap-gt22" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-400 ml-2">22GT 출력</span>
                         <div class="relative w-36">
-                            <select id="i-gt22" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer font-mono"></select>
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW <i class="fa-solid fa-chevron-down ml-1 text-[8px] text-slate-500"></i></span>
+                            <input type="number" id="i-gt22" inputmode="numeric" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all font-mono">
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW</span>
                         </div>
                     </div>
                     <div id="wrap-st20" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
                         <span class="text-[13px] font-extrabold text-slate-400 ml-2">20ST 출력</span>
                         <div class="relative w-36">
-                            <select id="i-st20" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none appearance-none cursor-pointer font-mono"></select>
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW <i class="fa-solid fa-chevron-down ml-1 text-[8px] text-slate-500"></i></span>
+                            <input type="number" id="i-st20" inputmode="numeric" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all font-mono">
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW</span>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- 특이사항 -->
             <div class="bg-slate-800 rounded-3xl p-5 border border-slate-700 shadow-md">
                 <label class="block text-slate-400 text-xs font-bold mb-2 pl-1">특이사항 추가</label>
                 <input type="text" id="m-issue" value="없음" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-xs font-semibold outline-none focus:border-blue-500 shadow-sm">
             </div>
 
+            <!-- 수동 적용 버튼 -->
             <button onclick="renderMorningMemo()" class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-extrabold text-sm shadow-lg shadow-blue-500/30 transition-all active:scale-95 flex items-center justify-center gap-2 mt-4 mb-2">
                 <i class="fa-solid fa-wand-magic-sparkles"></i> 설정한 수치 메모장에 적용하기
             </button>
 
+            <!-- 1번 터미널 에디터 -->
             <div class="bg-[#0f172a] rounded-3xl shadow-xl border border-slate-700 overflow-hidden relative mt-4">
                 <div class="flex justify-between items-center px-4 py-3 bg-[#1e293b] border-b border-slate-700 sticky top-0 z-10">
                     <div class="flex gap-1.5 items-center">
@@ -240,6 +259,9 @@
         </div>
 
 
+        <!-- ============================================== -->
+        <!-- [탭 2] 급전 지시 (Dispatch) -->
+        <!-- ============================================== -->
         <div id="panel-dispatch" class="hidden space-y-5 animate-fade-in">
             
             <div class="bg-slate-800 rounded-3xl p-5 space-y-5 border border-slate-700 border-l-4 border-l-amber-500 shadow-md">
@@ -260,8 +282,7 @@
                                 <div class="flex flex-col items-center">
                                     <span class="text-[9px] font-extrabold text-slate-500 mb-1">시 (Hour)</span>
                                     <div class="relative bg-slate-800 border border-slate-600 rounded-xl px-4 py-2 shadow-sm">
-                                        <select id="d-hour" onchange="updateTimeFromSelects('d')" class="bg-transparent text-lg font-extrabold text-white outline-none appearance-none pr-4 cursor-pointer text-center w-12">
-                                        </select>
+                                        <select id="d-hour" onchange="updateTimeFromSelects('d')" class="bg-transparent text-lg font-extrabold text-white outline-none appearance-none pr-4 cursor-pointer text-center w-12"></select>
                                         <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
                                     </div>
                                 </div>
@@ -269,8 +290,7 @@
                                 <div class="flex flex-col items-center">
                                     <span class="text-[9px] font-extrabold text-slate-500 mb-1">분 (Minute)</span>
                                     <div class="relative bg-slate-800 border border-slate-600 rounded-xl px-4 py-2 shadow-sm">
-                                        <select id="d-minute" onchange="updateTimeFromSelects('d')" class="bg-transparent text-lg font-extrabold text-white outline-none appearance-none pr-4 cursor-pointer text-center w-12">
-                                        </select>
+                                        <select id="d-minute" onchange="updateTimeFromSelects('d')" class="bg-transparent text-lg font-extrabold text-white outline-none appearance-none pr-4 cursor-pointer text-center w-12"></select>
                                         <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
                                     </div>
                                 </div>
@@ -309,6 +329,7 @@
                 </div>
             </div>
 
+            <!-- 2번 에디터 -->
             <div class="bg-[#0f172a] rounded-3xl shadow-xl border border-slate-700 overflow-hidden relative mt-6">
                 <div class="flex justify-between items-center px-4 py-3 bg-[#1e293b] border-b border-slate-700">
                     <span class="text-[11px] font-bold text-amber-400">Dispatch_Memo.txt</span>
@@ -322,6 +343,9 @@
         </div>
 
 
+        <!-- ============================================== -->
+        <!-- [탭 3] 계통 조작 (Grid) -->
+        <!-- ============================================== -->
         <div id="panel-grid" class="hidden space-y-5 animate-fade-in">
             
             <div class="bg-slate-800 rounded-3xl p-5 space-y-6 border border-slate-700 border-l-4 border-l-cyan-500 shadow-md">
@@ -417,6 +441,7 @@
                 </div>
             </div>
 
+            <!-- 3번 에디터 -->
             <div class="bg-[#0f172a] rounded-3xl shadow-xl border border-slate-700 overflow-hidden relative mt-6">
                 <div class="flex justify-between items-center px-4 py-3 bg-[#1e293b] border-b border-slate-700">
                     <span class="text-[11px] font-bold text-cyan-400">Grid_Operation.txt</span>
@@ -434,23 +459,12 @@
 
     </div>
 
+    <!-- MAIN 자바스크립트 엔진 -->
     <script>
         let state1 = '운전';
         let state2 = '운전';
 
         function initSelects() {
-            const ids = ['i-gt11', 'i-gt12', 'i-st10', 'i-gt21', 'i-gt22', 'i-st20'];
-            ids.forEach(id => {
-                const select = document.getElementById(id);
-                if(select) {
-                    select.innerHTML = '';
-                    for(let i=0; i<=322; i++) {
-                        select.add(new Option(i, i));
-                    }
-                    select.value = 0;
-                }
-            });
-
             ['d-hour', 'g-hour'].forEach(id => {
                 const select = document.getElementById(id);
                 if(select) {
@@ -501,7 +515,6 @@
 
             fetchWeather();
 
-            // 모든 폼 요소 변경 시 로컬에 저장만 함
             document.querySelectorAll('input, select').forEach(el => {
                 if(el.id !== 'memo-morning' && el.id !== 'memo-dispatch' && el.id !== 'memo-grid') {
                     el.addEventListener('input', saveLocal);
@@ -537,11 +550,11 @@
                 gMinute: document.getElementById('g-minute').value,
                 gTarget: document.getElementById('g-target').value,
             };
-            localStorage.setItem('pajuReportDataV7', JSON.stringify(data));
+            localStorage.setItem('pajuReportDataV8', JSON.stringify(data));
         }
 
         function loadLocal() {
-            const saved = localStorage.getItem('pajuReportDataV7');
+            const saved = localStorage.getItem('pajuReportDataV8');
             if(saved) {
                 try {
                     const data = JSON.parse(saved);
@@ -605,7 +618,6 @@
                 else if([51,53,55,56,57,61,63,65,66,67,80,81,82].includes(code)) { txt = '비'; icon = '🌧️'; }
                 else if([71,73,75,77,85,86].includes(code)) { txt = '눈'; icon = '❄️'; }
 
-                // 💡 날씨 강제 덮어쓰기 로직 픽스
                 document.getElementById('m-temp').value = temp.toFixed(1);
                 document.getElementById('m-weather').value = txt;
                 
@@ -613,7 +625,7 @@
                 descLabel.innerText = txt;
                 iconLabel.innerText = icon;
                 
-                renderMorningMemo(true); // 날씨 가져오면 메모장도 무음 적용 업데이트
+                renderMorningMemo(true);
                 saveLocal();
             } catch(e) {
                 descLabel.innerText = "날씨 오프라인";
@@ -662,11 +674,11 @@
             else if(targetState === '계획정비') bText = '계획정비 중';
             badge.innerText = bText;
 
-            const ids = cc === 1 ? ['gt11','gt12','st10'] : ['gt21','gt22','st20'];
+            const ids = cc === 1 ? ['i-gt11','i-gt12','i-st10'] : ['i-gt21','i-gt22','i-st20'];
             const isOff = (targetState === '정지' || targetState === '계획정비');
             
             ids.forEach(id => {
-                const i = document.getElementById(`i-${id}`);
+                const i = document.getElementById(id);
                 if(isOff) { i.value = 0; i.disabled = true; i.classList.add('opacity-40'); } 
                 else { i.disabled = false; i.classList.remove('opacity-40'); }
             });
@@ -696,13 +708,12 @@
             if(st==='기동') return `    - ${prefix} 기동 중\n${tLoad}\n     ${gtNm}${padMW(g1,g2,s)}`;
             if(st==='계획정비') {
                 const per = document.getElementById(cc===1?'period-1':'period-2').value;
-                scheduleArr.push(`- ${prefix} 계획정비\n      (${per})`); // 💡 하이픈 뒤 공백 추가 픽스
+                scheduleArr.push(`- ${prefix} 계획정비\n      (${per})`);
                 return `    - ${prefix} 계획정비 정지 상태\n     (Total Load : 0MW)        \n     ${cc===1?'11GT/12GT/10ST':'21GT/22GT/20ST'} \n             0/   0/  0MW`;
             }
             return "";
         }
 
-        // 💡 silent 플래그: 날씨 동기화 등 내부 변경 시엔 토스트 알림 없이 자동 반영
         function renderMorningMemo(silent = false) {
             const d = document.getElementById('m-date').value;
             let dateHeader = "O월 O일(O)";
@@ -726,10 +737,10 @@
             let issueStr = "";
             if(sch.length > 0) {
                 issueStr = "     " + sch.join('\n     ');
-                if(issueInput && issueInput !== '없음') issueStr += `\n     - ${issueInput}`; // 💡 하이픈 뒤 공백 추가 픽스
+                if(issueInput && issueInput !== '없음') issueStr += `\n     - ${issueInput}`;
             } else {
-                if(issueInput && issueInput !== '없음') issueStr = `     - ${issueInput}`; // 💡 하이픈 뒤 공백 추가 픽스
-                else issueStr = "     - 없음"; // 💡 하이픈 뒤 공백 추가 픽스
+                if(issueInput && issueInput !== '없음') issueStr = `     - ${issueInput}`;
+                else issueStr = "     - 없음";
             }
 
             const text = `${dateHeader} 7:00 운전현황\n\n■ 급전지시\n    - 없음\n■ 대기온도 : ${t}°C (${w})\n■ 운전현황\n${blk1}\n${blk2}\n■ 특이사항\n${issueStr}`;
