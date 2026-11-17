@@ -29,7 +29,6 @@
         .tab-inactive { color: #94a3b8; font-weight: 600; background: transparent; }
 
         textarea { resize: none; line-height: 1.65; letter-spacing: -0.02em; overflow-y: hidden; }
-        select { text-align-last: center; }
 
         @keyframes soft-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
         .animate-soft-pulse { animation: soft-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
@@ -81,10 +80,10 @@
             
             <div class="bg-slate-800 rounded-2xl p-4 space-y-4 border border-slate-700 border-l-4 border-l-amber-500 shadow-md">
                 
-                <!-- 시간 설정 -->
+                <!-- 시간 설정 (직접 숫자 입력) -->
                 <div class="space-y-2">
                     <div class="flex justify-between items-center">
-                        <label class="text-[11px] font-bold text-slate-300">지시 시간</label>
+                        <label class="text-[11px] font-bold text-slate-300">지시 시간 <span class="text-[10px] font-normal text-slate-400">(터치 후 숫자 입력)</span></label>
                         <button onclick="setNow('d')" class="px-2.5 py-1 bg-amber-500/15 border border-amber-500/40 rounded-lg text-[10px] text-amber-400 font-extrabold flex items-center gap-1 active:scale-95 transition-transform">
                             <i class="fa-regular fa-clock"></i> 현재시간
                         </button>
@@ -92,15 +91,17 @@
                     
                     <div class="bg-slate-900 border border-slate-700 rounded-xl p-2.5 space-y-2.5">
                         <div class="flex items-center justify-center gap-3">
-                            <div class="relative bg-slate-800 border border-slate-600 rounded-xl px-3 py-1.5">
-                                <select id="d-hour" onchange="updateTimeFromSelects('d')" class="bg-transparent text-xl font-black text-white outline-none appearance-none pr-3 cursor-pointer text-center w-12"></select>
-                                <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
-                            </div>
+                            <input type="text" id="d-hour" inputmode="numeric" pattern="[0-9]*" maxlength="2" placeholder="00"
+                                   onfocus="this.select()"
+                                   oninput="onTimeInput('d', 'hour')"
+                                   onblur="onTimeBlur('d')"
+                                   class="bg-slate-800 border border-slate-600 focus:border-amber-400 rounded-xl py-1.5 text-xl font-black text-white outline-none text-center w-16 transition-colors">
                             <span class="text-xl font-black text-slate-500">:</span>
-                            <div class="relative bg-slate-800 border border-slate-600 rounded-xl px-3 py-1.5">
-                                <select id="d-minute" onchange="updateTimeFromSelects('d')" class="bg-transparent text-xl font-black text-white outline-none appearance-none pr-3 cursor-pointer text-center w-12"></select>
-                                <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
-                            </div>
+                            <input type="text" id="d-minute" inputmode="numeric" pattern="[0-9]*" maxlength="2" placeholder="00"
+                                   onfocus="this.select()"
+                                   oninput="onTimeInput('d', 'minute')"
+                                   onblur="onTimeBlur('d')"
+                                   class="bg-slate-800 border border-slate-600 focus:border-amber-400 rounded-xl py-1.5 text-xl font-black text-white outline-none text-center w-16 transition-colors">
                         </div>
                         
                         <!-- 1분 단위 포함 7버튼 퀵조정 -->
@@ -170,10 +171,10 @@
             
             <div class="bg-slate-800 rounded-2xl p-4 space-y-4 border border-slate-700 border-l-4 border-l-cyan-500 shadow-md">
                 
-                <!-- 기준 시간 설정 -->
+                <!-- 기준 시간 설정 (직접 숫자 입력) -->
                 <div class="space-y-2">
                     <div class="flex justify-between items-center">
-                        <label class="text-[11px] font-bold text-slate-300">조작 시각</label>
+                        <label class="text-[11px] font-bold text-slate-300">조작 시각 <span class="text-[10px] font-normal text-slate-400">(터치 후 숫자 입력)</span></label>
                         <button onclick="setNow('g')" class="px-2.5 py-1 bg-cyan-500/15 border border-cyan-500/40 rounded-lg text-[10px] text-cyan-400 font-extrabold flex items-center gap-1 active:scale-95 transition-transform">
                             <i class="fa-regular fa-clock"></i> 현재시간
                         </button>
@@ -181,15 +182,17 @@
                     
                     <div class="bg-slate-900 border border-slate-700 rounded-xl p-2.5 space-y-2.5">
                         <div class="flex items-center justify-center gap-3">
-                            <div class="relative bg-slate-800 border border-slate-600 rounded-xl px-3 py-1.5">
-                                <select id="g-hour" onchange="updateTimeFromSelects('g')" class="bg-transparent text-xl font-black text-white outline-none appearance-none pr-3 cursor-pointer text-center w-12"></select>
-                                <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
-                            </div>
+                            <input type="text" id="g-hour" inputmode="numeric" pattern="[0-9]*" maxlength="2" placeholder="00"
+                                   onfocus="this.select()"
+                                   oninput="onTimeInput('g', 'hour')"
+                                   onblur="onTimeBlur('g')"
+                                   class="bg-slate-800 border border-slate-600 focus:border-cyan-400 rounded-xl py-1.5 text-xl font-black text-white outline-none text-center w-16 transition-colors">
                             <span class="text-xl font-black text-slate-500">:</span>
-                            <div class="relative bg-slate-800 border border-slate-600 rounded-xl px-3 py-1.5">
-                                <select id="g-minute" onchange="updateTimeFromSelects('g')" class="bg-transparent text-xl font-black text-white outline-none appearance-none pr-3 cursor-pointer text-center w-12"></select>
-                                <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
-                            </div>
+                            <input type="text" id="g-minute" inputmode="numeric" pattern="[0-9]*" maxlength="2" placeholder="00"
+                                   onfocus="this.select()"
+                                   oninput="onTimeInput('g', 'minute')"
+                                   onblur="onTimeBlur('g')"
+                                   class="bg-slate-800 border border-slate-600 focus:border-cyan-400 rounded-xl py-1.5 text-xl font-black text-white outline-none text-center w-16 transition-colors">
                         </div>
 
                         <!-- 1분 단위 포함 7버튼 퀵조정 -->
@@ -284,31 +287,7 @@
     <script>
         let currentBlock = '1'; // '1' (#1CC) 또는 '2' (#2CC) 통합 관리
 
-        function initSelects() {
-            ['d-hour', 'g-hour'].forEach(id => {
-                const select = document.getElementById(id);
-                if(!select) return;
-                select.innerHTML = '';
-                for(let i = 0; i <= 23; i++) {
-                    const val = String(i).padStart(2, '0');
-                    select.add(new Option(val, val));
-                }
-            });
-
-            ['d-minute', 'g-minute'].forEach(id => {
-                const select = document.getElementById(id);
-                if(!select) return;
-                select.innerHTML = '';
-                for(let i = 0; i <= 59; i++) {
-                    const val = String(i).padStart(2, '0');
-                    select.add(new Option(val, val));
-                }
-            });
-        }
-
         window.onload = function() {
-            initSelects();
-
             if(!loadLocal()) {
                 setNowSilent('d');
                 setNowSilent('g');
@@ -340,13 +319,18 @@
                 document.getElementById('memo-dispatch').value = data.memoDispatch || '';
                 document.getElementById('memo-grid').value = data.memoGrid || '';
 
-                document.getElementById('d-hour').value = data.dHour || '00';
-                document.getElementById('d-minute').value = data.dMinute || '00';
-                document.getElementById('g-hour').value = data.gHour || '00';
-                document.getElementById('g-minute').value = data.gMinute || '00';
+                const dH = String(data.dHour || '00').padStart(2, '0');
+                const dM = String(data.dMinute || '00').padStart(2, '0');
+                const gH = String(data.gHour || '00').padStart(2, '0');
+                const gM = String(data.gMinute || '00').padStart(2, '0');
 
-                document.getElementById('d-time').value = `${data.dHour || '00'}:${data.dMinute || '00'}`;
-                document.getElementById('g-time').value = `${data.gHour || '00'}:${data.gMinute || '00'}`;
+                document.getElementById('d-hour').value = dH;
+                document.getElementById('d-minute').value = dM;
+                document.getElementById('g-hour').value = gH;
+                document.getElementById('g-minute').value = gM;
+
+                document.getElementById('d-time').value = `${dH}:${dM}`;
+                document.getElementById('g-time').value = `${gH}:${gM}`;
 
                 syncTarget(data.currentBlock || '1', true);
                 return true;
@@ -424,7 +408,6 @@
                 g2.className = "text-xs font-extrabold py-2.5 rounded-lg transition-all text-cyan-400 bg-slate-800 border border-cyan-500/50";
             }
 
-            // 3번 탭 버튼 텍스트도 호기에 맞춰 직관적으로 변경
             const gt1 = block === '1' ? '11GT' : '21GT';
             const gt2 = block === '1' ? '12GT' : '22GT';
             const st  = block === '1' ? '10ST' : '20ST';
@@ -439,11 +422,56 @@
             if(!silent) saveLocal();
         }
 
-        function updateTimeFromSelects(prefix) {
-            const h = document.getElementById(`${prefix}-hour`).value;
-            const m = document.getElementById(`${prefix}-minute`).value;
-            document.getElementById(`${prefix}-time`).value = `${h}:${m}`;
+        // 숫자 직접 입력 처리
+        function onTimeInput(prefix, part) {
+            const hEl = document.getElementById(`${prefix}-hour`);
+            const mEl = document.getElementById(`${prefix}-minute`);
+
+            hEl.value = hEl.value.replace(/[^0-9]/g, '');
+            mEl.value = mEl.value.replace(/[^0-9]/g, '');
+
+            if (part === 'hour' && hEl.value !== '') {
+                if (parseInt(hEl.value, 10) > 23) hEl.value = '23';
+                if (hEl.value.length === 2) {
+                    mEl.focus();
+                }
+            }
+
+            if (part === 'minute' && mEl.value !== '') {
+                if (parseInt(mEl.value, 10) > 59) mEl.value = '59';
+            }
+
+            syncHiddenTime(prefix);
             saveLocal();
+        }
+
+        function onTimeBlur(prefix) {
+            const hEl = document.getElementById(`${prefix}-hour`);
+            const mEl = document.getElementById(`${prefix}-minute`);
+
+            let h = parseInt(hEl.value, 10);
+            let m = parseInt(mEl.value, 10);
+            if (isNaN(h) || h < 0) h = 0;
+            if (h > 23) h = 23;
+            if (isNaN(m) || m < 0) m = 0;
+            if (m > 59) m = 59;
+
+            hEl.value = String(h).padStart(2, '0');
+            mEl.value = String(m).padStart(2, '0');
+
+            syncHiddenTime(prefix);
+            saveLocal();
+        }
+
+        function syncHiddenTime(prefix) {
+            let h = parseInt(document.getElementById(`${prefix}-hour`).value, 10);
+            let m = parseInt(document.getElementById(`${prefix}-minute`).value, 10);
+            if (isNaN(h) || h < 0) h = 0;
+            if (h > 23) h = 23;
+            if (isNaN(m) || m < 0) m = 0;
+            if (m > 59) m = 59;
+
+            document.getElementById(`${prefix}-time`).value = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
         }
 
         function setNowSilent(prefix) {
@@ -463,8 +491,8 @@
         }
 
         function adjustTimeBy(prefix, mins) {
-            let h = parseInt(document.getElementById(`${prefix}-hour`).value) || 0;
-            let m = parseInt(document.getElementById(`${prefix}-minute`).value) || 0;
+            let h = parseInt(document.getElementById(`${prefix}-hour`).value, 10) || 0;
+            let m = parseInt(document.getElementById(`${prefix}-minute`).value, 10) || 0;
             if (mins === 0) {
                 m = 0;
             } else {
@@ -475,10 +503,12 @@
             }
             document.getElementById(`${prefix}-hour`).value = String(h).padStart(2, '0');
             document.getElementById(`${prefix}-minute`).value = String(m).padStart(2, '0');
-            updateTimeFromSelects(prefix);
+            syncHiddenTime(prefix);
+            saveLocal();
         }
 
         function dMake(type) {
+            onTimeBlur('d');
             const time = document.getElementById('d-time').value;
             if(!time) return;
             const target = currentBlock === '1' ? '#1CC' : '#2CC';
@@ -587,6 +617,7 @@
         }
 
         function gAddConnect(type) {
+            onTimeBlur('g');
             const time = document.getElementById('g-time').value;
             if(!time) return;
             const name = getGTargetName(type);
@@ -595,6 +626,7 @@
         }
 
         function gAddSeparateSingle(type) {
+            onTimeBlur('g');
             const time = document.getElementById('g-time').value;
             if(!time) return;
             const name = getGTargetName(type);
@@ -603,6 +635,7 @@
         }
 
         function gAddAgc(mode) {
+            onTimeBlur('g');
             const time = document.getElementById('g-time').value;
             if(!time) return;
             const block = currentBlock === '1' ? '#1CC' : '#2CC';
@@ -618,6 +651,7 @@
         }
 
         function gAddSeparate(mode) {
+            onTimeBlur('g');
             const time = document.getElementById('g-time').value;
             if(!time) return;
             const stName = getGTargetName('ST');
