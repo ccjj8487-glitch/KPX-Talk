@@ -63,13 +63,16 @@
             </button>
         </header>
 
-        <!-- 2개 탭 네비게이션 -->
-        <nav class="sticky top-2.5 z-40 grid grid-cols-2 gap-1.5 p-1.5 bg-slate-900/90 backdrop-blur-md rounded-2xl border border-slate-700 shadow-lg">
-            <button onclick="switchTab('dispatch')" id="tab-dispatch" class="tab-btn py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 tab-active">
-                <i class="fa-solid fa-tower-broadcast text-[13px] text-amber-400"></i> 급전 지시
+        <!-- 3개 탭 네비게이션 -->
+        <nav class="sticky top-2.5 z-40 grid grid-cols-3 gap-1.5 p-1.5 bg-slate-900/90 backdrop-blur-md rounded-2xl border border-slate-700 shadow-lg">
+            <button onclick="switchTab('dispatch')" id="tab-dispatch" class="tab-btn py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 tab-active">
+                <i class="fa-solid fa-tower-broadcast text-[12px] text-amber-400"></i> 급전 지시
             </button>
-            <button onclick="switchTab('grid')" id="tab-grid" class="tab-btn py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 tab-inactive">
-                <i class="fa-solid fa-network-wired text-[13px] text-cyan-400"></i> 계통 조작
+            <button onclick="switchTab('grid')" id="tab-grid" class="tab-btn py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 tab-inactive">
+                <i class="fa-solid fa-network-wired text-[12px] text-cyan-400"></i> 계통 조작
+            </button>
+            <button onclick="switchTab('minload')" id="tab-minload" class="tab-btn py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 tab-inactive">
+                <i class="fa-solid fa-gauge-low text-[12px] text-violet-400"></i> 최소 발전
             </button>
         </nav>
 
@@ -282,16 +285,108 @@
             </div>
         </div>
 
+
+        <!-- ============================================== -->
+        <!-- [탭 3] 최소 발전용량 이하 운전 (MinLoad) -->
+        <!-- ============================================== -->
+        <div id="panel-minload" class="hidden space-y-3.5">
+            
+            <div class="bg-slate-800 rounded-2xl p-4 space-y-4 border border-slate-700 border-l-4 border-l-violet-500 shadow-md">
+                
+                <!-- 시간 설정 (직접 숫자 입력) -->
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center">
+                        <label class="text-[11px] font-bold text-slate-300">시각 입력 <span class="text-[10px] font-normal text-slate-400">(터치 후 숫자 입력)</span></label>
+                        <button onclick="setNow('m')" class="px-2.5 py-1 bg-violet-500/15 border border-violet-500/40 rounded-lg text-[10px] text-violet-300 font-extrabold flex items-center gap-1 active:scale-95 transition-transform">
+                            <i class="fa-regular fa-clock"></i> 현재시간
+                        </button>
+                    </div>
+                    
+                    <div class="bg-slate-900 border border-slate-700 rounded-xl p-2.5 space-y-2.5">
+                        <div class="flex items-center justify-center gap-3">
+                            <input type="text" id="m-hour" inputmode="numeric" pattern="[0-9]*" maxlength="2" placeholder="00"
+                                   onfocus="this.select()"
+                                   oninput="onTimeInput('m', 'hour')"
+                                   onblur="onTimeBlur('m')"
+                                   class="bg-slate-800 border border-slate-600 focus:border-violet-400 rounded-xl py-1.5 text-xl font-black text-white outline-none text-center w-16 transition-colors">
+                            <span class="text-xl font-black text-slate-500">:</span>
+                            <input type="text" id="m-minute" inputmode="numeric" pattern="[0-9]*" maxlength="2" placeholder="00"
+                                   onfocus="this.select()"
+                                   oninput="onTimeInput('m', 'minute')"
+                                   onblur="onTimeBlur('m')"
+                                   class="bg-slate-800 border border-slate-600 focus:border-violet-400 rounded-xl py-1.5 text-xl font-black text-white outline-none text-center w-16 transition-colors">
+                        </div>
+
+                        <!-- 1분 단위 포함 7버튼 퀵조정 -->
+                        <div class="grid grid-cols-7 gap-1 pt-2 border-t border-slate-800">
+                            <button onclick="adjustTimeBy('m', -10)" class="py-2 bg-slate-800 border border-slate-700 text-[10px] font-bold text-slate-300 rounded-lg active:scale-95">-10</button>
+                            <button onclick="adjustTimeBy('m', -5)" class="py-2 bg-slate-800 border border-slate-700 text-[10px] font-bold text-slate-300 rounded-lg active:scale-95">-5</button>
+                            <button onclick="adjustTimeBy('m', -1)" class="py-2 bg-slate-800 border border-slate-600 text-[10px] font-extrabold text-violet-300 rounded-lg active:scale-95">-1</button>
+                            <button onclick="adjustTimeBy('m', 0)" class="py-2 bg-violet-500/15 border border-violet-500/50 text-[10px] font-black text-violet-300 rounded-lg active:scale-95">정각</button>
+                            <button onclick="adjustTimeBy('m', 1)" class="py-2 bg-slate-800 border border-slate-600 text-[10px] font-extrabold text-violet-300 rounded-lg active:scale-95">+1</button>
+                            <button onclick="adjustTimeBy('m', 5)" class="py-2 bg-slate-800 border border-slate-700 text-[10px] font-bold text-slate-300 rounded-lg active:scale-95">+5</button>
+                            <button onclick="adjustTimeBy('m', 10)" class="py-2 bg-slate-800 border border-slate-700 text-[10px] font-bold text-slate-300 rounded-lg active:scale-95">+10</button>
+                        </div>
+                    </div>
+                    <input type="hidden" id="m-time" value="">
+                </div>
+                
+                <!-- 대상 호기 선택 -->
+                <div class="space-y-1.5">
+                    <label class="block text-[11px] font-bold text-slate-300">대상 호기 선택</label>
+                    <div class="grid grid-cols-3 gap-1.5 p-1 bg-slate-900 rounded-xl border border-slate-700">
+                        <button id="btn-min-target-1" onclick="selectMinTarget('#1CC')" class="text-xs font-extrabold py-2.5 rounded-lg transition-all text-slate-500 bg-transparent border border-transparent">#1CC</button>
+                        <button id="btn-min-target-2" onclick="selectMinTarget('#2CC')" class="text-xs font-extrabold py-2.5 rounded-lg transition-all text-slate-500 bg-transparent border border-transparent">#2CC</button>
+                        <button id="btn-min-target-12" onclick="selectMinTarget('#1,2CC')" class="text-xs font-extrabold py-2.5 rounded-lg transition-all text-violet-300 bg-slate-800 border border-violet-500/50">#1,2CC</button>
+                    </div>
+                </div>
+
+                <!-- 문구 생성 버튼 -->
+                <div class="space-y-2 pt-2 border-t border-slate-700/80">
+                    <label class="block text-[11px] font-bold text-slate-300">최소발전용량 이하 운전 문구 생성</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="mMake('start')" class="py-3.5 bg-violet-600/25 hover:bg-violet-600/35 border border-violet-500/50 rounded-xl text-xs font-extrabold text-violet-200 active:scale-95 transition-all flex flex-col items-center justify-center gap-0.5">
+                            <span>운전 시작 (개시)</span>
+                            <span class="text-[10px] font-normal text-violet-300/80">(HH:MM~) 별도통보</span>
+                        </button>
+                        <button onclick="mMake('end')" class="py-3.5 bg-slate-900 hover:border-rose-500/50 border border-slate-700 rounded-xl text-xs font-extrabold text-rose-300 active:scale-95 transition-all flex flex-col items-center justify-center gap-0.5">
+                            <span>운전 종료</span>
+                            <span class="text-[10px] font-normal text-slate-400">(HH:MM) 종료 보고</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 최소발전 에디터 -->
+            <div class="bg-[#0b1120] rounded-2xl shadow-xl border border-slate-700 overflow-hidden">
+                <div class="flex justify-between items-center px-3 py-2.5 bg-[#1e293b] border-b border-slate-700 gap-1">
+                    <span class="text-[11px] font-bold text-violet-400 truncate">MinLoad_Memo.txt</span>
+                    <div class="flex items-center gap-1 shrink-0">
+                        <button onclick="clearMemo('memo-minload')" title="전체 비우기" class="text-[10px] text-slate-300 bg-slate-700 px-2.5 py-1.5 rounded-lg font-bold active:scale-95">
+                            비우기
+                        </button>
+                        <button onclick="copyMemo('memo-minload')" class="text-[11px] bg-violet-600 hover:bg-violet-500 text-white px-3 py-1.5 rounded-lg font-extrabold flex items-center gap-1 shadow-md active:scale-95 ml-0.5">
+                            <i class="fa-regular fa-copy"></i> 복사
+                        </button>
+                    </div>
+                </div>
+                <textarea id="memo-minload" oninput="autoResize(this); saveLocal();" class="w-full min-h-[130px] bg-transparent text-violet-300 p-4 font-mono text-[13px] outline-none placeholder-slate-600 leading-relaxed" placeholder="위 버튼을 누르면 최소발전용량 이하 운전 문구가 생성됩니다."></textarea>
+            </div>
+        </div>
+
     </div>
 
     <script>
         let currentBlock = '1'; // '1' (#1CC) 또는 '2' (#2CC) 통합 관리
+        let minloadTarget = '#1,2CC'; // '#1CC', '#2CC', '#1,2CC'
 
         window.onload = function() {
             if(!loadLocal()) {
                 setNowSilent('d');
                 setNowSilent('g');
+                setNowSilent('m');
                 syncTarget('1');
+                selectMinTarget('#1,2CC', true);
             }
 
             fetchWeather();
@@ -302,11 +397,15 @@
             const data = {
                 memoDispatch: document.getElementById('memo-dispatch').value,
                 memoGrid: document.getElementById('memo-grid').value,
+                memoMinload: document.getElementById('memo-minload').value,
                 dHour: document.getElementById('d-hour').value,
                 dMinute: document.getElementById('d-minute').value,
                 gHour: document.getElementById('g-hour').value,
                 gMinute: document.getElementById('g-minute').value,
-                currentBlock: currentBlock
+                mHour: document.getElementById('m-hour').value,
+                mMinute: document.getElementById('m-minute').value,
+                currentBlock: currentBlock,
+                minloadTarget: minloadTarget
             };
             localStorage.setItem('pajuReportDataV9', JSON.stringify(data));
         }
@@ -316,23 +415,34 @@
             if(!saved) return false;
             try {
                 const data = JSON.parse(saved);
+                const now = new Date();
+                const defH = String(now.getHours()).padStart(2, '0');
+                const defM = String(now.getMinutes()).padStart(2, '0');
+
                 document.getElementById('memo-dispatch').value = data.memoDispatch || '';
                 document.getElementById('memo-grid').value = data.memoGrid || '';
+                document.getElementById('memo-minload').value = data.memoMinload || '';
 
-                const dH = String(data.dHour || '00').padStart(2, '0');
-                const dM = String(data.dMinute || '00').padStart(2, '0');
-                const gH = String(data.gHour || '00').padStart(2, '0');
-                const gM = String(data.gMinute || '00').padStart(2, '0');
+                const dH = String(data.dHour || defH).padStart(2, '0');
+                const dM = String(data.dMinute || defM).padStart(2, '0');
+                const gH = String(data.gHour || defH).padStart(2, '0');
+                const gM = String(data.gMinute || defM).padStart(2, '0');
+                const mH = String(data.mHour || defH).padStart(2, '0');
+                const mM = String(data.mMinute || defM).padStart(2, '0');
 
                 document.getElementById('d-hour').value = dH;
                 document.getElementById('d-minute').value = dM;
                 document.getElementById('g-hour').value = gH;
                 document.getElementById('g-minute').value = gM;
+                document.getElementById('m-hour').value = mH;
+                document.getElementById('m-minute').value = mM;
 
                 document.getElementById('d-time').value = `${dH}:${dM}`;
                 document.getElementById('g-time').value = `${gH}:${gM}`;
+                document.getElementById('m-time').value = `${mH}:${mM}`;
 
                 syncTarget(data.currentBlock || '1', true);
+                selectMinTarget(data.minloadTarget || '#1,2CC', true);
                 return true;
             } catch(e) {
                 return false;
@@ -371,7 +481,7 @@
         }
 
         function switchTab(t) {
-            ['dispatch', 'grid'].forEach(tab => {
+            ['dispatch', 'grid', 'minload'].forEach(tab => {
                 const btn = document.getElementById(`tab-${tab}`);
                 const pnl = document.getElementById(`panel-${tab}`);
                 if(t === tab) {
@@ -418,6 +528,28 @@
             document.getElementById('lbl-sep-gt1').innerText  = `${gt1} 분리`;
             document.getElementById('lbl-sep-gt2').innerText  = `${gt2} 분리`;
             document.getElementById('lbl-sep-st').innerText   = `${st} 분리`;
+
+            if(!silent) saveLocal();
+        }
+
+        // [탭 3] 최소발전 대상 호기 선택
+        function selectMinTarget(target, silent = false) {
+            minloadTarget = target;
+            const map = {
+                '#1CC': document.getElementById('btn-min-target-1'),
+                '#2CC': document.getElementById('btn-min-target-2'),
+                '#1,2CC': document.getElementById('btn-min-target-12')
+            };
+
+            Object.keys(map).forEach(key => {
+                const btn = map[key];
+                if (!btn) return;
+                if (key === target) {
+                    btn.className = "text-xs font-extrabold py-2.5 rounded-lg transition-all text-violet-300 bg-slate-800 border border-violet-500/50";
+                } else {
+                    btn.className = "text-xs font-extrabold py-2.5 rounded-lg transition-all text-slate-500 bg-transparent border border-transparent";
+                }
+            });
 
             if(!silent) saveLocal();
         }
@@ -662,6 +794,25 @@
                 appendGridMemo(`${subMins(time, 19)} #${stName} 계통분리\n${subMins(time, 10)} #${gt1Name} 계통분리\n${subMins(time, 2)} #${gt2Name} 계통분리`);
                 showToast(`2+1 시차분리 입력 완료`);
             }
+        }
+
+        // [탭 3] 최소발전용량 이하 운전 문구 생성
+        function mMake(mode) {
+            onTimeBlur('m');
+            const time = document.getElementById('m-time').value;
+            if(!time) return;
+
+            const memoEl = document.getElementById('memo-minload');
+            if (mode === 'start') {
+                memoEl.value = `급전지시입니다.\n${minloadTarget} 최소발전용량 이하 운전 \n(${time}~)\n종료시간은 별도 통보 예정`;
+                showToast(`${minloadTarget} 최소발전 시작 문구 생성`);
+            } else {
+                memoEl.value = `${minloadTarget} 최소발전용량 이하 운전 종료\n(${time})`;
+                showToast(`${minloadTarget} 최소발전 종료 문구 생성`);
+            }
+
+            autoResize(memoEl);
+            saveLocal();
         }
 
         function autoResize(el) {
