@@ -126,14 +126,9 @@
                     </div>
                 </div>
 
-                <!-- 지시 문구 빠른 생성 -->
+                <!-- 지시 문구 추가 -->
                 <div class="space-y-2 pt-2 border-t border-slate-700/80">
-                    <div class="flex justify-between items-center">
-                        <label class="text-[11px] font-bold text-slate-300">지시 문구 생성</label>
-                        <button onclick="toggleDispatchAppend()" id="btn-d-mode" class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-600 text-[10px] font-bold text-slate-300 active:scale-95">
-                            방식: <span class="text-amber-400">새로 쓰기</span>
-                        </button>
-                    </div>
+                    <label class="block text-[11px] font-bold text-slate-300">지시 문구 추가 <span class="text-[10px] font-normal text-slate-400">(누를 때마다 줄 추가)</span></label>
                     <div class="grid grid-cols-2 gap-2">
                         <button onclick="dMake('2+1 계통연결')" class="py-3 bg-slate-900 border border-slate-700 hover:border-amber-500/50 rounded-xl text-xs font-bold text-slate-200 active:scale-95 transition-all">2+1 연결</button>
                         <button onclick="dMake('1+1 계통연결')" class="py-3 bg-slate-900 border border-slate-700 hover:border-amber-500/50 rounded-xl text-xs font-bold text-slate-200 active:scale-95 transition-all">1+1 연결</button>
@@ -144,20 +139,26 @@
                 </div>
             </div>
 
-            <!-- 급전지시 에디터 (복사 버튼 상단 분리로 글자 가림 해결) -->
+            <!-- 급전지시 에디터 -->
             <div class="bg-[#0b1120] rounded-2xl shadow-xl border border-slate-700 overflow-hidden">
-                <div class="flex justify-between items-center px-3.5 py-2.5 bg-[#1e293b] border-b border-slate-700">
-                    <span class="text-[11px] font-bold text-amber-400">Dispatch_Memo.txt</span>
-                    <div class="flex items-center gap-1.5">
-                        <button onclick="clearMemo('memo-dispatch')" class="text-[10px] text-slate-300 bg-slate-700 hover:bg-slate-600 px-2.5 py-1.5 rounded-lg font-bold active:scale-95">
-                            비우기
+                <div class="flex justify-between items-center px-3 py-2.5 bg-[#1e293b] border-b border-slate-700 gap-1">
+                    <span class="text-[11px] font-bold text-amber-400 truncate">Dispatch_Memo.txt</span>
+                    <div class="flex items-center gap-1 shrink-0">
+                        <button onclick="undoDispatchMemo()" title="마지막 줄 삭제" class="text-[10px] text-amber-300 bg-slate-800 border border-slate-600 px-2 py-1.5 rounded-lg font-bold active:scale-95">
+                            <i class="fa-solid fa-rotate-left"></i> 취소
                         </button>
-                        <button onclick="copyMemo('memo-dispatch')" class="text-[11px] bg-amber-600 hover:bg-amber-500 text-white px-3 py-1.5 rounded-lg font-extrabold flex items-center gap-1 shadow-md active:scale-95">
-                            <i class="fa-regular fa-copy"></i> 복사하기
+                        <button onclick="sortDispatchMemo()" title="시간순 정렬" class="text-[10px] text-slate-200 bg-slate-800 border border-slate-600 px-2 py-1.5 rounded-lg font-bold active:scale-95">
+                            <i class="fa-solid fa-arrow-down-1-9"></i> 정렬
+                        </button>
+                        <button onclick="clearMemo('memo-dispatch')" title="전체 비우기" class="text-[10px] text-slate-300 bg-slate-700 px-2 py-1.5 rounded-lg font-bold active:scale-95">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                        <button onclick="copyMemo('memo-dispatch')" class="text-[11px] bg-amber-600 hover:bg-amber-500 text-white px-3 py-1.5 rounded-lg font-extrabold flex items-center gap-1 shadow-md active:scale-95 ml-0.5">
+                            <i class="fa-regular fa-copy"></i> 복사
                         </button>
                     </div>
                 </div>
-                <textarea id="memo-dispatch" oninput="autoResize(this); saveLocal();" class="w-full min-h-[110px] bg-transparent text-amber-300 p-4 font-mono text-[13px] outline-none placeholder-slate-600" placeholder="위 버튼을 누르면 급전지시 문구가 생성됩니다."></textarea>
+                <textarea id="memo-dispatch" oninput="autoResize(this); saveLocal();" class="w-full min-h-[110px] bg-transparent text-amber-300 p-4 font-mono text-[13px] outline-none placeholder-slate-600 leading-relaxed" placeholder="위 버튼을 누르면 급전지시 문구가 누적됩니다."></textarea>
             </div>
         </div>
 
@@ -282,7 +283,6 @@
 
     <script>
         let currentBlock = '1'; // '1' (#1CC) 또는 '2' (#2CC) 통합 관리
-        let dispatchAppendMode = false; // false: 덮어쓰기, true: 줄 추가
 
         function initSelects() {
             ['d-hour', 'g-hour'].forEach(id => {
@@ -439,18 +439,6 @@
             if(!silent) saveLocal();
         }
 
-        function toggleDispatchAppend() {
-            dispatchAppendMode = !dispatchAppendMode;
-            const btn = document.getElementById('btn-d-mode');
-            if(dispatchAppendMode) {
-                btn.innerHTML = '방식: <span class="text-emerald-400">줄 추가</span>';
-                showToast('기존 지시 아래에 줄이 추가됩니다.');
-            } else {
-                btn.innerHTML = '방식: <span class="text-amber-400">새로 쓰기</span>';
-                showToast('버튼 클릭 시 새 문구로 덮어씁니다.');
-            }
-        }
-
         function updateTimeFromSelects(prefix) {
             const h = document.getElementById(`${prefix}-hour`).value;
             const m = document.getElementById(`${prefix}-minute`).value;
@@ -497,14 +485,53 @@
             const line = `${time} ${target} ${type}`;
             const memoEl = document.getElementById('memo-dispatch');
 
-            if(dispatchAppendMode && memoEl.value.trim() !== '') {
+            if(memoEl.value && memoEl.value.trim() !== '') {
                 memoEl.value = memoEl.value.trimEnd() + `\n${line}`;
             } else {
                 memoEl.value = `급전지시입니다.\n${line}`;
             }
             autoResize(memoEl);
             saveLocal();
-            showToast(`${target} 급전지시 반영`);
+            showToast(`${target} 급전지시 추가`);
+        }
+
+        function undoDispatchMemo() {
+            const memo = document.getElementById('memo-dispatch');
+            const lines = memo.value.split('\n').filter(l => l.trim() !== '');
+            if(lines.length === 0) return;
+
+            if(lines.length <= 2 && lines[0].trim() === '급전지시입니다.') {
+                memo.value = '';
+            } else {
+                lines.pop();
+                memo.value = lines.join('\n');
+            }
+            autoResize(memo);
+            saveLocal();
+            showToast('마지막 줄을 취소했습니다.');
+        }
+
+        function sortDispatchMemo() {
+            const memo = document.getElementById('memo-dispatch');
+            const lines = memo.value.split('\n').filter(l => l.trim() !== '');
+            if(lines.length < 2) return;
+
+            let header = null;
+            if(lines[0].trim() === '급전지시입니다.') {
+                header = lines.shift();
+            }
+
+            lines.sort((a, b) => {
+                const timeA = a.match(/^(\d{2}:\d{2})/);
+                const timeB = b.match(/^(\d{2}:\d{2})/);
+                if(timeA && timeB) return timeA[1].localeCompare(timeB[1]);
+                return 0;
+            });
+
+            memo.value = header ? [header, ...lines].join('\n') : lines.join('\n');
+            autoResize(memo);
+            saveLocal();
+            showToast('시간순으로 정렬했습니다.');
         }
 
         function appendGridMemo(str) {
