@@ -24,466 +24,284 @@
         input, textarea, select { user-select: text !important; }
         ::-webkit-scrollbar { display: none; }
         
-        .tab-btn { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .tab-btn { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
         .tab-active { background: #334155; color: #60a5fa; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3); font-weight: 800; border: 1px solid #475569; }
         .tab-inactive { color: #94a3b8; font-weight: 600; background: transparent; }
 
-        textarea { resize: none; line-height: 1.7; letter-spacing: -0.02em; overflow-y: hidden; }
+        textarea { resize: none; line-height: 1.65; letter-spacing: -0.02em; overflow-y: hidden; }
         select { text-align-last: center; }
 
-        /* 숫자 인력창 스피너 제거 */
-        input[type="number"]::-webkit-outer-spin-button, 
-        input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-        input[type="number"] { -moz-appearance: textfield; }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-
-        @keyframes soft-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        @keyframes soft-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
         .animate-soft-pulse { animation: soft-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
     </style>
 </head>
-<body class="pb-24 antialiased">
+<body class="pb-16 antialiased">
 
-    <div id="toast-container" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-3 w-full max-w-[320px] px-4 pointer-events-none"></div>
+    <div id="toast-container" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2 w-full max-w-[300px] px-4 pointer-events-none"></div>
 
-    <div class="max-w-md mx-auto px-4 pt-6 space-y-6 relative">
+    <div class="max-w-md mx-auto px-3.5 pt-3.5 space-y-3.5 relative">
 
-        <!-- 헤더 영역 -->
-        <header class="bg-slate-800 rounded-3xl p-6 border border-slate-700 shadow-xl relative overflow-hidden flex flex-col gap-4">
-            <div class="absolute -right-8 -top-8 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl"></div>
-            <div class="absolute -left-8 -bottom-8 w-32 h-32 bg-indigo-500/20 rounded-full blur-2xl"></div>
+        <!-- 슬림 헤더 영역 -->
+        <header class="bg-slate-800 rounded-2xl px-4 py-3 border border-slate-700 shadow-lg relative overflow-hidden flex justify-between items-center">
+            <div class="absolute -right-6 -top-6 w-28 h-28 bg-blue-500/15 rounded-full blur-2xl pointer-events-none"></div>
             
-            <div class="relative z-10 flex justify-between items-start">
-                <div>
-                    <div class="flex items-center gap-2 mb-1.5">
-                        <div class="w-2.5 h-2.5 rounded-full bg-blue-400 animate-soft-pulse shadow-[0_0_8px_rgba(96,165,250,0.8)]"></div>
-                        <span class="text-[10px] font-bold text-blue-400 tracking-wider uppercase">Paju Power Plant</span>
-                    </div>
-                    <h1 class="text-2xl font-extrabold text-white tracking-tight">스마트 보고서</h1>
+            <div class="relative z-10">
+                <div class="flex items-center gap-1.5 mb-0.5">
+                    <div class="w-2 h-2 rounded-full bg-blue-400 animate-soft-pulse"></div>
+                    <span class="text-[9px] font-bold text-blue-400 tracking-wider uppercase">Paju Power Plant</span>
+                    <span class="text-[9px] font-bold text-yellow-400/90 ml-1">• 천재 탱PL</span>
                 </div>
-                <button onclick="fetchWeather()" class="group flex flex-col items-end gap-1 active:scale-95 transition-transform text-right">
-                    <div class="flex items-center gap-2 px-3 py-2 bg-slate-900/80 border border-slate-700 rounded-2xl shadow-sm transition-colors">
-                        <div id="weather-icon" class="text-lg">🌤️</div>
-                        <div class="flex flex-col items-start">
-                            <span id="quick-weather-temp" class="text-sm font-extrabold text-white leading-none">--°C</span>
-                            <span id="quick-weather-desc" class="text-[10px] font-semibold text-slate-400 leading-none mt-1">동기화 중</span>
-                        </div>
-                        <i id="weather-spinner" class="fa-solid fa-rotate-right text-[10px] text-slate-500 ml-1"></i>
-                    </div>
-                </button>
+                <h1 class="text-lg font-extrabold text-white tracking-tight leading-tight">스마트 보고서</h1>
             </div>
-            
-            <div class="relative z-10 pt-2 border-t border-slate-700/50 flex justify-between items-center">
-                <p class="text-[11px] text-blue-400 font-bold"><i class="fa-solid fa-floppy-disk"></i> 자동 저장 (Local) 활성화</p>
-                <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-900 border border-slate-700 rounded-full shadow-md">
-                    <i class="fa-solid fa-crown text-[10px] text-yellow-400"></i>
-                    <span class="text-[10px] font-bold text-yellow-400 tracking-wide">천재 탱PL 제작</span>
+
+            <button onclick="fetchWeather()" class="relative z-10 flex items-center gap-2 px-2.5 py-1.5 bg-slate-900/90 border border-slate-700 rounded-xl active:scale-95 transition-transform">
+                <span id="weather-icon" class="text-base">🌤️</span>
+                <div class="flex flex-col items-start">
+                    <span id="quick-weather-temp" class="text-xs font-extrabold text-white leading-none">--°C</span>
+                    <span id="quick-weather-desc" class="text-[9px] font-semibold text-slate-400 leading-none mt-0.5">동기화</span>
                 </div>
-            </div>
+                <i id="weather-spinner" class="fa-solid fa-rotate-right text-[9px] text-slate-500"></i>
+            </button>
         </header>
 
-        <!-- 탭 네비게이션 -->
-        <nav class="sticky top-4 z-40 flex p-1.5 bg-slate-900/80 backdrop-blur-md rounded-2xl border border-slate-700 shadow-lg">
-            <button onclick="switchTab('morning')" id="tab-morning" class="tab-btn flex-1 py-3 rounded-xl text-xs flex items-center justify-center gap-2 tab-active">
-                <i class="fa-solid fa-sun text-[14px]"></i> 아침 현황
+        <!-- 2개 탭 네비게이션 -->
+        <nav class="sticky top-2.5 z-40 grid grid-cols-2 gap-1.5 p-1.5 bg-slate-900/90 backdrop-blur-md rounded-2xl border border-slate-700 shadow-lg">
+            <button onclick="switchTab('dispatch')" id="tab-dispatch" class="tab-btn py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 tab-active">
+                <i class="fa-solid fa-tower-broadcast text-[13px] text-amber-400"></i> 급전 지시
             </button>
-            <button onclick="switchTab('dispatch')" id="tab-dispatch" class="tab-btn flex-1 py-3 rounded-xl text-xs flex items-center justify-center gap-2 tab-inactive">
-                <i class="fa-solid fa-tower-broadcast text-[14px]"></i> 급전 지시
-            </button>
-            <button onclick="switchTab('grid')" id="tab-grid" class="tab-btn flex-1 py-3 rounded-xl text-xs flex items-center justify-center gap-2 tab-inactive">
-                <i class="fa-solid fa-network-wired text-[14px]"></i> 계통 조작
+            <button onclick="switchTab('grid')" id="tab-grid" class="tab-btn py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 tab-inactive">
+                <i class="fa-solid fa-network-wired text-[13px] text-cyan-400"></i> 계통 조작
             </button>
         </nav>
 
         <!-- ============================================== -->
-        <!-- [탭 1] 아침 운전현황 (Morning) -->
+        <!-- [탭 1] 급전 지시 (Dispatch) -->
         <!-- ============================================== -->
-        <div id="panel-morning" class="space-y-5 animate-fade-in">
+        <div id="panel-dispatch" class="space-y-3.5">
             
-            <div class="bg-slate-800 rounded-3xl p-5 border border-slate-700 space-y-4 shadow-md">
-                <div class="flex items-center gap-2 mb-2">
-                    <div class="p-1.5 bg-blue-500/20 rounded-lg text-blue-400"><i class="fa-regular fa-calendar-check text-sm"></i></div>
-                    <h3 class="text-sm font-bold text-white">기본 정보 설정</h3>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="space-y-1.5">
-                        <label class="block text-[11px] font-bold text-slate-400 pl-1">보고 날짜</label>
-                        <input type="date" id="m-date" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm font-semibold outline-none focus:border-blue-500 transition-all shadow-sm">
+            <div class="bg-slate-800 rounded-2xl p-4 space-y-4 border border-slate-700 border-l-4 border-l-amber-500 shadow-md">
+                
+                <!-- 시간 설정 -->
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center">
+                        <label class="text-[11px] font-bold text-slate-300">지시 시간</label>
+                        <button onclick="setNow('d')" class="px-2.5 py-1 bg-amber-500/15 border border-amber-500/40 rounded-lg text-[10px] text-amber-400 font-extrabold flex items-center gap-1 active:scale-95 transition-transform">
+                            <i class="fa-regular fa-clock"></i> 현재시간
+                        </button>
                     </div>
-                    <div class="space-y-1.5">
-                        <label class="block text-[11px] font-bold text-slate-400 pl-1">대기 온도 및 날씨</label>
-                        <div class="flex gap-2">
-                            <input type="number" id="m-temp" step="0.1" placeholder="온도" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-2 py-3 text-white text-sm font-semibold text-center focus:border-blue-500 outline-none shadow-sm">
-                            <select id="m-weather" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-2 py-3 text-white text-sm font-semibold focus:border-blue-500 outline-none shadow-sm appearance-none text-center cursor-pointer">
-                                <option value="맑음">맑음 ☀️</option>
-                                <option value="흐림" selected>흐림 ☁️</option>
-                                <option value="비">비 🌧️</option>
-                                <option value="눈">눈 ❄️</option>
-                            </select>
+                    
+                    <div class="bg-slate-900 border border-slate-700 rounded-xl p-2.5 space-y-2.5">
+                        <div class="flex items-center justify-center gap-3">
+                            <div class="relative bg-slate-800 border border-slate-600 rounded-xl px-3 py-1.5">
+                                <select id="d-hour" onchange="updateTimeFromSelects('d')" class="bg-transparent text-xl font-black text-white outline-none appearance-none pr-3 cursor-pointer text-center w-12"></select>
+                                <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
+                            </div>
+                            <span class="text-xl font-black text-slate-500">:</span>
+                            <div class="relative bg-slate-800 border border-slate-600 rounded-xl px-3 py-1.5">
+                                <select id="d-minute" onchange="updateTimeFromSelects('d')" class="bg-transparent text-xl font-black text-white outline-none appearance-none pr-3 cursor-pointer text-center w-12"></select>
+                                <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
+                            </div>
+                        </div>
+                        
+                        <!-- 1분 단위 포함 7버튼 퀵조정 -->
+                        <div class="grid grid-cols-7 gap-1 pt-2 border-t border-slate-800">
+                            <button onclick="adjustTimeBy('d', -10)" class="py-2 bg-slate-800 border border-slate-700 text-[10px] font-bold text-slate-300 rounded-lg active:scale-95">-10</button>
+                            <button onclick="adjustTimeBy('d', -5)" class="py-2 bg-slate-800 border border-slate-700 text-[10px] font-bold text-slate-300 rounded-lg active:scale-95">-5</button>
+                            <button onclick="adjustTimeBy('d', -1)" class="py-2 bg-slate-800 border border-slate-600 text-[10px] font-extrabold text-amber-300 rounded-lg active:scale-95">-1</button>
+                            <button onclick="adjustTimeBy('d', 0)" class="py-2 bg-amber-500/15 border border-amber-500/50 text-[10px] font-black text-amber-400 rounded-lg active:scale-95">정각</button>
+                            <button onclick="adjustTimeBy('d', 1)" class="py-2 bg-slate-800 border border-slate-600 text-[10px] font-extrabold text-amber-300 rounded-lg active:scale-95">+1</button>
+                            <button onclick="adjustTimeBy('d', 5)" class="py-2 bg-slate-800 border border-slate-700 text-[10px] font-bold text-slate-300 rounded-lg active:scale-95">+5</button>
+                            <button onclick="adjustTimeBy('d', 10)" class="py-2 bg-slate-800 border border-slate-700 text-[10px] font-bold text-slate-300 rounded-lg active:scale-95">+10</button>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- #1CC Card -->
-            <div class="bg-slate-800 rounded-3xl p-5 border border-slate-700 border-l-4 border-l-blue-500 shadow-md">
-                <div class="flex justify-between items-center mb-5">
-                    <div class="flex items-center gap-2">
-                        <div class="p-1.5 bg-blue-500/20 rounded-lg text-blue-400"><i class="fa-solid fa-industry text-sm"></i></div>
-                        <h3 class="text-sm font-bold text-white">#1CC 출력 설정</h3>
-                    </div>
-                    <span id="badge-1cc" class="bg-blue-500/20 text-blue-300 text-[10px] font-bold px-3 py-1.5 rounded-full border border-blue-500/30">2+1 운전중</span>
+                    <input type="hidden" id="d-time" value="">
                 </div>
                 
-                <div class="grid grid-cols-5 gap-2 mb-5">
-                    <button onclick="setCCState(1, '정지')" id="btn-1-정지" class="py-2.5 rounded-xl border border-slate-700 bg-slate-900 text-[11px] font-bold text-slate-400">정지</button>
-                    <button onclick="setCCState(1, '운전')" id="btn-1-운전" class="py-2.5 rounded-xl border border-blue-500 bg-blue-600/20 text-[11px] font-bold text-blue-400">2+1</button>
-                    <button onclick="setCCState(1, '운전11')" id="btn-1-운전11" class="py-2.5 rounded-xl border border-slate-700 bg-slate-900 text-[11px] font-bold text-slate-400">1+1</button>
-                    <button onclick="setCCState(1, '기동')" id="btn-1-기동" class="py-2.5 rounded-xl border border-slate-700 bg-slate-900 text-[11px] font-bold text-slate-400">기동</button>
-                    <button onclick="setCCState(1, '계획정비')" id="btn-1-계획정비" class="py-2.5 rounded-xl border border-slate-700 bg-slate-900 text-[11px] font-bold text-slate-400">정비</button>
+                <!-- 대상 호기 선택 -->
+                <div class="space-y-1.5">
+                    <label class="block text-[11px] font-bold text-slate-300">대상 호기 <span class="text-[10px] font-normal text-slate-400">(계통조작 탭과 자동 연동)</span></label>
+                    <div class="grid grid-cols-2 gap-1.5 p-1 bg-slate-900 rounded-xl border border-slate-700">
+                        <button id="btn-dispatch-target-1" onclick="syncTarget('1')" class="text-xs font-extrabold py-2.5 rounded-lg transition-all text-amber-400 bg-slate-800 border border-amber-500/50">#1CC</button>
+                        <button id="btn-dispatch-target-2" onclick="syncTarget('2')" class="text-xs font-extrabold py-2.5 rounded-lg transition-all text-slate-500 bg-transparent border border-transparent">#2CC</button>
+                    </div>
                 </div>
 
-                <div id="m-box-1" class="hidden bg-slate-900/50 border border-slate-700 p-3 rounded-2xl mb-4">
-                    <label class="block text-[10px] font-bold text-slate-400 mb-1 pl-1">정비 기간 입력</label>
-                    <input type="text" id="period-1" value="5/14 00:00 ~ 5/27 24:00" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm font-semibold text-white outline-none focus:border-blue-400 shadow-sm">
-                </div>
-
-                <div class="space-y-2.5">
-                    <div id="wrap-gt11" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
-                        <span class="text-[13px] font-extrabold text-slate-400 ml-2">11GT 출력</span>
-                        <div class="relative w-36">
-                            <!-- 키패드 입력으로 변경 -->
-                            <input type="number" id="i-gt11" inputmode="numeric" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all font-mono">
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW</span>
-                        </div>
+                <!-- 지시 문구 빠른 생성 -->
+                <div class="space-y-2 pt-2 border-t border-slate-700/80">
+                    <div class="flex justify-between items-center">
+                        <label class="text-[11px] font-bold text-slate-300">지시 문구 생성</label>
+                        <button onclick="toggleDispatchAppend()" id="btn-d-mode" class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-600 text-[10px] font-bold text-slate-300 active:scale-95">
+                            방식: <span class="text-amber-400">새로 쓰기</span>
+                        </button>
                     </div>
-                    <div id="wrap-gt12" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
-                        <span class="text-[13px] font-extrabold text-slate-400 ml-2">12GT 출력</span>
-                        <div class="relative w-36">
-                            <input type="number" id="i-gt12" inputmode="numeric" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all font-mono">
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW</span>
-                        </div>
-                    </div>
-                    <div id="wrap-st10" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
-                        <span class="text-[13px] font-extrabold text-slate-400 ml-2">10ST 출력</span>
-                        <div class="relative w-36">
-                            <input type="number" id="i-st10" inputmode="numeric" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all font-mono">
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW</span>
-                        </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="dMake('2+1 계통연결')" class="py-3 bg-slate-900 border border-slate-700 hover:border-amber-500/50 rounded-xl text-xs font-bold text-slate-200 active:scale-95 transition-all">2+1 연결</button>
+                        <button onclick="dMake('1+1 계통연결')" class="py-3 bg-slate-900 border border-slate-700 hover:border-amber-500/50 rounded-xl text-xs font-bold text-slate-200 active:scale-95 transition-all">1+1 연결</button>
+                        <button onclick="dMake('GT 추가 계통연결')" class="py-3 bg-slate-900 border border-slate-700 hover:border-amber-500/50 rounded-xl text-xs font-bold text-slate-200 active:scale-95 transition-all col-span-2">GT 추가 계통연결</button>
+                        <button onclick="dMake('계통분리')" class="py-3 bg-slate-900 border border-slate-700 hover:border-red-500/50 rounded-xl text-xs font-bold text-red-300 active:scale-95 transition-all">전체 계통분리</button>
+                        <button onclick="dMake('GT 1대 계통분리')" class="py-3 bg-slate-900 border border-slate-700 hover:border-red-500/50 rounded-xl text-xs font-bold text-red-300 active:scale-95 transition-all">GT 1대 분리</button>
                     </div>
                 </div>
             </div>
 
-            <!-- #2CC Card -->
-            <div class="bg-slate-800 rounded-3xl p-5 border border-slate-700 border-l-4 border-l-teal-500 shadow-md">
-                <div class="flex justify-between items-center mb-5">
-                    <div class="flex items-center gap-2">
-                        <div class="p-1.5 bg-teal-500/20 rounded-lg text-teal-400"><i class="fa-solid fa-industry text-sm"></i></div>
-                        <h3 class="text-sm font-bold text-white">#2CC 출력 설정</h3>
-                    </div>
-                    <span id="badge-2cc" class="bg-teal-500/20 text-teal-300 text-[10px] font-bold px-3 py-1.5 rounded-full border border-teal-500/30">2+1 운전중</span>
-                </div>
-                
-                <div class="grid grid-cols-5 gap-2 mb-5">
-                    <button onclick="setCCState(2, '정지')" id="btn-2-정지" class="py-2.5 rounded-xl border border-slate-700 bg-slate-900 text-[11px] font-bold text-slate-400">정지</button>
-                    <button onclick="setCCState(2, '운전')" id="btn-2-운전" class="py-2.5 rounded-xl border border-teal-500 bg-teal-600/20 text-[11px] font-bold text-teal-400">2+1</button>
-                    <button onclick="setCCState(2, '운전21')" id="btn-2-운전21" class="py-2.5 rounded-xl border border-slate-700 bg-slate-900 text-[11px] font-bold text-slate-400">1+1</button>
-                    <button onclick="setCCState(2, '기동')" id="btn-2-기동" class="py-2.5 rounded-xl border border-slate-700 bg-slate-900 text-[11px] font-bold text-slate-400">기동</button>
-                    <button onclick="setCCState(2, '계획정비')" id="btn-2-계획정비" class="py-2.5 rounded-xl border border-slate-700 bg-slate-900 text-[11px] font-bold text-slate-400">정비</button>
-                </div>
-
-                <div id="m-box-2" class="hidden bg-slate-900/50 border border-slate-700 p-3 rounded-2xl mb-4">
-                    <label class="block text-[10px] font-bold text-slate-400 mb-1 pl-1">정비 기간 입력</label>
-                    <input type="text" id="period-2" value="5/16 00:00 ~ 5/17 19:00" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm font-semibold text-white outline-none focus:border-teal-400 shadow-sm">
-                </div>
-
-                <div class="space-y-2.5">
-                    <div id="wrap-gt21" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
-                        <span class="text-[13px] font-extrabold text-slate-400 ml-2">21GT 출력</span>
-                        <div class="relative w-36">
-                            <input type="number" id="i-gt21" inputmode="numeric" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all font-mono">
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW</span>
-                        </div>
-                    </div>
-                    <div id="wrap-gt22" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
-                        <span class="text-[13px] font-extrabold text-slate-400 ml-2">22GT 출력</span>
-                        <div class="relative w-36">
-                            <input type="number" id="i-gt22" inputmode="numeric" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all font-mono">
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW</span>
-                        </div>
-                    </div>
-                    <div id="wrap-st20" class="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-700 transition-opacity">
-                        <span class="text-[13px] font-extrabold text-slate-400 ml-2">20ST 출력</span>
-                        <div class="relative w-36">
-                            <input type="number" id="i-st20" inputmode="numeric" class="w-full bg-slate-800 border border-slate-600 rounded-lg py-2.5 pr-8 pl-3 text-center text-sm font-bold text-white outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all font-mono">
-                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 pointer-events-none">MW</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 특이사항 -->
-            <div class="bg-slate-800 rounded-3xl p-5 border border-slate-700 shadow-md">
-                <label class="block text-slate-400 text-xs font-bold mb-2 pl-1">특이사항 추가</label>
-                <input type="text" id="m-issue" value="없음" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white text-xs font-semibold outline-none focus:border-blue-500 shadow-sm">
-            </div>
-
-            <!-- 수동 적용 버튼 -->
-            <button onclick="renderMorningMemo()" class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-extrabold text-sm shadow-lg shadow-blue-500/30 transition-all active:scale-95 flex items-center justify-center gap-2 mt-4 mb-2">
-                <i class="fa-solid fa-wand-magic-sparkles"></i> 설정한 수치 메모장에 적용하기
-            </button>
-
-            <!-- 1번 터미널 에디터 -->
-            <div class="bg-[#0f172a] rounded-3xl shadow-xl border border-slate-700 overflow-hidden relative mt-4">
-                <div class="flex justify-between items-center px-4 py-3 bg-[#1e293b] border-b border-slate-700 sticky top-0 z-10">
-                    <div class="flex gap-1.5 items-center">
-                        <div class="flex gap-1 mr-1">
-                            <div class="w-2.5 h-2.5 rounded-full bg-red-500"></div>
-                            <div class="w-2.5 h-2.5 rounded-full bg-yellow-500"></div>
-                            <div class="w-2.5 h-2.5 rounded-full bg-green-500"></div>
-                        </div>
-                        <span class="text-[11px] font-bold text-slate-400 tracking-wide">Morning_Report.txt</span>
-                    </div>
-                    <div class="flex gap-2">
-                        <button onclick="copyMemo('memo-morning')" class="text-[10px] bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded-lg transition-colors flex items-center gap-1 font-bold shadow-md">
-                            <i class="fa-regular fa-copy"></i> 전체 복사
+            <!-- 급전지시 에디터 (복사 버튼 상단 분리로 글자 가림 해결) -->
+            <div class="bg-[#0b1120] rounded-2xl shadow-xl border border-slate-700 overflow-hidden">
+                <div class="flex justify-between items-center px-3.5 py-2.5 bg-[#1e293b] border-b border-slate-700">
+                    <span class="text-[11px] font-bold text-amber-400">Dispatch_Memo.txt</span>
+                    <div class="flex items-center gap-1.5">
+                        <button onclick="clearMemo('memo-dispatch')" class="text-[10px] text-slate-300 bg-slate-700 hover:bg-slate-600 px-2.5 py-1.5 rounded-lg font-bold active:scale-95">
+                            비우기
+                        </button>
+                        <button onclick="copyMemo('memo-dispatch')" class="text-[11px] bg-amber-600 hover:bg-amber-500 text-white px-3 py-1.5 rounded-lg font-extrabold flex items-center gap-1 shadow-md active:scale-95">
+                            <i class="fa-regular fa-copy"></i> 복사하기
                         </button>
                     </div>
                 </div>
-                <textarea id="memo-morning" oninput="autoResize(this); saveLocal();" class="w-full min-h-[300px] bg-transparent text-emerald-400 p-5 font-mono text-[13px] outline-none leading-relaxed"></textarea>
+                <textarea id="memo-dispatch" oninput="autoResize(this); saveLocal();" class="w-full min-h-[110px] bg-transparent text-amber-300 p-4 font-mono text-[13px] outline-none placeholder-slate-600" placeholder="위 버튼을 누르면 급전지시 문구가 생성됩니다."></textarea>
             </div>
         </div>
 
 
         <!-- ============================================== -->
-        <!-- [탭 2] 급전 지시 (Dispatch) -->
+        <!-- [탭 2] 계통 조작 (Grid) -->
         <!-- ============================================== -->
-        <div id="panel-dispatch" class="hidden space-y-5 animate-fade-in">
+        <div id="panel-grid" class="hidden space-y-3.5">
             
-            <div class="bg-slate-800 rounded-3xl p-5 space-y-5 border border-slate-700 border-l-4 border-l-amber-500 shadow-md">
-                <div class="flex items-center gap-2">
-                    <div class="p-1.5 bg-amber-500/20 rounded-lg text-amber-500"><i class="fa-solid fa-bolt-lightning text-sm"></i></div>
-                    <h3 class="text-sm font-bold text-white">급전 지시 설정</h3>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="space-y-1.5 col-span-2">
-                        <div class="flex justify-between items-center pr-1 mb-1">
-                            <label class="block text-[11px] font-bold text-slate-400 pl-1">지시 시간 <span class="text-amber-500 font-extrabold">(24H 휠 + 퀵조정)</span></label>
-                            <button onclick="setNow('d')" class="text-[10px] text-blue-400 hover:text-blue-300 font-bold flex items-center gap-1"><i class="fa-regular fa-clock"></i> 현재시간</button>
-                        </div>
-                        
-                        <div class="bg-slate-900 border border-slate-700 rounded-2xl p-3 flex flex-col gap-2.5 shadow-inner">
-                            <div class="flex items-center justify-center gap-4">
-                                <div class="flex flex-col items-center">
-                                    <span class="text-[9px] font-extrabold text-slate-500 mb-1">시 (Hour)</span>
-                                    <div class="relative bg-slate-800 border border-slate-600 rounded-xl px-4 py-2 shadow-sm">
-                                        <select id="d-hour" onchange="updateTimeFromSelects('d')" class="bg-transparent text-lg font-extrabold text-white outline-none appearance-none pr-4 cursor-pointer text-center w-12"></select>
-                                        <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
-                                    </div>
-                                </div>
-                                <span class="text-2xl font-black text-slate-600 mt-4">:</span>
-                                <div class="flex flex-col items-center">
-                                    <span class="text-[9px] font-extrabold text-slate-500 mb-1">분 (Minute)</span>
-                                    <div class="relative bg-slate-800 border border-slate-600 rounded-xl px-4 py-2 shadow-sm">
-                                        <select id="d-minute" onchange="updateTimeFromSelects('d')" class="bg-transparent text-lg font-extrabold text-white outline-none appearance-none pr-4 cursor-pointer text-center w-12"></select>
-                                        <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="grid grid-cols-5 gap-1.5 pt-1.5 border-t border-slate-700/50">
-                                <button onclick="adjustTimeBy('d', -10)" class="py-2 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-lg active:scale-95 transition-transform shadow-sm">-10분</button>
-                                <button onclick="adjustTimeBy('d', -5)" class="py-2 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-lg active:scale-95 transition-transform shadow-sm">-5분</button>
-                                <button onclick="adjustTimeBy('d', 0)" class="py-2 bg-slate-800 border border-amber-500/50 text-[11px] font-black text-amber-500 rounded-lg active:scale-95 transition-transform shadow-sm">정각</button>
-                                <button onclick="adjustTimeBy('d', 5)" class="py-2 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-lg active:scale-95 transition-transform shadow-sm">+5분</button>
-                                <button onclick="adjustTimeBy('d', 10)" class="py-2 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-lg active:scale-95 transition-transform shadow-sm">+10분</button>
-                            </div>
-                        </div>
-                        <input type="hidden" id="d-time" value="">
-                    </div>
-                    
-                    <div class="space-y-1.5 col-span-2">
-                        <label class="block text-[11px] font-bold text-slate-400 pl-1">대상 호기 선택</label>
-                        <div class="flex p-1.5 bg-slate-900 rounded-xl border border-slate-700 h-[54px]">
-                            <button id="btn-dispatch-target-1" onclick="selectDispatchTarget('#1CC')" class="flex-1 text-xs font-bold py-2 rounded-lg transition-all text-blue-400 bg-slate-800 border border-slate-600">#1CC</button>
-                            <button id="btn-dispatch-target-2" onclick="selectDispatchTarget('#2CC')" class="flex-1 text-xs font-bold py-2 rounded-lg transition-all text-slate-500 bg-transparent border border-transparent">#2CC</button>
-                        </div>
-                        <input type="hidden" id="d-target" value="#1CC">
-                    </div>
-                </div>
-
-                <div class="space-y-1.5 pt-2 border-t border-slate-700">
-                    <label class="block text-slate-400 text-[10px] font-bold mb-1.5 ml-1 mt-2">지시 문구 빠른 생성 (원클릭 추가)</label>
-                    <div class="grid grid-cols-2 gap-2">
-                        <button onclick="dMake('2+1 계통연결')" class="py-3 bg-slate-900 border border-slate-700 rounded-xl text-xs font-bold text-slate-300 hover:text-amber-400 transition-all text-center">2+1 연결</button>
-                        <button onclick="dMake('1+1 계통연결')" class="py-3 bg-slate-900 border border-slate-700 rounded-xl text-xs font-bold text-slate-300 hover:text-amber-400 transition-all text-center">1+1 연결</button>
-                        <button onclick="dMake('GT 추가 계통연결')" class="py-3 bg-slate-900 border border-slate-700 rounded-xl text-xs font-bold text-slate-300 hover:text-amber-400 transition-all text-center col-span-2">GT 추가 계통연결</button>
-                        <button onclick="dMake('계통분리')" class="py-3 bg-slate-900 border border-slate-700 rounded-xl text-xs font-bold text-slate-300 hover:text-red-400 transition-all text-center">전체 계통분리</button>
-                        <button onclick="dMake('GT 1대 계통분리')" class="py-3 bg-slate-900 border border-slate-700 rounded-xl text-xs font-bold text-slate-300 hover:text-red-400 transition-all text-center">GT 1대 분리</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 2번 에디터 -->
-            <div class="bg-[#0f172a] rounded-3xl shadow-xl border border-slate-700 overflow-hidden relative mt-6">
-                <div class="flex justify-between items-center px-4 py-3 bg-[#1e293b] border-b border-slate-700">
-                    <span class="text-[11px] font-bold text-amber-400">Dispatch_Memo.txt</span>
-                </div>
-                <textarea id="memo-dispatch" oninput="autoResize(this); saveLocal();" class="w-full min-h-[120px] bg-transparent text-amber-400 p-5 font-mono text-[13px] outline-none rounded-b-2xl"></textarea>
+            <div class="bg-slate-800 rounded-2xl p-4 space-y-4 border border-slate-700 border-l-4 border-l-cyan-500 shadow-md">
                 
-                <button onclick="copyMemo('memo-dispatch')" class="absolute bottom-4 right-4 bg-amber-600 hover:bg-amber-500 text-white shadow-xl shadow-amber-500/30 rounded-full px-5 py-2.5 flex items-center gap-2 text-xs font-extrabold active:scale-95 transition-all">
-                    <i class="fa-regular fa-copy"></i> 복사하기
-                </button>
-            </div>
-        </div>
-
-
-        <!-- ============================================== -->
-        <!-- [탭 3] 계통 조작 (Grid) -->
-        <!-- ============================================== -->
-        <div id="panel-grid" class="hidden space-y-5 animate-fade-in">
-            
-            <div class="bg-slate-800 rounded-3xl p-5 space-y-6 border border-slate-700 border-l-4 border-l-cyan-500 shadow-md">
-                <div class="flex items-center gap-2">
-                    <div class="p-1.5 bg-cyan-500/20 rounded-lg text-cyan-400"><i class="fa-solid fa-plug-circle-check text-sm"></i></div>
-                    <h3 class="text-sm font-bold text-white">계통 조작 매크로</h3>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="space-y-1.5 col-span-2">
-                        <div class="flex justify-between items-center pr-1 mb-1">
-                            <label class="block text-[11px] font-bold text-slate-400 pl-1">기준 시간 <span class="text-cyan-500 font-extrabold">(24H 휠 + 퀵조정)</span></label>
-                            <button onclick="setNow('g')" class="text-[10px] text-cyan-400 hover:text-cyan-300 font-bold flex items-center gap-1"><i class="fa-regular fa-clock"></i> 현재시간</button>
-                        </div>
-                        
-                        <div class="bg-slate-900 border border-slate-700 rounded-2xl p-3 flex flex-col gap-2.5 shadow-inner">
-                            <div class="flex items-center justify-center gap-4">
-                                <div class="flex flex-col items-center">
-                                    <span class="text-[9px] font-extrabold text-slate-500 mb-1">시 (Hour)</span>
-                                    <div class="relative bg-slate-800 border border-slate-600 rounded-xl px-4 py-2 shadow-sm">
-                                        <select id="g-hour" onchange="updateTimeFromSelects('g')" class="bg-transparent text-lg font-extrabold text-white outline-none appearance-none pr-4 cursor-pointer text-center w-12"></select>
-                                        <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
-                                    </div>
-                                </div>
-                                <span class="text-2xl font-black text-slate-600 mt-4">:</span>
-                                <div class="flex flex-col items-center">
-                                    <span class="text-[9px] font-extrabold text-slate-500 mb-1">분 (Minute)</span>
-                                    <div class="relative bg-slate-800 border border-slate-600 rounded-xl px-4 py-2 shadow-sm">
-                                        <select id="g-minute" onchange="updateTimeFromSelects('g')" class="bg-transparent text-lg font-extrabold text-white outline-none appearance-none pr-4 cursor-pointer text-center w-12"></select>
-                                        <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
-                                    </div>
-                                </div>
+                <!-- 기준 시간 설정 -->
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center">
+                        <label class="text-[11px] font-bold text-slate-300">조작 시각</label>
+                        <button onclick="setNow('g')" class="px-2.5 py-1 bg-cyan-500/15 border border-cyan-500/40 rounded-lg text-[10px] text-cyan-400 font-extrabold flex items-center gap-1 active:scale-95 transition-transform">
+                            <i class="fa-regular fa-clock"></i> 현재시간
+                        </button>
+                    </div>
+                    
+                    <div class="bg-slate-900 border border-slate-700 rounded-xl p-2.5 space-y-2.5">
+                        <div class="flex items-center justify-center gap-3">
+                            <div class="relative bg-slate-800 border border-slate-600 rounded-xl px-3 py-1.5">
+                                <select id="g-hour" onchange="updateTimeFromSelects('g')" class="bg-transparent text-xl font-black text-white outline-none appearance-none pr-3 cursor-pointer text-center w-12"></select>
+                                <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
                             </div>
-                            <div class="grid grid-cols-5 gap-1.5 pt-1.5 border-t border-slate-700/65">
-                                <button onclick="adjustTimeBy('g', -10)" class="py-2 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-lg shadow-sm active:scale-95 transition-transform">-10분</button>
-                                <button onclick="adjustTimeBy('g', -5)" class="py-2 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-lg shadow-sm active:scale-95 transition-transform">-5분</button>
-                                <button onclick="adjustTimeBy('g', 0)" class="py-2 bg-slate-800 border border-cyan-500/50 text-[11px] font-black text-cyan-400 rounded-lg shadow-sm active:scale-95 transition-transform">정각</button>
-                                <button onclick="adjustTimeBy('g', 5)" class="py-2 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-lg shadow-sm active:scale-95 transition-transform">+5분</button>
-                                <button onclick="adjustTimeBy('g', 10)" class="py-2 bg-slate-800 border border-slate-600 text-[11px] font-bold text-slate-300 rounded-lg shadow-sm active:scale-95 transition-transform">+10분</button>
+                            <span class="text-xl font-black text-slate-500">:</span>
+                            <div class="relative bg-slate-800 border border-slate-600 rounded-xl px-3 py-1.5">
+                                <select id="g-minute" onchange="updateTimeFromSelects('g')" class="bg-transparent text-xl font-black text-white outline-none appearance-none pr-3 cursor-pointer text-center w-12"></select>
+                                <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
                             </div>
                         </div>
-                        <input type="hidden" id="g-time" value="">
-                    </div>
-                    
-                    <div class="space-y-1.5 col-span-2">
-                        <label class="block text-[11px] font-bold text-slate-400 pl-1">대상 호기 선택</label>
-                        <div class="flex p-1.5 bg-slate-900 rounded-xl border border-slate-700 h-[54px]">
-                            <button id="btn-grid-target-1" onclick="selectGridTarget('1')" class="flex-1 text-xs font-bold py-2 rounded-lg transition-all text-cyan-400 bg-slate-800 border border-slate-600">#1CC</button>
-                            <button id="btn-grid-target-2" onclick="selectGridTarget('2')" class="flex-1 text-xs font-bold py-2 rounded-lg transition-all text-slate-500 bg-transparent border border-transparent">#2CC</button>
-                        </div>
-                        <input type="hidden" id="g-target" value="1">
-                    </div>
-                </div>
 
-                <div class="grid grid-cols-2 gap-3 mt-2">
-                    <div class="p-3 bg-slate-900 rounded-2xl border border-slate-700 shadow-inner">
-                        <label class="block text-slate-400 text-[11px] font-extrabold mb-2.5 text-center">연결 추가 (건별)</label>
-                        <div class="flex flex-col gap-1.5">
-                            <button onclick="gAddConnect('GT1')" class="py-2 bg-slate-800 border border-slate-600 rounded-lg text-[10px] font-bold text-slate-300 shadow-sm active:scale-95 transition-transform">GT1 연결</button>
-                            <button onclick="gAddConnect('GT2')" class="py-2 bg-slate-800 border border-slate-600 rounded-lg text-[10px] font-bold text-slate-300 shadow-sm active:scale-95 transition-transform">GT2 연결</button>
-                            <button onclick="gAddConnect('ST')" class="py-2 bg-slate-800 border border-slate-600 rounded-lg text-[10px] font-bold text-slate-300 shadow-sm active:scale-95 transition-transform">ST 연결</button>
+                        <!-- 1분 단위 포함 7버튼 퀵조정 -->
+                        <div class="grid grid-cols-7 gap-1 pt-2 border-t border-slate-800">
+                            <button onclick="adjustTimeBy('g', -10)" class="py-2 bg-slate-800 border border-slate-700 text-[10px] font-bold text-slate-300 rounded-lg active:scale-95">-10</button>
+                            <button onclick="adjustTimeBy('g', -5)" class="py-2 bg-slate-800 border border-slate-700 text-[10px] font-bold text-slate-300 rounded-lg active:scale-95">-5</button>
+                            <button onclick="adjustTimeBy('g', -1)" class="py-2 bg-slate-800 border border-slate-600 text-[10px] font-extrabold text-cyan-300 rounded-lg active:scale-95">-1</button>
+                            <button onclick="adjustTimeBy('g', 0)" class="py-2 bg-cyan-500/15 border border-cyan-500/50 text-[10px] font-black text-cyan-400 rounded-lg active:scale-95">정각</button>
+                            <button onclick="adjustTimeBy('g', 1)" class="py-2 bg-slate-800 border border-slate-600 text-[10px] font-extrabold text-cyan-300 rounded-lg active:scale-95">+1</button>
+                            <button onclick="adjustTimeBy('g', 5)" class="py-2 bg-slate-800 border border-slate-700 text-[10px] font-bold text-slate-300 rounded-lg active:scale-95">+5</button>
+                            <button onclick="adjustTimeBy('g', 10)" class="py-2 bg-slate-800 border border-slate-700 text-[10px] font-bold text-slate-300 rounded-lg active:scale-95">+10</button>
                         </div>
                     </div>
-                    
-                    <div class="p-3 bg-slate-900 rounded-2xl border border-slate-700 shadow-inner">
-                        <label class="block text-slate-400 text-[11px] font-extrabold mb-2.5 text-center">분리 추가 (건별)</label>
-                        <div class="flex flex-col gap-1.5">
-                            <button onclick="gAddSeparateSingle('GT1')" class="py-2 bg-slate-800 border border-slate-600 rounded-lg text-[10px] font-bold text-slate-300 shadow-sm active:scale-95 transition-transform">GT1 분리</button>
-                            <button onclick="gAddSeparateSingle('GT2')" class="py-2 bg-slate-800 border border-slate-600 rounded-lg text-[10px] font-bold text-slate-300 shadow-sm active:scale-95 transition-transform">GT2 분리</button>
-                            <button onclick="gAddSeparateSingle('ST')" class="py-2 bg-slate-800 border border-slate-600 rounded-lg text-[10px] font-bold text-slate-300 shadow-sm active:scale-95 transition-transform">ST 분리</button>
-                        </div>
-                    </div>
+                    <input type="hidden" id="g-time" value="">
                 </div>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="p-3 bg-slate-900 rounded-2xl border border-slate-700 shadow-inner">
-                        <label class="block text-indigo-400 text-[11px] font-extrabold mb-2.5 text-center">AGC 제어</label>
-                        <div class="flex flex-col gap-1.5">
-                            <button onclick="gAddAgc('2+1')" class="py-2 bg-slate-800 border border-indigo-500/50 rounded-lg text-[10px] font-bold text-indigo-400 shadow-sm active:scale-95 transition-transform">AGC On (2+1)</button>
-                            <button onclick="gAddAgc('1+1')" class="py-2 bg-slate-800 border border-indigo-500/50 rounded-lg text-[10px] font-bold text-indigo-400 shadow-sm active:scale-95 transition-transform">AGC On (1+1)</button>
-                        </div>
-                    </div>
-                    
-                    <div class="p-3 bg-cyan-900/20 rounded-2xl border border-cyan-500/30 shadow-inner">
-                        <label class="block text-cyan-400 text-[11px] font-extrabold mb-2.5 text-center">시차분리 매크로</label>
-                        <div class="flex h-[calc(100%-25px)]">
-                            <button onclick="gAddSeparate('2+1')" class="w-full h-full bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl text-xs font-extrabold shadow-sm active:scale-95 transition-all flex flex-col items-center justify-center gap-1.5">
-                                <span>2+1 분리 연산</span>
-                                <span class="text-[9px] font-normal opacity-80 leading-tight">-19분/-10분/-2분</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 3번 에디터 -->
-            <div class="bg-[#0f172a] rounded-3xl shadow-xl border border-slate-700 overflow-hidden relative mt-6">
-                <div class="flex justify-between items-center px-4 py-3 bg-[#1e293b] border-b border-slate-700">
-                    <span class="text-[11px] font-bold text-cyan-400">Grid_Operation.txt</span>
-                    <button onclick="document.getElementById('memo-grid').value=''; autoResize(document.getElementById('memo-grid')); saveLocal();" class="text-[10px] text-gray-400 bg-gray-700 px-2 py-1 rounded-md hover:text-white transition-colors">
-                        비우기 <i class="fa-solid fa-trash ml-1"></i>
-                    </button>
-                </div>
-                <textarea id="memo-grid" oninput="autoResize(this); saveLocal();" class="w-full min-h-[150px] bg-transparent text-cyan-400 p-5 font-mono text-[13px] outline-none placeholder-slate-600 leading-relaxed" placeholder="버튼을 누르면 여기에 조작 문구가 생성됩니다."></textarea>
                 
-                <button onclick="copyMemo('memo-grid')" class="absolute bottom-4 right-4 bg-cyan-600 hover:bg-cyan-500 text-white shadow-xl shadow-cyan-600/30 rounded-full px-5 py-2.5 flex items-center gap-2 text-xs font-extrabold active:scale-95 transition-all">
-                    <i class="fa-regular fa-copy"></i> 복사하기
-                </button>
+                <!-- 대상 호기 선택 -->
+                <div class="space-y-1.5">
+                    <label class="block text-[11px] font-bold text-slate-300">대상 호기</label>
+                    <div class="grid grid-cols-2 gap-1.5 p-1 bg-slate-900 rounded-xl border border-slate-700">
+                        <button id="btn-grid-target-1" onclick="syncTarget('1')" class="text-xs font-extrabold py-2.5 rounded-lg transition-all text-cyan-400 bg-slate-800 border border-cyan-500/50">#1CC (11/12/10)</button>
+                        <button id="btn-grid-target-2" onclick="syncTarget('2')" class="text-xs font-extrabold py-2.5 rounded-lg transition-all text-slate-500 bg-transparent border border-transparent">#2CC (21/22/20)</button>
+                    </div>
+                </div>
+
+                <!-- 연결 / 분리 추가 -->
+                <div class="grid grid-cols-2 gap-2.5">
+                    <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-700">
+                        <label class="block text-emerald-400 text-[11px] font-extrabold mb-2 text-center">계통 연결 추가</label>
+                        <div class="flex flex-col gap-1.5">
+                            <button onclick="gAddConnect('GT1')" id="lbl-conn-gt1" class="py-2 bg-slate-800 border border-slate-600 rounded-lg text-[11px] font-bold text-slate-200 active:scale-95">11GT 연결</button>
+                            <button onclick="gAddConnect('GT2')" id="lbl-conn-gt2" class="py-2 bg-slate-800 border border-slate-600 rounded-lg text-[11px] font-bold text-slate-200 active:scale-95">12GT 연결</button>
+                            <button onclick="gAddConnect('ST')" id="lbl-conn-st" class="py-2 bg-slate-800 border border-slate-600 rounded-lg text-[11px] font-bold text-slate-200 active:scale-95">10ST 연결</button>
+                        </div>
+                    </div>
+                    
+                    <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-700">
+                        <label class="block text-rose-400 text-[11px] font-extrabold mb-2 text-center">계통 분리 추가</label>
+                        <div class="flex flex-col gap-1.5">
+                            <button onclick="gAddSeparateSingle('GT1')" id="lbl-sep-gt1" class="py-2 bg-slate-800 border border-slate-600 rounded-lg text-[11px] font-bold text-slate-200 active:scale-95">11GT 분리</button>
+                            <button onclick="gAddSeparateSingle('GT2')" id="lbl-sep-gt2" class="py-2 bg-slate-800 border border-slate-600 rounded-lg text-[11px] font-bold text-slate-200 active:scale-95">12GT 분리</button>
+                            <button onclick="gAddSeparateSingle('ST')" id="lbl-sep-st" class="py-2 bg-slate-800 border border-slate-600 rounded-lg text-[11px] font-bold text-slate-200 active:scale-95">10ST 분리</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AGC 및 시차분리 매크로 -->
+                <div class="grid grid-cols-2 gap-2.5">
+                    <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-700">
+                        <label class="block text-indigo-400 text-[11px] font-extrabold mb-2 text-center">AGC 제어</label>
+                        <div class="flex flex-col gap-1.5">
+                            <button onclick="gAddAgc('2+1')" class="py-2 bg-slate-800 border border-indigo-500/40 rounded-lg text-[11px] font-bold text-indigo-300 active:scale-95">AGC On (2+1)</button>
+                            <button onclick="gAddAgc('1+1')" class="py-2 bg-slate-800 border border-indigo-500/40 rounded-lg text-[11px] font-bold text-indigo-300 active:scale-95">AGC On (1+1)</button>
+                        </div>
+                    </div>
+                    
+                    <div class="p-2.5 bg-cyan-950/40 rounded-xl border border-cyan-500/30 flex flex-col">
+                        <label class="block text-cyan-400 text-[11px] font-extrabold mb-2 text-center">시차분리 매크로</label>
+                        <button onclick="gAddSeparate('2+1')" class="flex-1 w-full bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-extrabold shadow-sm active:scale-95 transition-all flex flex-col items-center justify-center py-2">
+                            <span>2+1 분리 연산</span>
+                            <span class="text-[9px] font-normal opacity-90 mt-0.5">-19분 / -10분 / -2분</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 계통조작 에디터 (실행취소 / 시간정렬 / 상단 복사버튼) -->
+            <div class="bg-[#0b1120] rounded-2xl shadow-xl border border-slate-700 overflow-hidden">
+                <div class="flex justify-between items-center px-3 py-2.5 bg-[#1e293b] border-b border-slate-700 gap-1">
+                    <span class="text-[11px] font-bold text-cyan-400 truncate">Grid_Operation.txt</span>
+                    <div class="flex items-center gap-1 shrink-0">
+                        <button onclick="undoGridMemo()" title="마지막 줄 삭제" class="text-[10px] text-amber-300 bg-slate-800 border border-slate-600 px-2 py-1.5 rounded-lg font-bold active:scale-95">
+                            <i class="fa-solid fa-rotate-left"></i> 취소
+                        </button>
+                        <button onclick="sortGridMemo()" title="시간순 정렬" class="text-[10px] text-cyan-300 bg-slate-800 border border-slate-600 px-2 py-1.5 rounded-lg font-bold active:scale-95">
+                            <i class="fa-solid fa-arrow-down-1-9"></i> 정렬
+                        </button>
+                        <button onclick="clearMemo('memo-grid')" title="전체 비우기" class="text-[10px] text-slate-300 bg-slate-700 px-2 py-1.5 rounded-lg font-bold active:scale-95">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                        <button onclick="copyMemo('memo-grid')" class="text-[11px] bg-cyan-600 hover:bg-cyan-500 text-white px-3 py-1.5 rounded-lg font-extrabold flex items-center gap-1 shadow-md active:scale-95 ml-0.5">
+                            <i class="fa-regular fa-copy"></i> 복사
+                        </button>
+                    </div>
+                </div>
+                <textarea id="memo-grid" oninput="autoResize(this); saveLocal();" class="w-full min-h-[145px] bg-transparent text-cyan-300 p-4 font-mono text-[13px] outline-none placeholder-slate-600 leading-relaxed" placeholder="버튼을 누르면 여기에 조작 문구가 누적됩니다."></textarea>
             </div>
         </div>
 
     </div>
 
-    <!-- MAIN 자바스크립트 엔진 -->
     <script>
-        let state1 = '운전';
-        let state2 = '운전';
+        let currentBlock = '1'; // '1' (#1CC) 또는 '2' (#2CC) 통합 관리
+        let dispatchAppendMode = false; // false: 덮어쓰기, true: 줄 추가
 
         function initSelects() {
             ['d-hour', 'g-hour'].forEach(id => {
                 const select = document.getElementById(id);
-                if(select) {
-                    select.innerHTML = '';
-                    for(let i=0; i<=23; i++) {
-                        const val = String(i).padStart(2, '0');
-                        select.add(new Option(val, val));
-                    }
+                if(!select) return;
+                select.innerHTML = '';
+                for(let i = 0; i <= 23; i++) {
+                    const val = String(i).padStart(2, '0');
+                    select.add(new Option(val, val));
                 }
             });
 
             ['d-minute', 'g-minute'].forEach(id => {
                 const select = document.getElementById(id);
-                if(select) {
-                    select.innerHTML = '';
-                    for(let i=0; i<=59; i++) {
-                        const val = String(i).padStart(2, '0');
-                        select.add(new Option(val, val));
-                    }
+                if(!select) return;
+                select.innerHTML = '';
+                for(let i = 0; i <= 59; i++) {
+                    const val = String(i).padStart(2, '0');
+                    select.add(new Option(val, val));
                 }
             });
         }
@@ -492,108 +310,49 @@
             initSelects();
 
             if(!loadLocal()) {
-                const today = new Date();
-                const yyyy = today.getFullYear();
-                const mm = String(today.getMonth() + 1).padStart(2, '0');
-                const dd = String(today.getDate()).padStart(2, '0');
-                document.getElementById('m-date').value = `${yyyy}-${mm}-${dd}`;
-                
-                document.getElementById('i-gt11').value = 285;
-                document.getElementById('i-gt12').value = 285;
-                document.getElementById('i-st10').value = 299;
-                
-                document.getElementById('i-gt21').value = 289;
-                document.getElementById('i-gt22').value = 289;
-                document.getElementById('i-st20').value = 297;
-
-                setCCState(1, '운전');
-                setCCState(2, '운전');
-                
                 setNowSilent('d');
                 setNowSilent('g');
+                syncTarget('1');
             }
 
             fetchWeather();
-
-            document.querySelectorAll('input, select').forEach(el => {
-                if(el.id !== 'memo-morning' && el.id !== 'memo-dispatch' && el.id !== 'memo-grid') {
-                    el.addEventListener('input', saveLocal);
-                    el.addEventListener('change', saveLocal);
-                }
-            });
-
-            switchTab('morning');
+            switchTab('dispatch');
         }
 
         function saveLocal() {
             const data = {
-                mDate: document.getElementById('m-date').value,
-                mTemp: document.getElementById('m-temp').value,
-                mWeather: document.getElementById('m-weather').value,
-                iGt11: document.getElementById('i-gt11').value,
-                iGt12: document.getElementById('i-gt12').value,
-                iSt10: document.getElementById('i-st10').value,
-                period1: document.getElementById('period-1').value,
-                state1: state1,
-                iGt21: document.getElementById('i-gt21').value,
-                iGt22: document.getElementById('i-gt22').value,
-                iSt20: document.getElementById('i-st20').value,
-                period2: document.getElementById('period-2').value,
-                state2: state2,
-                memoMorning: document.getElementById('memo-morning').value,
                 memoDispatch: document.getElementById('memo-dispatch').value,
                 memoGrid: document.getElementById('memo-grid').value,
                 dHour: document.getElementById('d-hour').value,
                 dMinute: document.getElementById('d-minute').value,
-                dTarget: document.getElementById('d-target').value,
                 gHour: document.getElementById('g-hour').value,
                 gMinute: document.getElementById('g-minute').value,
-                gTarget: document.getElementById('g-target').value,
+                currentBlock: currentBlock
             };
-            localStorage.setItem('pajuReportDataV8', JSON.stringify(data));
+            localStorage.setItem('pajuReportDataV9', JSON.stringify(data));
         }
 
         function loadLocal() {
-            const saved = localStorage.getItem('pajuReportDataV8');
-            if(saved) {
-                try {
-                    const data = JSON.parse(saved);
-                    document.getElementById('m-date').value = data.mDate || '';
-                    document.getElementById('m-temp').value = data.mTemp || '';
-                    document.getElementById('m-weather').value = data.mWeather || '흐림';
-                    
-                    document.getElementById('i-gt11').value = data.iGt11 || '0';
-                    document.getElementById('i-gt12').value = data.iGt12 || '0';
-                    document.getElementById('i-st10').value = data.iSt10 || '0';
-                    document.getElementById('period-1').value = data.period1 || '5/14 00:00 ~ 5/27 24:00';
-                    
-                    document.getElementById('i-gt21').value = data.iGt21 || '0';
-                    document.getElementById('i-gt22').value = data.iGt22 || '0';
-                    document.getElementById('i-st20').value = data.iSt20 || '0';
-                    document.getElementById('period-2').value = data.period2 || '5/16 00:00 ~ 5/17 19:00';
+            const saved = localStorage.getItem('pajuReportDataV9');
+            if(!saved) return false;
+            try {
+                const data = JSON.parse(saved);
+                document.getElementById('memo-dispatch').value = data.memoDispatch || '';
+                document.getElementById('memo-grid').value = data.memoGrid || '';
 
-                    document.getElementById('memo-morning').value = data.memoMorning || '';
-                    document.getElementById('memo-dispatch').value = data.memoDispatch || '';
-                    document.getElementById('memo-grid').value = data.memoGrid || '';
+                document.getElementById('d-hour').value = data.dHour || '00';
+                document.getElementById('d-minute').value = data.dMinute || '00';
+                document.getElementById('g-hour').value = data.gHour || '00';
+                document.getElementById('g-minute').value = data.gMinute || '00';
 
-                    document.getElementById('d-hour').value = data.dHour || '00';
-                    document.getElementById('d-minute').value = data.dMinute || '00';
-                    document.getElementById('g-hour').value = data.gHour || '00';
-                    document.getElementById('g-minute').value = data.gMinute || '00';
+                document.getElementById('d-time').value = `${data.dHour || '00'}:${data.dMinute || '00'}`;
+                document.getElementById('g-time').value = `${data.gHour || '00'}:${data.gMinute || '00'}`;
 
-                    document.getElementById('d-time').value = `${data.dHour || '00'}:${data.dMinute || '00'}`;
-                    document.getElementById('g-time').value = `${data.gHour || '00'}:${data.gMinute || '00'}`;
-
-                    setCCState(1, data.state1 || '운전');
-                    setCCState(2, data.state2 || '운전');
-                    
-                    if(data.dTarget) selectDispatchTarget(data.dTarget);
-                    if(data.gTarget) selectGridTarget(data.gTarget);
-
-                    return true;
-                } catch(e) { return false; }
+                syncTarget(data.currentBlock || '1', true);
+                return true;
+            } catch(e) {
+                return false;
             }
-            return false;
         }
 
         async function fetchWeather() {
@@ -603,7 +362,7 @@
             const iconLabel = document.getElementById('weather-icon');
             
             spinner.classList.add('animate-spin');
-            descLabel.innerText = '동기화 중...';
+            descLabel.innerText = '동기화중';
 
             try {
                 const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=37.8544&longitude=126.7881&current=temperature_2m,weather_code&timezone=Asia/Seoul');
@@ -611,173 +370,85 @@
                 const temp = data.current.temperature_2m;
                 const code = data.current.weather_code;
 
-                let txt = '흐림';
-                let icon = '☁️';
+                let txt = '흐림', icon = '☁️';
                 if(code === 0) { txt = '맑음'; icon = '☀️'; }
                 else if(code <= 3 || code === 45 || code === 48) { txt = '흐림'; icon = '☁️'; }
                 else if([51,53,55,56,57,61,63,65,66,67,80,81,82].includes(code)) { txt = '비'; icon = '🌧️'; }
                 else if([71,73,75,77,85,86].includes(code)) { txt = '눈'; icon = '❄️'; }
 
-                document.getElementById('m-temp').value = temp.toFixed(1);
-                document.getElementById('m-weather').value = txt;
-                
                 tempLabel.innerText = `${temp.toFixed(1)}°C`;
                 descLabel.innerText = txt;
                 iconLabel.innerText = icon;
-                
-                renderMorningMemo(true);
-                saveLocal();
             } catch(e) {
-                descLabel.innerText = "날씨 오프라인";
+                descLabel.innerText = "오프라인";
             } finally {
                 spinner.classList.remove('animate-spin');
             }
         }
 
         function switchTab(t) {
-            ['morning', 'dispatch', 'grid'].forEach(tab => {
+            ['dispatch', 'grid'].forEach(tab => {
                 const btn = document.getElementById(`tab-${tab}`);
                 const pnl = document.getElementById(`panel-${tab}`);
                 if(t === tab) {
-                    btn.classList.add('tab-active'); btn.classList.remove('tab-inactive');
+                    btn.classList.add('tab-active');
+                    btn.classList.remove('tab-inactive');
                     pnl.classList.remove('hidden');
                 } else {
-                    btn.classList.add('tab-inactive'); btn.classList.remove('tab-active');
+                    btn.classList.add('tab-inactive');
+                    btn.classList.remove('tab-active');
                     pnl.classList.add('hidden');
                 }
             });
             document.querySelectorAll('textarea').forEach(el => autoResize(el));
         }
 
-        function setCCState(cc, state) {
-            if(cc===1) state1 = state; else state2 = state;
-            const targetState = (cc === 2 && state === '운전11') ? '운전21' : state;
-            if(cc===2 && state==='운전11') state2 = '운전21';
+        // 두 탭의 대상 호기(#1CC / #2CC) 및 버튼 라벨 실시간 동기화
+        function syncTarget(block, silent = false) {
+            currentBlock = block;
 
-            const btns = ['정지','운전', cc===1?'운전11':'운전21', '기동','계획정비'];
-            const colorDark = cc === 1 ? 'blue' : 'teal';
+            const d1 = document.getElementById('btn-dispatch-target-1');
+            const d2 = document.getElementById('btn-dispatch-target-2');
+            const g1 = document.getElementById('btn-grid-target-1');
+            const g2 = document.getElementById('btn-grid-target-2');
 
-            btns.forEach(b => {
-                const el = document.getElementById(`btn-${cc}-${b}`);
-                if(!el) return;
-                if(b === targetState) {
-                    el.className = `py-2.5 rounded-xl border border-${colorDark}-500 bg-${colorDark}-600/20 text-[11px] font-bold text-${colorDark}-400 active:scale-95 transition-all`;
-                } else {
-                    el.className = `py-2.5 rounded-xl border border-slate-700 bg-slate-900 text-[11px] font-bold text-slate-400 active:scale-95 transition-all`;
-                }
-            });
-
-            const badge = document.getElementById(`badge-${cc}cc`);
-            let bText = targetState + ' 상태';
-            if(targetState === '운전') bText = '2+1 운전중';
-            else if(targetState === '운전11' || targetState === '운전21') bText = '1+1 운전중';
-            else if(targetState === '계획정비') bText = '계획정비 중';
-            badge.innerText = bText;
-
-            const ids = cc === 1 ? ['i-gt11','i-gt12','i-st10'] : ['i-gt21','i-gt22','i-st20'];
-            const isOff = (targetState === '정지' || targetState === '계획정비');
-            
-            ids.forEach(id => {
-                const i = document.getElementById(id);
-                if(isOff) { i.value = 0; i.disabled = true; i.classList.add('opacity-40'); } 
-                else { i.disabled = false; i.classList.remove('opacity-40'); }
-            });
-
-            document.getElementById(`m-box-${cc}`).style.display = targetState === '계획정비' ? 'block' : 'none';
-            saveLocal();
-        }
-
-        function padMW(g1, g2, s) {
-            return `        ${g1.toString().padStart(3,' ')}/ ${g2.toString().padStart(3,' ')}/ ${s.toString().padStart(3,' ')}MW    `;
-        }
-
-        function getCCBlock(cc, scheduleArr) {
-            const st = (cc===1 ? state1 : state2);
-            const prefix = (cc===1 ? '#1CC' : '#2CC');
-            const gtNm = (cc===1 ? "11GT/12GT/10ST \n" : "21GT/22GT/20ST \n");
-            
-            const g1 = parseInt(document.getElementById(cc===1?'i-gt11':'i-gt21').value)||0;
-            const g2 = parseInt(document.getElementById(cc===1?'i-gt12':'i-gt22').value)||0;
-            const s = parseInt(document.getElementById(cc===1?'i-st10':'i-st20').value)||0;
-            const tot = g1+g2+s;
-            const tLoad = `     (Total Load : ${tot}MW)        `;
-
-            if(st==='정지') return `    - ${prefix} 급전지시 정지 상태\n     (Total Load : 0MW)        \n     ${cc===1?'11GT/12GT/10ST':'21GT/22GT/20ST'} \n             0/   0/  0MW`;
-            if(st==='운전') return `    - ${prefix} 2+1 운전 중\n${tLoad}\n     ${gtNm}${padMW(g1,g2,s)}`;
-            if(st==='운전11' || st==='운전21') return `    - ${prefix} 1+1 운전 중\n${tLoad}\n     ${gtNm}${padMW(g1,g2,s)}`;
-            if(st==='기동') return `    - ${prefix} 기동 중\n${tLoad}\n     ${gtNm}${padMW(g1,g2,s)}`;
-            if(st==='계획정비') {
-                const per = document.getElementById(cc===1?'period-1':'period-2').value;
-                scheduleArr.push(`- ${prefix} 계획정비\n      (${per})`);
-                return `    - ${prefix} 계획정비 정지 상태\n     (Total Load : 0MW)        \n     ${cc===1?'11GT/12GT/10ST':'21GT/22GT/20ST'} \n             0/   0/  0MW`;
-            }
-            return "";
-        }
-
-        function renderMorningMemo(silent = false) {
-            const d = document.getElementById('m-date').value;
-            let dateHeader = "O월 O일(O)";
-            if(d) {
-                const parts = d.split('-');
-                if(parts.length === 3) {
-                    const dateObj = new Date(parts[0], parseInt(parts[1])-1, parts[2]);
-                    const days = ['일','월','화','수','목','금','토'];
-                    dateHeader = `${parseInt(parts[1])}월 ${parseInt(parts[2])}일(${days[dateObj.getDay()]})`;
-                }
-            }
-
-            const t = document.getElementById('m-temp').value;
-            const w = document.getElementById('m-weather').value;
-            
-            let sch = [];
-            const blk1 = getCCBlock(1, sch);
-            const blk2 = getCCBlock(2, sch);
-            
-            const issueInput = document.getElementById('m-issue').value;
-            let issueStr = "";
-            if(sch.length > 0) {
-                issueStr = "     " + sch.join('\n     ');
-                if(issueInput && issueInput !== '없음') issueStr += `\n     - ${issueInput}`;
+            if(block === '1') {
+                d1.className = "text-xs font-extrabold py-2.5 rounded-lg transition-all text-amber-400 bg-slate-800 border border-amber-500/50";
+                d2.className = "text-xs font-extrabold py-2.5 rounded-lg transition-all text-slate-500 bg-transparent border border-transparent";
+                g1.className = "text-xs font-extrabold py-2.5 rounded-lg transition-all text-cyan-400 bg-slate-800 border border-cyan-500/50";
+                g2.className = "text-xs font-extrabold py-2.5 rounded-lg transition-all text-slate-500 bg-transparent border border-transparent";
             } else {
-                if(issueInput && issueInput !== '없음') issueStr = `     - ${issueInput}`;
-                else issueStr = "     - 없음";
+                d1.className = "text-xs font-extrabold py-2.5 rounded-lg transition-all text-slate-500 bg-transparent border border-transparent";
+                d2.className = "text-xs font-extrabold py-2.5 rounded-lg transition-all text-amber-400 bg-slate-800 border border-amber-500/50";
+                g1.className = "text-xs font-extrabold py-2.5 rounded-lg transition-all text-slate-500 bg-transparent border border-transparent";
+                g2.className = "text-xs font-extrabold py-2.5 rounded-lg transition-all text-cyan-400 bg-slate-800 border border-cyan-500/50";
             }
 
-            const text = `${dateHeader} 7:00 운전현황\n\n■ 급전지시\n    - 없음\n■ 대기온도 : ${t}°C (${w})\n■ 운전현황\n${blk1}\n${blk2}\n■ 특이사항\n${issueStr}`;
-            const memoEl = document.getElementById('memo-morning');
-            memoEl.value = text;
-            autoResize(memoEl);
-            saveLocal();
-            
-            if(!silent) showToast("메모장에 양식이 적용되었습니다.", "success");
+            // 3번 탭 버튼 텍스트도 호기에 맞춰 직관적으로 변경
+            const gt1 = block === '1' ? '11GT' : '21GT';
+            const gt2 = block === '1' ? '12GT' : '22GT';
+            const st  = block === '1' ? '10ST' : '20ST';
+
+            document.getElementById('lbl-conn-gt1').innerText = `${gt1} 연결`;
+            document.getElementById('lbl-conn-gt2').innerText = `${gt2} 연결`;
+            document.getElementById('lbl-conn-st').innerText  = `${st} 연결`;
+            document.getElementById('lbl-sep-gt1').innerText  = `${gt1} 분리`;
+            document.getElementById('lbl-sep-gt2').innerText  = `${gt2} 분리`;
+            document.getElementById('lbl-sep-st').innerText   = `${st} 분리`;
+
+            if(!silent) saveLocal();
         }
 
-        function selectDispatchTarget(targetVal) {
-            document.getElementById('d-target').value = targetVal;
-            const btn1 = document.getElementById('btn-dispatch-target-1');
-            const btn2 = document.getElementById('btn-dispatch-target-2');
-            if(targetVal === '#1CC') {
-                btn1.className = "flex-1 text-xs font-bold py-2 rounded-lg transition-all text-blue-400 bg-slate-800 border border-slate-600";
-                btn2.className = "flex-1 text-xs font-bold py-2 rounded-lg transition-all text-slate-500 bg-transparent border border-transparent";
+        function toggleDispatchAppend() {
+            dispatchAppendMode = !dispatchAppendMode;
+            const btn = document.getElementById('btn-d-mode');
+            if(dispatchAppendMode) {
+                btn.innerHTML = '방식: <span class="text-emerald-400">줄 추가</span>';
+                showToast('기존 지시 아래에 줄이 추가됩니다.');
             } else {
-                btn1.className = "flex-1 text-xs font-bold py-2 rounded-lg transition-all text-slate-500 bg-transparent border border-transparent";
-                btn2.className = "flex-1 text-xs font-bold py-2 rounded-lg transition-all text-blue-400 bg-slate-800 border border-slate-600";
+                btn.innerHTML = '방식: <span class="text-amber-400">새로 쓰기</span>';
+                showToast('버튼 클릭 시 새 문구로 덮어씁니다.');
             }
-            saveLocal();
-        }
-
-        function selectGridTarget(targetVal) {
-            document.getElementById('g-target').value = targetVal;
-            const btn1 = document.getElementById('btn-grid-target-1');
-            const btn2 = document.getElementById('btn-grid-target-2');
-            if(targetVal === '1') {
-                btn1.className = "flex-1 text-xs font-bold py-2 rounded-lg transition-all text-cyan-400 bg-slate-800 border border-slate-600";
-                btn2.className = "flex-1 text-xs font-bold py-2 rounded-lg transition-all text-slate-500 bg-transparent border border-transparent";
-            } else {
-                btn1.className = "flex-1 text-xs font-bold py-2 rounded-lg transition-all text-slate-500 bg-transparent border border-transparent";
-                btn2.className = "flex-1 text-xs font-bold py-2 rounded-lg transition-all text-cyan-400 bg-slate-800 border border-slate-600";
-            }
-            saveLocal();
         }
 
         function updateTimeFromSelects(prefix) {
@@ -797,16 +468,22 @@
         }
 
         function setNow(prefix) {
-            setNowSilent(prefix); saveLocal();
-            showToast(`현재 시간 주입 완료`);
+            setNowSilent(prefix);
+            saveLocal();
+            const cur = document.getElementById(`${prefix}-time`).value;
+            showToast(`현재 시각 (${cur}) 반영`);
         }
 
         function adjustTimeBy(prefix, mins) {
             let h = parseInt(document.getElementById(`${prefix}-hour`).value) || 0;
             let m = parseInt(document.getElementById(`${prefix}-minute`).value) || 0;
-            if (mins === 0) m = 0; else {
-                let d = new Date(); d.setHours(h, m + mins, 0);
-                h = d.getHours(); m = d.getMinutes();
+            if (mins === 0) {
+                m = 0;
+            } else {
+                let d = new Date();
+                d.setHours(h, m + mins, 0);
+                h = d.getHours();
+                m = d.getMinutes();
             }
             document.getElementById(`${prefix}-hour`).value = String(h).padStart(2, '0');
             document.getElementById(`${prefix}-minute`).value = String(m).padStart(2, '0');
@@ -814,20 +491,26 @@
         }
 
         function dMake(type) {
-            const time = document.getElementById('d-time').value; 
-            const target = document.getElementById('d-target').value;
+            const time = document.getElementById('d-time').value;
             if(!time) return;
-            let line = (type === 'GT 추가 계통연결') ? `${time}  ${target} ${type}` : `${time} ${target} ${type}`;
+            const target = currentBlock === '1' ? '#1CC' : '#2CC';
+            const line = `${time} ${target} ${type}`;
             const memoEl = document.getElementById('memo-dispatch');
-            memoEl.value = `급전지시입니다.\n${line}`;
-            autoResize(memoEl); saveLocal();
-            showToast("급전지시 생성 완료");
+
+            if(dispatchAppendMode && memoEl.value.trim() !== '') {
+                memoEl.value = memoEl.value.trimEnd() + `\n${line}`;
+            } else {
+                memoEl.value = `급전지시입니다.\n${line}`;
+            }
+            autoResize(memoEl);
+            saveLocal();
+            showToast(`${target} 급전지시 반영`);
         }
 
         function appendGridMemo(str) {
             const memo = document.getElementById('memo-grid');
             if(memo.value && memo.value.trim() !== "") {
-                memo.value += "\n" + str;
+                memo.value = memo.value.trimEnd() + "\n" + str;
             } else {
                 memo.value = str;
             }
@@ -835,74 +518,138 @@
             saveLocal();
         }
 
+        function undoGridMemo() {
+            const memo = document.getElementById('memo-grid');
+            const lines = memo.value.split('\n').filter(l => l.trim() !== '');
+            if(lines.length === 0) return;
+            lines.pop();
+            memo.value = lines.join('\n');
+            autoResize(memo);
+            saveLocal();
+            showToast('마지막 줄을 취소했습니다.');
+        }
+
+        function sortGridMemo() {
+            const memo = document.getElementById('memo-grid');
+            const lines = memo.value.split('\n').filter(l => l.trim() !== '');
+            if(lines.length < 2) return;
+            lines.sort((a, b) => {
+                const timeA = a.match(/^(\d{2}:\d{2})/);
+                const timeB = b.match(/^(\d{2}:\d{2})/);
+                if(timeA && timeB) return timeA[1].localeCompare(timeB[1]);
+                return 0;
+            });
+            memo.value = lines.join('\n');
+            autoResize(memo);
+            saveLocal();
+            showToast('시간순으로 정렬했습니다.');
+        }
+
+        function clearMemo(id) {
+            const el = document.getElementById(id);
+            el.value = '';
+            autoResize(el);
+            saveLocal();
+            showToast('메모장을 비웠습니다.');
+        }
+
         function getGTargetName(type) {
-            const block = document.getElementById('g-target').value; 
-            if(type === 'GT1') return block === '1' ? '11GT' : '21GT';
-            if(type === 'GT2') return block === '1' ? '12GT' : '22GT';
-            if(type === 'ST')  return block === '1' ? '10ST' : '20ST';
+            if(type === 'GT1') return currentBlock === '1' ? '11GT' : '21GT';
+            if(type === 'GT2') return currentBlock === '1' ? '12GT' : '22GT';
+            if(type === 'ST')  return currentBlock === '1' ? '10ST' : '20ST';
         }
 
         function gAddConnect(type) {
-            const time = document.getElementById('g-time').value; 
-            if(!time) { showToast('기준 시간을 설정해주세요.', 'error'); return; }
+            const time = document.getElementById('g-time').value;
+            if(!time) return;
             const name = getGTargetName(type);
             appendGridMemo(`${time} #${name} 계통연결`);
-            showToast(`#${name} 연결 추가 완료`);
+            showToast(`${time} #${name} 연결 추가`);
         }
 
         function gAddSeparateSingle(type) {
-            const time = document.getElementById('g-time').value; 
-            if(!time) { showToast('기준 시간을 설정해주세요.', 'error'); return; }
+            const time = document.getElementById('g-time').value;
+            if(!time) return;
             const name = getGTargetName(type);
             appendGridMemo(`${time} #${name} 계통분리`);
-            showToast(`#${name} 분리 추가 완료`);
+            showToast(`${time} #${name} 분리 추가`);
         }
 
         function gAddAgc(mode) {
-            const time = document.getElementById('g-time').value; 
-            if(!time) { showToast('기준 시간을 설정해주세요.', 'error'); return; }
-            const block = document.getElementById('g-target').value === '1' ? '#1CC' : '#2CC';
+            const time = document.getElementById('g-time').value;
+            if(!time) return;
+            const block = currentBlock === '1' ? '#1CC' : '#2CC';
             appendGridMemo(`${time} ${block} AGC On (${mode})`);
-            showToast(`${block} AGC On 추가 완료`);
+            showToast(`${block} AGC On 추가`);
         }
 
         function subMins(timeStr, mins) {
             const [h, m] = timeStr.split(':').map(Number);
-            let d = new Date(); d.setHours(h, m - mins, 0);
+            let d = new Date();
+            d.setHours(h, m - mins, 0);
             return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
         }
 
         function gAddSeparate(mode) {
-            const time = document.getElementById('g-time').value; 
-            if(!time) { showToast('기준 시간을 설정해주세요.', 'error'); return; }
-            
-            const stName = getGTargetName('ST'); 
-            const gt1Name = getGTargetName('GT1'); 
+            const time = document.getElementById('g-time').value;
+            if(!time) return;
+            const stName = getGTargetName('ST');
+            const gt1Name = getGTargetName('GT1');
             const gt2Name = getGTargetName('GT2');
             
             if(mode === '2+1') {
                 appendGridMemo(`${subMins(time, 19)} #${stName} 계통분리\n${subMins(time, 10)} #${gt1Name} 계통분리\n${subMins(time, 2)} #${gt2Name} 계통분리`);
-                showToast(`2+1 분리 연산 완료`);
+                showToast(`2+1 시차분리 입력 완료`);
             }
         }
 
-        function autoResize(el) { if(el) { el.style.height = 'auto'; el.style.height = (el.scrollHeight + 2) + 'px'; } }
+        function autoResize(el) {
+            if(el) {
+                el.style.height = 'auto';
+                el.style.height = (el.scrollHeight + 2) + 'px';
+            }
+        }
 
         function copyMemo(id) {
             const text = document.getElementById(id).value;
-            if(!text || text.trim() === "") return;
-            const ta = document.createElement("textarea"); ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
-            document.body.appendChild(ta); ta.select();
-            try { document.execCommand('copy'); showToast("📋 복사되었습니다!"); } catch(e) {}
+            if(!text || text.trim() === "") {
+                showToast("복사할 내용이 없습니다.", "error");
+                return;
+            }
+            if(navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast("📋 클립보드에 복사되었습니다!");
+                }).catch(() => fallbackCopy(text));
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const ta = document.createElement("textarea");
+            ta.value = text;
+            ta.style.position = "fixed";
+            ta.style.opacity = "0";
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+                document.execCommand('copy');
+                showToast("📋 클립보드에 복사되었습니다!");
+            } catch(e) {}
             document.body.removeChild(ta);
         }
 
         function showToast(msg, type = "success") {
-            const box = document.getElementById('toast-container'); const el = document.createElement('div');
-            el.className = `flex items-center justify-center gap-2 px-4 py-3.5 rounded-full text-xs font-bold shadow-xl transition-all duration-350 translate-y-4 opacity-0 text-white ${type==='success'?'bg-blue-600 border border-blue-500':'bg-red-500 border border-red-400'}`;
-            el.innerHTML = `<span>${msg}</span>`; box.appendChild(el);
-            requestAnimationFrame(() => setTimeout(() => el.classList.remove('translate-y-4', 'opacity-0'), 10));
-            setTimeout(() => { el.classList.add('opacity-0', '-translate-y-2'); setTimeout(() => el.remove(), 400); }, 2000);
+            const box = document.getElementById('toast-container');
+            const el = document.createElement('div');
+            el.className = `flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold shadow-xl transition-all duration-300 translate-y-3 opacity-0 text-white ${type==='success'?'bg-blue-600 border border-blue-400':'bg-rose-600 border border-rose-400'}`;
+            el.innerHTML = `<span>${msg}</span>`;
+            box.appendChild(el);
+            requestAnimationFrame(() => setTimeout(() => el.classList.remove('translate-y-3', 'opacity-0'), 10));
+            setTimeout(() => {
+                el.classList.add('opacity-0', '-translate-y-2');
+                setTimeout(() => el.remove(), 300);
+            }, 1600);
         }
     </script>
 </body>
